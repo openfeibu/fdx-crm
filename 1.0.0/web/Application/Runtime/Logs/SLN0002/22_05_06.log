@@ -1,0 +1,50 @@
+[ 2022-05-06T01:01:58+08:00 ] 192.168.20.1 /SLN0002/Subject
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000009s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000065s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000072s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000102s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0219s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2101'  [ RunTime:0.0287s ]
+SQL: select org_id from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0215s ]
+SQL: select id, parent_id from t_org where id = '5EBDBE11-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0210s ]
+SQL: select id, parent_id from t_org where id = '4D74E1E4-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0215s ]
+SQL: select value from t_config
+            where id = '9002-01' and company_id = '4D74E1E4-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0229s ]
+SQL: select org_id from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0215s ]
+SQL: select id, parent_id from t_org where id = '5EBDBE11-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0210s ]
+SQL: select id, parent_id from t_org where id = '4D74E1E4-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0200s ]
+SQL: select value from t_config
+            where id = '9002-02' and company_id = '4D74E1E4-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0188s ]
+SQL: select org_id from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0208s ]
+SQL: select id, parent_id from t_org where id = '5EBDBE11-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0201s ]
+SQL: select id, parent_id from t_org where id = '4D74E1E4-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0202s ]
+SQL: select value from t_config
+            where id = '9002-03' and company_id = '4D74E1E4-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0199s ]
+SQL: select org_id from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0192s ]
+SQL: select id, parent_id from t_org where id = '5EBDBE11-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0197s ]
+SQL: select id, parent_id from t_org where id = '4D74E1E4-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0196s ]
+SQL: select value from t_config
+            where id = '9002-04' and company_id = '4D74E1E4-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0188s ]
+SQL: select name from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0190s ]
+SQL: select o.full_name
+            from t_org o, t_user u
+            where o.id = u.org_id and u.id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0193s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000022s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000051s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.015888s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.015929s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000849s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000883s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000992s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001024s ]
+

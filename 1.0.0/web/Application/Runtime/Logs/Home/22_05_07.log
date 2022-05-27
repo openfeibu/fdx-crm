@@ -1,0 +1,892 @@
+[ 2022-05-07T15:26:26+08:00 ] 192.168.20.1 /Home/InvCheck
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000012s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000305s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000562s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000594s ]
+
+[ 2022-05-07T15:26:26+08:00 ] 192.168.20.1 /Home/User/login?returnPage=/Home/InvCheck/index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000041s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000016s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000034s ]
+NOTIC: [8192] addslashes(): Passing null to parameter #1 ($string) of type string is deprecated /home/vagrant/Code/crm8000/web/ThinkPHP/Library/Think/Db/Driver.class.php 第 1015 行.
+SQL: select value from t_config
+            where id = '9002-01' and company_id = ''  [ RunTime:0.0122s ]
+SQL: select value from t_config
+              where id = '9002-01'  [ RunTime:0.0103s ]
+NOTIC: [8192] addslashes(): Passing null to parameter #1 ($string) of type string is deprecated /home/vagrant/Code/crm8000/web/ThinkPHP/Library/Think/Db/Driver.class.php 第 1015 行.
+SQL: select name from t_user where id = ''  [ RunTime:0.0119s ]
+NOTIC: [8192] addslashes(): Passing null to parameter #1 ($string) of type string is deprecated /home/vagrant/Code/crm8000/web/ThinkPHP/Library/Think/Db/Driver.class.php 第 1015 行.
+SQL: select value from t_config
+            where id = '9002-01' and company_id = ''  [ RunTime:0.0103s ]
+SQL: select value from t_config
+              where id = '9002-01'  [ RunTime:0.0100s ]
+NOTIC: [2] Undefined array key "IS_DEMO" /home/vagrant/Code/crm8000/web/Application/Home/Service/PSIBaseService.class.php 第 22 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000099s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000136s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.041187s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.041286s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000521s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000576s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000350s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000385s ]
+
+[ 2022-05-07T15:26:30+08:00 ] 192.168.20.1 /Home/User/loginPOST
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000014s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000444s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000316s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000344s ]
+SQL: select id from t_user where login_name = 'admin' and password = '21232f297a57a5a743894a0e4a801fc3' and enabled = 1 [ RunTime:0.0108s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0096s ]
+SQL: select data_org from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0099s ]
+SQL: select org_id from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0095s ]
+SQL: select id, parent_id from t_org where id = '5EBDBE11-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0108s ]
+SQL: select id, parent_id from t_org where id = '4D74E1E4-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0107s ]
+SQL: insert into t_biz_log (user_id, info, ip, date_created, log_category, data_org,
+              ip_from, company_id)
+            values ('6C2A09CD-A129-11E4-9B6A-782BCBD7746B', '登录系统', '192.168.20.1',  now(), '系统', '01010001', '内网IP', '4D74E1E4-A129-11E4-9B6A-782BCBD7746B') [ RunTime:0.0123s ]
+
+[ 2022-05-07T15:26:31+08:00 ] 192.168.20.1 /Home/InvCheck/index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000010s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000062s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000034s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000063s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0111s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2010'  [ RunTime:0.0176s ]
+SQL: select org_id from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0097s ]
+SQL: select id, parent_id from t_org where id = '5EBDBE11-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0110s ]
+SQL: select id, parent_id from t_org where id = '4D74E1E4-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0097s ]
+SQL: select value from t_config
+            where id = '9002-01' and company_id = '4D74E1E4-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0103s ]
+SQL: select org_id from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0098s ]
+SQL: select id, parent_id from t_org where id = '5EBDBE11-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0095s ]
+SQL: select id, parent_id from t_org where id = '4D74E1E4-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0102s ]
+SQL: select value from t_config
+            where id = '9002-02' and company_id = '4D74E1E4-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0098s ]
+SQL: select org_id from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0110s ]
+SQL: select id, parent_id from t_org where id = '5EBDBE11-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0103s ]
+SQL: select id, parent_id from t_org where id = '4D74E1E4-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0115s ]
+SQL: select value from t_config
+            where id = '9002-03' and company_id = '4D74E1E4-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0095s ]
+SQL: select org_id from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0093s ]
+SQL: select id, parent_id from t_org where id = '5EBDBE11-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0109s ]
+SQL: select id, parent_id from t_org where id = '4D74E1E4-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0096s ]
+SQL: select value from t_config
+            where id = '9002-04' and company_id = '4D74E1E4-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0092s ]
+SQL: select name from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0095s ]
+SQL: select o.full_name
+            from t_org o, t_user u
+            where o.id = u.org_id and u.id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0100s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0096s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2010-01'  [ RunTime:0.0146s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0096s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2010-02'  [ RunTime:0.0125s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0100s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2010-03'  [ RunTime:0.0125s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0089s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2010-04'  [ RunTime:0.0136s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0088s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2010-05'  [ RunTime:0.0123s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0089s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2010-06'  [ RunTime:0.0135s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000022s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000052s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.010743s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.010826s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000597s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000641s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000399s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000430s ]
+
+[ 2022-05-07T15:26:33+08:00 ] 192.168.20.1 /Home/MainMenu/mainMenuItems
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000010s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000062s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000223s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000254s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0100s ]
+SQL:  select distinct f.fid, f.name, r.click_count 
+				from t_recent_fid r,  
+					(select * from t_fid union select * from t_fid_plus) f, 
+					(select * from t_permission union select * from t_permission_plus) p, 
+					t_role_permission rp, t_role_user ru
+				where r.fid = f.fid and r.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and r.fid = p.fid 
+				and p.id = rp.permission_id and rp.role_id = ru.role_id 
+				and ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' 
+				order by r.click_count desc
+				limit 10 [ RunTime:0.0322s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+					where parent_id is null order by show_order [ RunTime:0.0131s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+						where parent_id = '01' order by show_order  [ RunTime:0.0112s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0101' order by show_order  [ RunTime:0.0104s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0083s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0102' order by show_order  [ RunTime:0.0105s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0092s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0103' order by show_order  [ RunTime:0.0103s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0087s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+						where parent_id = '02' order by show_order  [ RunTime:0.0098s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0200' order by show_order  [ RunTime:0.0102s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0082s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2027'  [ RunTime:0.0162s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0201' order by show_order  [ RunTime:0.0140s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0093s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2001'  [ RunTime:0.0138s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0202' order by show_order  [ RunTime:0.0108s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0080s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2007'  [ RunTime:0.0151s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+						where parent_id = '03' order by show_order  [ RunTime:0.0102s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0301' order by show_order  [ RunTime:0.0100s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0079s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2003'  [ RunTime:0.0137s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0302' order by show_order  [ RunTime:0.0101s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0091s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2000'  [ RunTime:0.0135s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0303' order by show_order  [ RunTime:0.0113s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0082s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2009'  [ RunTime:0.0123s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0304' order by show_order  [ RunTime:0.0099s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0076s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2010'  [ RunTime:0.0133s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+						where parent_id = '12' order by show_order  [ RunTime:0.0099s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '1201' order by show_order  [ RunTime:0.0096s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0081s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2033'  [ RunTime:0.0138s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '1202' order by show_order  [ RunTime:0.0098s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0078s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2035'  [ RunTime:0.0114s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0082s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2036'  [ RunTime:0.0122s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0083s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+						where parent_id = '04' order by show_order  [ RunTime:0.0113s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0401' order by show_order  [ RunTime:0.0094s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0116s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2032'  [ RunTime:0.0141s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0402' order by show_order  [ RunTime:0.0109s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0081s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2028'  [ RunTime:0.0131s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0403' order by show_order  [ RunTime:0.0122s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0138s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2002'  [ RunTime:0.0147s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0404' order by show_order  [ RunTime:0.0101s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0091s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2006'  [ RunTime:0.0141s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+						where parent_id = '05' order by show_order  [ RunTime:0.0097s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0501' order by show_order  [ RunTime:0.0109s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0119s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '1007'  [ RunTime:0.0147s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+						where parent_id = '06' order by show_order  [ RunTime:0.0106s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0601' order by show_order  [ RunTime:0.0122s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0094s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2004'  [ RunTime:0.0135s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0602' order by show_order  [ RunTime:0.0115s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0081s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2005'  [ RunTime:0.0126s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0603' order by show_order  [ RunTime:0.0111s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0092s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2024'  [ RunTime:0.0136s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0604' order by show_order  [ RunTime:0.0105s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0086s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2025'  [ RunTime:0.0146s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0605' order by show_order  [ RunTime:0.0107s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0082s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2026'  [ RunTime:0.0115s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+						where parent_id = '07' order by show_order  [ RunTime:0.0100s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0700' order by show_order  [ RunTime:0.0101s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0091s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2037'  [ RunTime:0.0135s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0078s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0710' order by show_order  [ RunTime:0.0097s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0081s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2038'  [ RunTime:0.0115s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0078s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0701' order by show_order  [ RunTime:0.0098s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0079s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2012'  [ RunTime:0.0120s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0083s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2013'  [ RunTime:0.0173s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0087s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2014'  [ RunTime:0.0118s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0079s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2015'  [ RunTime:0.0116s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0080s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0702' order by show_order  [ RunTime:0.0099s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0086s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2016'  [ RunTime:0.0133s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0084s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2017'  [ RunTime:0.0118s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0078s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2018'  [ RunTime:0.0116s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0088s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2019'  [ RunTime:0.0119s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0079s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0703' order by show_order  [ RunTime:0.0098s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0083s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2020'  [ RunTime:0.0127s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0077s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2023'  [ RunTime:0.0124s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0078s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0706' order by show_order  [ RunTime:0.0094s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0083s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2021'  [ RunTime:0.0124s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0078s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2022'  [ RunTime:0.0118s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0084s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+						where parent_id = '11' order by show_order  [ RunTime:0.0098s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '1101' order by show_order  [ RunTime:0.0093s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0085s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2101'  [ RunTime:0.0118s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0097s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2102'  [ RunTime:0.0137s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0078s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2103'  [ RunTime:0.0123s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0127s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+						where parent_id = '08' order by show_order  [ RunTime:0.0100s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0801' order by show_order  [ RunTime:0.0096s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0081s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '1001'  [ RunTime:0.0116s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0085s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '1002'  [ RunTime:0.0124s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0079s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2029'  [ RunTime:0.0127s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0098s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2031'  [ RunTime:0.0119s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0146s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0803' order by show_order  [ RunTime:0.0122s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0114s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '1003'  [ RunTime:0.0120s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0804' order by show_order  [ RunTime:0.0096s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0097s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '1004'  [ RunTime:0.0133s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0805' order by show_order  [ RunTime:0.0129s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0093s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2034'  [ RunTime:0.0160s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+						where parent_id = '09' order by show_order  [ RunTime:0.0204s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0901' order by show_order  [ RunTime:0.0324s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0123s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '-8999'  [ RunTime:0.0242s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0902' order by show_order  [ RunTime:0.0116s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0903' order by show_order  [ RunTime:0.0107s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0081s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '-8997'  [ RunTime:0.0127s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0904' order by show_order  [ RunTime:0.0127s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0081s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2008'  [ RunTime:0.0153s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '0905' order by show_order  [ RunTime:0.0119s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0125s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '-7996'  [ RunTime:0.0131s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0108s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '-7999'  [ RunTime:0.0113s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0081s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '-7997'  [ RunTime:0.0115s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0077s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '-7995'  [ RunTime:0.0230s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0098s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '-7994'  [ RunTime:0.0138s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0085s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '-6000'  [ RunTime:0.0166s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0118s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '-6001'  [ RunTime:0.0115s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0082s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+						where parent_id = '10' order by show_order  [ RunTime:0.0201s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '1001' order by show_order  [ RunTime:0.0215s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0097s ]
+SQL: select id, caption, fid from (select * from t_menu_item
+            where sys_category = 1 
+            union 
+            select * from t_menu_item_plus
+            where sys_category = 1) m
+							where parent_id = '1003' order by show_order  [ RunTime:0.0104s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0083s ]
+
+[ 2022-05-07T15:26:34+08:00 ] 192.168.20.1 /Home/InvCheck/icbillList?_dc=1651908391881
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000009s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000043s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000016s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000033s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0128s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2010'  [ RunTime:0.0178s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0104s ]
+SQL: select count(*) as cnt from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0102s ]
+SQL: select data_org from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0118s ]
+SQL: select distinct rpd.data_org
+            from t_role_permission rp, t_role_permission_dataorg rpd,
+              t_role_user ru
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.role_id = rpd.role_id and rp.permission_id = rpd.permission_id
+              and rpd.permission_id = '2010'  [ RunTime:0.0152s ]
+SQL: select t.id, t.ref, t.bizdt, t.bill_status,
+              w.name as warehouse_name,
+              u.name as biz_user_name,
+              u1.name as input_user_name,
+              t.date_created, t.bill_memo
+            from t_ic_bill t, t_warehouse w, t_user u, t_user u1
+            where (t.warehouse_id = w.id)
+              and (t.biz_user_id = u.id)
+              and (t.input_user_id = u1.id)  and  ( t.data_org is null or t.data_org = ''  or left(t.data_org, 2) = '01'  )  order by t.bizdt desc, t.ref desc
+              limit 0 , 20  [ RunTime:0.0131s ]
+SQL: select data_org from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0097s ]
+SQL: select distinct rpd.data_org
+            from t_role_permission rp, t_role_permission_dataorg rpd,
+              t_role_user ru
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.role_id = rpd.role_id and rp.permission_id = rpd.permission_id
+              and rpd.permission_id = '2010'  [ RunTime:0.0106s ]
+SQL: select count(*) as cnt
+            from t_ic_bill t, t_warehouse w, t_user u, t_user u1
+            where (t.warehouse_id = w.id)
+              and (t.biz_user_id = u.id)
+              and (t.input_user_id = u1.id)
+				 and  ( t.data_org is null or t.data_org = ''  or left(t.data_org, 2) = '01'  )  [ RunTime:0.0106s ]
+
+[ 2022-05-07T15:26:34+08:00 ] 192.168.20.1 /Home/InvCheck/icBillDetailList
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000015s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000375s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000327s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000373s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0109s ]
+SQL: select count(*) as cnt
+            from  t_role_user ru, t_role_permission rp, 
+              (select * from t_permission union select * from t_permission_plus) p
+            where ru.user_id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B' and ru.role_id = rp.role_id
+              and rp.permission_id = p.id and p.fid = '2010'  [ RunTime:0.0160s ]
+SQL: select enabled from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0093s ]
+SQL: select org_id from t_user where id = '6C2A09CD-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0096s ]
+SQL: select id, parent_id from t_org where id = '5EBDBE11-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0106s ]
+SQL: select id, parent_id from t_org where id = '4D74E1E4-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0130s ]
+SQL: select count(*) as cnt from t_org where id = '4D74E1E4-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0096s ]
+SQL: select value from t_config
+            where id = '9002-03' and company_id = '4D74E1E4-A129-11E4-9B6A-782BCBD7746B'  [ RunTime:0.0108s ]
+SQL: select t.id, g.code, g.name, g.spec, u.name as unit_name, 
+              convert(t.goods_count, decimal(19, 0)) as goods_count, t.goods_money, t.memo
+            from t_ic_bill_detail t, t_goods g, t_goods_unit u
+            where t.icbill_id = '35AF21B1-CD41-11EC-8587-00163E0A43AB' and t.goods_id = g.id and g.unit_id = u.id
+            order by t.show_order  [ RunTime:0.0148s ]
+

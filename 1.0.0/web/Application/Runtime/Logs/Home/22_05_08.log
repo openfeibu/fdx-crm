@@ -1,0 +1,57 @@
+[ 2022-05-08T13:57:03+08:00 ] 192.168.20.1 /Home/MainMenu/mainMenuItems
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000010s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000519s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000276s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000305s ]
+
+[ 2022-05-08T13:57:03+08:00 ] 192.168.20.1 /Home/InvCheck/icbillList?_dc=1651989422959
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000039s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000016s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000031s ]
+
+[ 2022-05-08T18:49:28+08:00 ] 192.168.20.1 /Home/InvCheck/index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000011s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000332s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000274s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000338s ]
+
+[ 2022-05-08T18:49:28+08:00 ] 192.168.20.1 /Home/User/login?returnPage=/Home/InvCheck/index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000006s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000034s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000015s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000033s ]
+NOTIC: [8192] addslashes(): Passing null to parameter #1 ($string) of type string is deprecated /home/vagrant/Code/crm8000/web/ThinkPHP/Library/Think/Db/Driver.class.php 第 1015 行.
+SQL: select value from t_config
+            where id = '9002-01' and company_id = ''  [ RunTime:0.0177s ]
+SQL: select value from t_config
+              where id = '9002-01'  [ RunTime:0.0104s ]
+NOTIC: [8192] addslashes(): Passing null to parameter #1 ($string) of type string is deprecated /home/vagrant/Code/crm8000/web/ThinkPHP/Library/Think/Db/Driver.class.php 第 1015 行.
+SQL: select name from t_user where id = ''  [ RunTime:0.0096s ]
+NOTIC: [8192] addslashes(): Passing null to parameter #1 ($string) of type string is deprecated /home/vagrant/Code/crm8000/web/ThinkPHP/Library/Think/Db/Driver.class.php 第 1015 行.
+SQL: select value from t_config
+            where id = '9002-01' and company_id = ''  [ RunTime:0.0192s ]
+SQL: select value from t_config
+              where id = '9002-01'  [ RunTime:0.0136s ]
+NOTIC: [2] Undefined array key "IS_DEMO" /home/vagrant/Code/crm8000/web/Application/Home/Service/PSIBaseService.class.php 第 22 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000027s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000060s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.010783s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.010856s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000667s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000711s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000936s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001169s ]
+
