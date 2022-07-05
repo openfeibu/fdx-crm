@@ -174,13 +174,13 @@ PCL.define("PSI.Home.MainForm", {
       columns: [{
         header: "月份/日",
         dataIndex: "month",
-        width: 80,
+        width: '20%',
         menuDisabled: true,
         sortable: false
       }, {
         header: "销售额(不含税)",
         dataIndex: "saleMoney",
-        width: 120,
+        width: '30%',
         menuDisabled: true,
         sortable: false,
         align: "right",
@@ -188,7 +188,7 @@ PCL.define("PSI.Home.MainForm", {
       }, {
         header: "毛利",
         dataIndex: "profit",
-        width: 120,
+        width: '30%',
         menuDisabled: true,
         sortable: false,
         align: "right",
@@ -196,6 +196,7 @@ PCL.define("PSI.Home.MainForm", {
       }, {
         header: "毛利率",
         dataIndex: "rate",
+        width: '20%',
         menuDisabled: true,
         sortable: false,
         align: "right"
@@ -232,16 +233,17 @@ PCL.define("PSI.Home.MainForm", {
       columns: [{
         header: "月份/日",
         dataIndex: "month",
-        width: 80,
+        width: '30%',
         menuDisabled: true,
-        sortable: false
+        sortable: false,
+        align: "center",
       }, {
         header: "采购额",
         dataIndex: "purchaseMoney",
-        width: 120,
+        width: '70%',
         menuDisabled: true,
         sortable: false,
-        align: "right",
+        align: "center",
         xtype: "numbercolumn"
       }],
       store: PCL.create("PCL.data.Store", {
@@ -282,19 +284,20 @@ PCL.define("PSI.Home.MainForm", {
       columns: [{
         header: "仓库",
         dataIndex: "warehouseName",
-        width: 160,
+        width: '50%',
         menuDisabled: true,
         sortable: false,
+        align: "center",
         summaryRenderer: function () {
           return "合计";
         }
       }, {
         header: "存货金额",
         dataIndex: "inventoryMoney",
-        width: 140,
+        width: '50%',
         menuDisabled: true,
         sortable: false,
-        align: "right",
+        align: "center",
         xtype: "numbercolumn",
         summaryType: "sum"
       }
