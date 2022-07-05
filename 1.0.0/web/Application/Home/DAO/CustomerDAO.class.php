@@ -7,7 +7,7 @@ use Home\Common\FIdConst;
 /**
  * 客户资料 DAO
  *
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */
@@ -322,6 +322,7 @@ class CustomerDAO extends PSIBaseExDAO
     $code = $params["code"];
     $name = $params["name"];
     $address = $params["address"];
+    $receivingType = $params["receivingType"];
     $addressReceipt = $params["addressReceipt"];
     $contact01 = $params["contact01"];
     $mobile01 = $params["mobile01"];
@@ -374,11 +375,11 @@ class CustomerDAO extends PSIBaseExDAO
     $sql = "insert into t_customer (id, category_id, code, name, py, contact01,
               qq01, tel01, mobile01, contact02, qq02, tel02, mobile02, address, address_receipt,
               bank_name, bank_account, tax_number, fax, note, data_org, company_id, sales_warehouse_id,
-              record_status)
+              record_status, receiving_type)
             values ('%s', '%s', '%s', '%s', '%s', '%s',
               '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',
               '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',
-              %d)  ";
+              %d, '%s')  ";
     $rc = $db->execute(
       $sql,
       $id,
@@ -404,7 +405,8 @@ class CustomerDAO extends PSIBaseExDAO
       $dataOrg,
       $companyId,
       $warehouseId,
-      $recordStatus
+      $recordStatus,
+      $receivingType
     );
     if ($rc === false) {
       return $this->sqlError(__METHOD__, __LINE__);
@@ -570,6 +572,7 @@ class CustomerDAO extends PSIBaseExDAO
     $id = $params["id"];
     $code = $params["code"];
     $name = $params["name"];
+    $receivingType = $params["receivingType"];
     $address = $params["address"];
     $addressReceipt = $params["addressReceipt"];
     $contact01 = $params["contact01"];
@@ -615,7 +618,7 @@ class CustomerDAO extends PSIBaseExDAO
               address = '%s', address_receipt = '%s',
               bank_name = '%s', bank_account = '%s', tax_number = '%s',
               fax = '%s', note = '%s', sales_warehouse_id = '%s',
-              record_status = %d
+              record_status = %d, receiving_type = '%s'
             where id = '%s'  ";
 
     $rc = $db->execute(
@@ -641,6 +644,7 @@ class CustomerDAO extends PSIBaseExDAO
       $note,
       $warehouseId,
       $recordStatus,
+      $receivingType,
       $id
     );
     if ($rc === false) {
@@ -772,7 +776,7 @@ class CustomerDAO extends PSIBaseExDAO
       return $this->emptyResult();
     }
 
-    $sql = "select id, category_id, code, name, address, contact01, qq01, tel01, mobile01,
+    $sql = "select id, category_id, code, name, receiving_type, address, contact01, qq01, tel01, mobile01,
               contact02, qq02, tel02, mobile02, init_receivables, init_receivables_dt,
               address_receipt, bank_name, bank_account, tax_number, fax, note, data_org,
               sales_warehouse_id, record_status
@@ -846,6 +850,7 @@ class CustomerDAO extends PSIBaseExDAO
         "categoryId" => $v["category_id"],
         "code" => $v["code"],
         "name" => $v["name"],
+        'receivingType' => $v["receiving_type"],
         "address" => $v["address"],
         "addressReceipt" => $v["address_receipt"],
         "contact01" => $v["contact01"],
@@ -947,7 +952,7 @@ class CustomerDAO extends PSIBaseExDAO
     }
 
     $sql = "select id, code, name, mobile01, tel01, fax, address_receipt, contact01,
-              sales_warehouse_id
+              sales_warehouse_id, receiving_type
             from t_customer
             where (record_status = 1000) 
               and (code like '%s' or name like '%s' or py like '%s'
@@ -994,7 +999,8 @@ class CustomerDAO extends PSIBaseExDAO
         "address_receipt" => $v["address_receipt"],
         "contact01" => $v["contact01"],
         "warehouseId" => $warehouseId,
-        "warehouseName" => $warehouseName
+        "warehouseName" => $warehouseName,
+        "receivingType" => "{$v['receiving_type']}"
       ];
     }
 
@@ -1018,7 +1024,7 @@ class CustomerDAO extends PSIBaseExDAO
               contact02, qq02, mobile02, tel02, address, address_receipt,
               init_receivables, init_receivables_dt,
               bank_name, bank_account, tax_number, fax, note, sales_warehouse_id,
-              record_status
+              record_status,receiving_type
             from t_customer
             where id = '%s' ";
     $data = $db->query($sql, $id);
@@ -1047,6 +1053,7 @@ class CustomerDAO extends PSIBaseExDAO
       $result["fax"] = $data[0]["fax"];
       $result["note"] = $data[0]["note"];
       $result["recordStatus"] = $data[0]["record_status"];
+      $result["receivingType"] = "{$data[0]['receiving_type']}";
 
       $result["warehouseId"] = null;
       $result["warehouseName"] = null;

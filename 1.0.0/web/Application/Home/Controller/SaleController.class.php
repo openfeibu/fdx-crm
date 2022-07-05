@@ -12,7 +12,7 @@ use Home\Service\WSBillService;
  * 最初的代码中，销售订单、销售出库、销售退货入库，都是写在这一个Controller里面的，
  * 之后把销售订单和销售退货入库移到单独的Contoller里面了，就只剩下销售出库了
  *
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */

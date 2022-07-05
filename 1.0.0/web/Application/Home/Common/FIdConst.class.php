@@ -5,7 +5,7 @@ namespace Home\Common;
 /**
  * FId常数值
  *
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */
@@ -140,6 +140,27 @@ class FIdConst
    * 修改仓库数据域
    */
   const WAREHOUSE_EDIT_DATAORG = "1003-05";
+
+    /**
+     * 基础数据-物流公司
+     */
+    //const WXPRESS = "20000";
+
+    /**
+     * 新增物流公司
+     */
+   // const WXPRESS_ADD = "20000-01";
+
+    /**
+     * 编辑仓库
+     */
+   // const WXPRESS_EDIT = "20000-02";
+
+    /**
+     * 删除仓库
+     */
+    //const WXPRESS_DELETE = "20000-03";
+
 
   /**
    * 基础数据-供应商档案
@@ -565,7 +586,22 @@ class FIdConst
    * 首页-资金看板
    */
   const PORTAL_MONEY = "2011-04";
-
+	
+	/**
+	 * 首页-销量简要统计看板
+	 */
+	const PORTAL_SALE_BRIEF = "2011-05";
+	
+	/**
+	 * 首页-出库量简要统计看板
+	 */
+	const PORTAL_SALE_CNT_BRIEF = "2011-06";
+	
+	/**
+	 * 首页-销售前十看板
+	 */
+	const PORTAL_SALE_TOP = "2011-07";
+	
   /**
    * 销售日报表(按商品汇总)
    */

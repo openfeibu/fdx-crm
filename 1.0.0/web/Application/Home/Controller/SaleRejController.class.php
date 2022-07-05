@@ -10,7 +10,7 @@ use Home\Service\WSBillService;
 /**
  * 销售退货入库Controller
  *
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */

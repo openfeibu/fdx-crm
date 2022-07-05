@@ -8,7 +8,7 @@ use Home\Service\PortalService;
 /**
  * Portal Controller
  *
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */
@@ -34,8 +34,10 @@ class PortalController extends Controller
   {
     if (IS_POST) {
       $ps = new PortalService();
-
-      $this->ajaxReturn($ps->salePortal());
+      $params = [
+	      "type" => I("post.type"), //
+      ];
+      $this->ajaxReturn($ps->salePortal($params));
     }
   }
 
@@ -46,8 +48,10 @@ class PortalController extends Controller
   {
     if (IS_POST) {
       $ps = new PortalService();
-
-      $this->ajaxReturn($ps->purchasePortal());
+	    $params = [
+		    "type" => I("post.type"), //
+	    ];
+      $this->ajaxReturn($ps->purchasePortal($params));
     }
   }
 
@@ -62,4 +66,39 @@ class PortalController extends Controller
       $this->ajaxReturn($ps->moneyPortal());
     }
   }
+  
+  /**
+   * 销售简要统计（当日，当月，当年，全部）
+   */
+
+	public function saleBriefPortal()
+	{
+		if (IS_POST) {
+			$ps = new PortalService();
+			
+			$this->ajaxReturn($ps->saleBriefPortal());
+		}
+	}
+	
+	/**
+	 * 销售出库量简要统计（当日，当月，当年，全部）
+	 */
+	
+	public function saleCntBriefPortal()
+	{
+		if (IS_POST) {
+			$ps = new PortalService();
+			
+			$this->ajaxReturn($ps->saleCntBriefPortal());
+		}
+	}
+	
+	public function saleTopPortal()
+	{
+		if (IS_POST) {
+			$ps = new PortalService();
+			
+			$this->ajaxReturn($ps->saleTopPortal());
+		}
+	}
 }

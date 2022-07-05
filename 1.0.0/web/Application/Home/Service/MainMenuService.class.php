@@ -7,7 +7,7 @@ use Home\DAO\MainMenuDAO;
 /**
  * 主菜单Service
  *
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */
@@ -74,7 +74,11 @@ class MainMenuService extends PSIBaseExService
     // 从1开始，是因为0给常用功能了
     $index1 = 1;
     foreach ($m1 as $menuItem1) {
-
+      //加工
+//      if($menuItem1['id'] == 12)
+//      {
+//        continue;
+//      }
       $children1 = [];
 
       $sql = "select id, caption, fid from ($sub) m

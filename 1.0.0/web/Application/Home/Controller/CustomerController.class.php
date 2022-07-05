@@ -10,7 +10,7 @@ use Home\Service\UserService;
 /**
  * 客户资料Controller
  *
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */
@@ -177,7 +177,8 @@ class CustomerController extends PSIBaseController
         "initReceivables" => I("post.initReceivables"),
         "initReceivablesDT" => I("post.initReceivablesDT"),
         "warehouseId" => I("post.warehouseId"),
-        "recordStatus" => I("post.recordStatus")
+        "recordStatus" => I("post.recordStatus"),
+        "receivingType" => I("post.receivingType")
       ];
       $cs = new CustomerService();
       $this->ajaxReturn($cs->editCustomer($params));

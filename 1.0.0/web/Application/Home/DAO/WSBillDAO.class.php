@@ -7,7 +7,7 @@ use Home\Common\FIdConst;
 /**
  * 销售出库单 DAO
  *
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */
@@ -89,7 +89,7 @@ class WSBillDAO extends PSIBaseExDAO
     $sql = "select w.id, w.ref, w.bizdt, c.name as customer_name, u.name as biz_user_name,
               user.name as input_user_name, h.name as warehouse_name, w.sale_money,
               w.bill_status, w.date_created, w.receiving_type, w.memo, w.deal_address,
-              w.tax, w.money_with_tax
+              w.tax, w.money_with_tax, w.total_money, w.freight
             from t_ws_bill w, t_customer c, t_user u, t_user user, t_warehouse h
             where (w.customer_id = c.id) and (w.biz_user_id = u.id)
               and (w.input_user_id = user.id) and (w.warehouse_id = h.id) ";
@@ -166,7 +166,9 @@ class WSBillDAO extends PSIBaseExDAO
         "memo" => $v["memo"],
         "dealAddress" => $v["deal_address"],
         "tax" => $v["tax"],
-        "moneyWithTax" => $v["money_with_tax"]
+        "moneyWithTax" => $v["money_with_tax"],
+        "freight" => $v["freight"],
+        "totalMoney" => $v["total_money"],
       ];
     }
 
@@ -373,7 +375,10 @@ class WSBillDAO extends PSIBaseExDAO
     $dealAddress = $bill["dealAddress"];
 
     $sobillRef = $bill["sobillRef"];
-
+  
+    $expressId = $bill["expressId"];
+    $freight = $bill["freight"];
+    
     // 检查客户
     $customerDAO = new CustomerDAO($db);
     $customer = $customerDAO->getCustomerById($customerId);
@@ -421,8 +426,8 @@ class WSBillDAO extends PSIBaseExDAO
     $id = $this->newId();
     $ref = $this->genNewBillRef($companyId);
     $sql = "insert into t_ws_bill(id, bill_status, bizdt, biz_user_id, customer_id,  date_created,
-              input_user_id, ref, warehouse_id, receiving_type, data_org, company_id, memo, deal_address)
-            values ('%s', 0, '%s', '%s', '%s', now(), '%s', '%s', '%s', %d, '%s', '%s', '%s', '%s')";
+              input_user_id, ref, warehouse_id, receiving_type, data_org, company_id, memo, deal_address,express_id,freight)
+            values ('%s', 0, '%s', '%s', '%s', now(), '%s', '%s', '%s', %d, '%s', '%s', '%s', '%s', '%s', '%f')";
 
     $rc = $db->execute(
       $sql,
@@ -437,7 +442,9 @@ class WSBillDAO extends PSIBaseExDAO
       $dataOrg,
       $companyId,
       $billMemo,
-      $dealAddress
+      $dealAddress,
+      $expressId,
+      $freight
     );
     if ($rc === false) {
       return $this->sqlError(__METHOD__, __LINE__);
@@ -502,11 +509,13 @@ class WSBillDAO extends PSIBaseExDAO
     }
     $sumTax = $data[0]["tax"];
     $sumMoneyWithTax = $data[0]["money_with_tax"];
-
+  
+    $total_money = $sumMoneyWithTax + $freight;
+    
     $sql = "update t_ws_bill 
-            set sale_money = %f, tax = %f, money_with_tax = %f 
+            set sale_money = %f, tax = %f, money_with_tax = %f, total_money = %f 
             where id = '%s' ";
-    $rc = $db->execute($sql, $sumGoodsMoney, $sumTax, $sumMoneyWithTax, $id);
+    $rc = $db->execute($sql, $sumGoodsMoney, $sumTax, $sumMoneyWithTax, $total_money, $id);
     if ($rc === false) {
       return $this->sqlError(__METHOD__, __LINE__);
     }
@@ -655,7 +664,10 @@ class WSBillDAO extends PSIBaseExDAO
     $billMemo = $bill["billMemo"];
     $items = $bill["items"];
     $dealAddress = $bill["dealAddress"];
-
+    
+    $expressId = $bill["expressId"];
+    $freight = $bill["freight"];
+    
     // 检查客户
     $customerDAO = new CustomerDAO($db);
     $customer = $customerDAO->getCustomerById($customerId);
@@ -767,12 +779,15 @@ class WSBillDAO extends PSIBaseExDAO
     }
     $sumTax = $data[0]["tax"];
     $sumMoneyWithTax = $data[0]["money_with_tax"];
-
+    
+    $total_money = $sumMoneyWithTax + $freight;
+    
     $sql = "update t_ws_bill
             set sale_money = %f, customer_id = '%s', warehouse_id = '%s',
               biz_user_id = '%s', bizdt = '%s', receiving_type = %d,
               memo = '%s', deal_address = '%s',
-              tax = %f, money_with_tax = %f
+              tax = %f, money_with_tax = %f,
+              express_id = '%s', freight = '%f', total_money = '%f'
             where id = '%s' ";
     $rc = $db->execute(
       $sql,
@@ -786,6 +801,9 @@ class WSBillDAO extends PSIBaseExDAO
       $dealAddress,
       $sumTax,
       $sumMoneyWithTax,
+      $expressId,
+      $freight,
+      $total_money,
       $id
     );
     if ($rc === false) {
@@ -952,11 +970,13 @@ class WSBillDAO extends PSIBaseExDAO
       $sql = "select w.id, w.ref, w.bill_status, w.bizdt, c.id as customer_id, c.name as customer_name,
                 u.id as biz_user_id, u.name as biz_user_name,
                 h.id as warehouse_id, h.name as warehouse_name,
-                w.receiving_type, w.memo, w.deal_address
-              from t_ws_bill w, t_customer c, t_user u, t_warehouse h
+                w.receiving_type, w.memo, w.deal_address,
+                w.express_id, e.name as express_name, w.freight, w.total_money
+              from t_ws_bill w, t_customer c, t_user u, t_warehouse h, t_feibu0001_ct_express e
               where w.customer_id = c.id and w.biz_user_id = u.id
                 and w.warehouse_id = h.id
-                and w.id = '%s' ";
+                and w.id = '%s' 
+                and w.express_id = e.id ";
       $data = $db->query($sql, $id);
       if ($data) {
         $result["ref"] = $data[0]["ref"];
@@ -971,6 +991,10 @@ class WSBillDAO extends PSIBaseExDAO
         $result["receivingType"] = "{$data[0]['receiving_type']}";
         $result["memo"] = $data[0]["memo"];
         $result["dealAddress"] = $data[0]["deal_address"];
+        $result["expressId"] = $data[0]["express_id"];
+        $result["expressName"] = $data[0]["express_name"];
+        $result["freight"] = $data[0]["freight"];
+        $result["totalMoney"] = $data[0]["total_money"];
       }
 
       $sql = "select d.id, g.id as goods_id, g.code, g.name, g.spec, u.name as unit_name, 
@@ -1165,7 +1189,7 @@ class WSBillDAO extends PSIBaseExDAO
     $id = $params["id"];
 
     $sql = "select ref, bill_status, customer_id, warehouse_id, biz_user_id, bizdt, sale_money,
-              receiving_type, company_id, money_with_tax, tax
+              receiving_type, company_id, money_with_tax, tax, total_money, freight
             from t_ws_bill where id = '%s' ";
     $data = $db->query($sql, $id);
     if (!$data) {
@@ -1177,9 +1201,14 @@ class WSBillDAO extends PSIBaseExDAO
     $billStatus = $data[0]["bill_status"];
     $receivingType = $data[0]["receiving_type"];
     // money_with_tax是后加的字段，可能没值
-    $saleMoney = $data[0]["money_with_tax"] ?? $data[0]["sale_money"];
+    //$saleMoney = $data[0]["money_with_tax"] ?? $data[0]["sale_money"];
+	  //feibu改版，$saleMoney加入运费, 税费需要减去。$saleMoney也要用于收账使用
+    $saleMoney = $data[0]["total_money"];
+    
     $tax = $data[0]["tax"] ?? 0;
     $companyId = $data[0]["company_id"];
+	  
+	  $freight = $data[0]['freight'] ?? 0;
     if ($billStatus != 0) {
       return $this->bad("销售出库单已经提交出库，不能再次提交");
     }
@@ -1860,7 +1889,7 @@ class WSBillDAO extends PSIBaseExDAO
       $sumInventoryMoney = 0;
     }
 
-    $profit = $saleMoney - $sumInventoryMoney - $tax;
+    $profit = $saleMoney - $sumInventoryMoney - $tax - $freight;
 
     // 更新本单据的状态
     $sql = "update t_ws_bill
@@ -1917,11 +1946,12 @@ class WSBillDAO extends PSIBaseExDAO
 
     $sql = "select w.id, w.bizdt, c.name as customer_name,
               u.name as biz_user_name,
-              h.name as warehouse_name, w.memo, w.company_id
-            from t_ws_bill w, t_customer c, t_user u, t_warehouse h
+              h.name as warehouse_name, w.memo, w.company_id, w.express_id, e.name as express_name, w.freight, w.total_money
+            from t_ws_bill w, t_customer c, t_user u, t_warehouse h, t_feibu0001_ct_express e
             where w.customer_id = c.id and w.biz_user_id = u.id
               and w.warehouse_id = h.id
-              and w.ref = '%s' ";
+              and w.ref = '%s' 
+              and w.express_id = e.id ";
     $data = $db->query($sql, $ref);
     if (!$data) {
       return NULL;
@@ -1939,7 +1969,11 @@ class WSBillDAO extends PSIBaseExDAO
       "customerName" => $data[0]["customer_name"],
       "warehouseName" => $data[0]["warehouse_name"],
       "bizUserName" => $data[0]["biz_user_name"],
-      "memo" => $data[0]["memo"]
+      "memo" => $data[0]["memo"],
+      "expressId" => $data[0]["express_id"],
+      "expressName" => $data[0]["express_name"],
+      "freight" => $data[0]["freight"],
+      "totalMoney" => $data[0]["total_money"]
     ];
 
     // 明细表
