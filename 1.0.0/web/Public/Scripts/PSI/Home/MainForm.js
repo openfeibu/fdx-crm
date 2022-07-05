@@ -26,7 +26,23 @@ PCL.define("PSI.Home.MainForm", {
     var me = this;
 
     var items = [];
-
+    var PSaleBriefItems = [];
+    if (me.getPSaleBrief() == "1") {
+      PSaleBriefItems.push(me.getSaleBriefPortal());
+    }
+    if (me.getPSaleCntBrief() == "1") {
+      PSaleBriefItems.push(me.getSaleCntBriefPortal());
+    }
+    if(PSaleBriefItems.length>0)
+    {
+      items.push({
+        width: "100%",
+        layout: "hbox",
+        border: 0,
+        items: PSaleBriefItems
+      });
+    }
+    /*
     //销售简要统计（当日，当月，当年，全部）；
     if (me.getPSaleBrief() == "1") {
       items.push({
@@ -45,6 +61,7 @@ PCL.define("PSI.Home.MainForm", {
         items: [me.getSaleCntBriefPortal()]
       });
     }
+    */
     // 销售看板
     if (me.getPSale() == "1") {
       items.push({
@@ -55,7 +72,7 @@ PCL.define("PSI.Home.MainForm", {
         items: [me.getSalePortal1(), me.getSalePortal2()]
       });
     }
-    // 销售看板
+    // 产品销量前10
     if (me.getPSaleTop() == "1") {
       items.push({
         width: "100%",
@@ -790,7 +807,7 @@ PCL.define("PSI.Home.MainForm", {
     var me = this;
     return {
       header: {
-        title: "<span style='font-size:120%;font-weight:normal;'>销售前10</span>",
+        title: "<span style='font-size:120%;font-weight:normal;'>产品销量前10</span>",
         iconCls: "PSI-portal-sale",
         height: 40
       },
