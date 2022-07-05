@@ -1,7 +1,7 @@
 /**
  * 销售出库 - 主界面
  * 
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */
@@ -219,7 +219,7 @@ Ext.define("PSI.Sale.WSMainForm", {
       valueField: "id",
       store: Ext.create("Ext.data.ArrayStore", {
         fields: ["id", "text"],
-        data: [[-1, "全部"], [0, "记应收账款"], [1, "现金收款"],
+        data: [[-1, "全部"], [0, "记应收账款/月结"], [1, "现金收款"],
         [2, "用预收款支付"]]
       }),
       value: -1
@@ -326,7 +326,7 @@ Ext.define("PSI.Sale.WSMainForm", {
         "warehouseName", "inputUserName", "bizUserName",
         "billStatus", "amount", "dateCreated",
         "receivingType", "memo", "dealAddress", "tax",
-        "moneyWithTax"]
+        "moneyWithTax","freight","totalMoney"]
     });
     var store = Ext.create("Ext.data.Store", {
       autoLoad: false,
@@ -411,10 +411,10 @@ Ext.define("PSI.Sale.WSMainForm", {
         dataIndex: "receivingType",
         menuDisabled: true,
         sortable: false,
-        width: 100,
+        width: 130,
         renderer: function (value) {
           if (value == 0) {
-            return "记应收账款";
+            return "记应收账款/月结";
           } else if (value == 1) {
             return "现金收款";
           } else if (value == 2) {
@@ -442,6 +442,22 @@ Ext.define("PSI.Sale.WSMainForm", {
       }, {
         header: "价税合计",
         dataIndex: "moneyWithTax",
+        menuDisabled: true,
+        sortable: false,
+        align: "right",
+        xtype: "numbercolumn",
+        width: 90
+      }, {
+        header: "运费",
+        dataIndex: "freight",
+        menuDisabled: true,
+        sortable: false,
+        align: "right",
+        xtype: "numbercolumn",
+        width: 90
+      }, {
+        header: "总计",
+        dataIndex: "totalMoney",
         menuDisabled: true,
         sortable: false,
         align: "right",
@@ -507,7 +523,7 @@ Ext.define("PSI.Sale.WSMainForm", {
       fields: ["id", "goodsCode", "goodsName", "goodsSpec",
         "unitName", "goodsCount", "goodsMoney",
         "goodsPrice", "sn", "memo", "taxRate", "tax",
-        "moneyWithTax", "goodsPriceWithTax", "rejGoodsCount", "realGoodsCount"]
+        "moneyWithTax", "freight", "totalMoney","goodsPriceWithTax", "rejGoodsCount", "realGoodsCount"]
     });
     var store = Ext.create("Ext.data.Store", {
       autoLoad: false,

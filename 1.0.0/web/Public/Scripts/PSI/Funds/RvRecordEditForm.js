@@ -1,7 +1,7 @@
 /**
  * 应收账款 - 收款记录
  * 
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */

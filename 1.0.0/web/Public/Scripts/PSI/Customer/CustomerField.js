@@ -1,7 +1,7 @@
 /**
  * 自定义字段 - 客户
  * 
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */
@@ -62,7 +62,7 @@ PCL.define("PSI.Customer.CustomerField", {
       extend: "PCL.data.Model",
       fields: ["id", "code", "name", "mobile01", "tel01", "fax",
         "address_receipt", "contact01", "warehouseName",
-        "warehouseId"]
+        "warehouseId","receivingType"]
     });
 
     var store = PCL.create("PCL.data.Store", {

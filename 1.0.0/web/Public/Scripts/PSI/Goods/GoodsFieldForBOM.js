@@ -1,7 +1,7 @@
 /**
  * 商品自定义字段 - 只显示有子物料的物料，用于加工业务中
  * 
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */

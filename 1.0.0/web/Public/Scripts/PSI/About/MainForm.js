@@ -1,7 +1,7 @@
 /**
  * 关于窗体
  * 
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */
@@ -28,7 +28,7 @@ PCL.define("PSI.About.MainForm", {
     const me = this;
 
     const year = new Date().getFullYear();
-    const c = `Copyright &copy; 2015-${year} 艾格林门信息服务（大连）有限公司, All Rights Reserved`;
+    const c = `Copyright &copy; 2015-${year} 广州飞步信息科技有限公司, All Rights Reserved`;
 
     PCL.apply(me, {
       header: {

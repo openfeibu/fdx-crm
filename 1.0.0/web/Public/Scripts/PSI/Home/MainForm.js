@@ -1,7 +1,7 @@
 /**
  * 首页
  * 
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */
@@ -13,6 +13,9 @@ PCL.define("PSI.Home.MainForm", {
     pInventory: "",
     pPurchase: "",
     pMoney: "",
+    pSaleBrief: "",
+    pSaleCntBrief: "",
+    pSaleTop: "",
     productionName: "PSI"
   },
 
@@ -24,6 +27,24 @@ PCL.define("PSI.Home.MainForm", {
 
     var items = [];
 
+    //销售简要统计（当日，当月，当年，全部）；
+    if (me.getPSaleBrief() == "1") {
+      items.push({
+        width: "50%",
+        layout: "hbox",
+        border: 0,
+        items: [me.getSaleBriefPortal()]
+      });
+    }
+    //出库量简要统计（当日，当月，当年，全部）；
+    if (me.getPSaleCntBrief() == "1") {
+      items.push({
+        width: "50%",
+        layout: "hbox",
+        border: 0,
+        items: [me.getSaleCntBriefPortal()]
+      });
+    }
     // 销售看板
     if (me.getPSale() == "1") {
       items.push({
@@ -32,6 +53,15 @@ PCL.define("PSI.Home.MainForm", {
         border: 0,
         hidden: me.getPSale() != "1",
         items: [me.getSalePortal1(), me.getSalePortal2()]
+      });
+    }
+    // 销售看板
+    if (me.getPSaleTop() == "1") {
+      items.push({
+        width: "100%",
+        layout: "hbox",
+        border: 0,
+        items: [me.getSaleTopPortal()]
       });
     }
     // 采购看板
@@ -62,6 +92,7 @@ PCL.define("PSI.Home.MainForm", {
         items: [me.getMoneyPortal()]
       });
     }
+
     // 如果上述看板都没有权限，则显示默认信息
     if (items.length == 0) {
       items.push({
@@ -80,11 +111,16 @@ PCL.define("PSI.Home.MainForm", {
     me.callParent(arguments);
 
     if (me.getPSale() == "1") {
-      me.querySaleData();
+      me.querySaleData("this_month");
     }
-
+    if (me.getPSaleBrief() == "1") {
+      me.querySaleBriefData();
+    }
+    if (me.getPSaleCntBrief() == "1") {
+      me.querySaleCntBriefData();
+    }
     if (me.getPPurchase() == "1") {
-      me.queryPurchaseData();
+      me.queryPurchaseData("this_month");
     }
 
     if (me.getPInventory() == "1") {
@@ -93,6 +129,9 @@ PCL.define("PSI.Home.MainForm", {
 
     if (me.getPMoney() == "1") {
       me.queryMoneyData();
+    }
+    if (me.getPSaleTop() == "1") {
+      me.querySaleTopData();
     }
   },
 
@@ -116,7 +155,7 @@ PCL.define("PSI.Home.MainForm", {
       columnLines: true,
       border: 0,
       columns: [{
-        header: "月份",
+        header: "月份/日",
         dataIndex: "month",
         width: 80,
         menuDisabled: true,
@@ -174,7 +213,7 @@ PCL.define("PSI.Home.MainForm", {
       columnLines: true,
       border: 0,
       columns: [{
-        header: "月份",
+        header: "月份/日",
         dataIndex: "month",
         width: 80,
         menuDisabled: true,
@@ -241,7 +280,8 @@ PCL.define("PSI.Home.MainForm", {
         align: "right",
         xtype: "numbercolumn",
         summaryType: "sum"
-      }, {
+      }
+      /*, {
         header: "低于安全库存物料种类数",
         dataIndex: "siCount",
         width: 180,
@@ -273,7 +313,8 @@ PCL.define("PSI.Home.MainForm", {
             : value;
         },
         summaryType: "sum"
-      }],
+      }*/
+      ],
       store: PCL.create("PCL.data.Store", {
         model: modelName,
         autoLoad: false,
@@ -284,6 +325,215 @@ PCL.define("PSI.Home.MainForm", {
     return me.__inventoryGrid;
   },
 
+  getSaleBriefGrid: function () {
+    var me = this;
+    if (me.__saleBriefGrid) {
+      return me.__saleBriefGrid;
+    }
+
+    var modelName = "PSIModel.PSI.Home.PortalSaleBrief";
+    PCL.define(modelName, {
+      extend: "PCL.data.Model",
+      fields: [{ name: "todaySaleMoney", type: "float" },
+        { name: "thisMonthSaleMoney", type: "float" },
+        { name: "thisYearSaleMoney", type: "float" },
+        { name: "allSaleMoney", type: "float" }]
+    });
+
+    me.__saleBriefGrid = PCL.create("PCL.grid.Panel", {
+      cls: "PSI-KB",
+      viewConfig: {
+        enableTextSelection: true
+      },
+      features: [{
+        ftype: "summary",
+        //dock: "bottom"
+      }],
+      columnLines: true,
+      border: 0,
+      columns: [{
+        header: "当日",
+        dataIndex: "todaySaleMoney",
+        width: '20%',
+        menuDisabled: true,
+        sortable: false,
+        align: "right",
+        xtype: "numbercolumn",
+      }, {
+        header: "当月",
+        dataIndex: "thisMonthSaleMoney",
+        width: '20%',
+        menuDisabled: true,
+        sortable: false,
+        align: "right",
+        xtype: "numbercolumn",
+      }, {
+        header: "今年",
+        dataIndex: "thisYearSaleMoney",
+        width: '30%',
+        menuDisabled: true,
+        sortable: false,
+        align: "right",
+        xtype: "numbercolumn",
+      }, {
+        header: "总销售额",
+        dataIndex: "thisYearSaleMoney",
+        width: '30%',
+        menuDisabled: true,
+        sortable: false,
+        align: "right",
+        xtype: "numbercolumn",
+      }],
+      store: PCL.create("PCL.data.Store", {
+        model: modelName,
+        autoLoad: false,
+        data: []
+      })
+    });
+
+    return me.__saleBriefGrid;
+  },
+  getSaleCntBriefGrid:function () {
+    var me = this;
+    if (me.__saleCntBriefGrid) {
+      return me.__saleCntBriefGrid;
+    }
+
+    var modelName = "PSIModel.PSI.Home.PortalSaleCntBrief";
+    PCL.define(modelName, {
+      extend: "PCL.data.Model",
+      fields: [{ name: "todaySaleCnt", type: "float" },
+        { name: "thisMonthSaleCnt", type: "float" },
+        { name: "thisYearSaleCnt", type: "float" },
+        { name: "allSaleCnt", type: "float" }]
+    });
+
+    me.__saleCntBriefGrid = PCL.create("PCL.grid.Panel", {
+      cls: "PSI-KB",
+      viewConfig: {
+        enableTextSelection: true
+      },
+      features: [{
+        ftype: "summary",
+        //dock: "bottom"
+      }],
+      columnLines: true,
+      border: 0,
+      columns: [{
+        header: "当日",
+        dataIndex: "todaySaleCnt",
+        width: '20%',
+        menuDisabled: true,
+        sortable: false,
+        align: "right",
+        xtype: "numbercolumn",
+        format: "0",
+      }, {
+        header: "当月",
+        dataIndex: "thisMonthSaleCnt",
+        width: '20%',
+        menuDisabled: true,
+        sortable: false,
+        align: "right",
+        xtype: "numbercolumn",
+        format: "0",
+      }, {
+        header: "今年",
+        dataIndex: "thisYearSaleCnt",
+        width: '30%',
+        menuDisabled: true,
+        sortable: false,
+        align: "right",
+        xtype: "numbercolumn",
+        format: "0",
+      }, {
+        header: "总销售出库量",
+        dataIndex: "thisYearSaleCnt",
+        width: '30%',
+        menuDisabled: true,
+        sortable: false,
+        align: "right",
+        xtype: "numbercolumn",
+        format: "0",
+      }],
+      store: PCL.create("PCL.data.Store", {
+        model: modelName,
+        autoLoad: false,
+        data: []
+      })
+    });
+
+    return me.__saleCntBriefGrid;
+  },
+  getSaleTopGrid:function () {
+    var me = this;
+    if (me.__saleTopGrid) {
+      return me.__saleTopGrid;
+    }
+
+    var modelName = "PSIModel.PSI.Home.PortalSaleTop";
+    PCL.define(modelName, {
+      extend: "PCL.data.Model",
+      fields: ["goods_name", "cnt"]
+    });
+
+    me.__saleTopGrid = PCL.create("PCL.chart.Chart", {
+      renderTo: Ext.getBody(),
+      width: '80%',
+      height: 300,
+      animate: true,
+      store: PCL.create("PCL.data.Store", {
+        model: modelName,
+        autoLoad: false,
+        data: []
+      }),
+      axes: [
+        {
+          type: "Numeric",
+          position: 'left',
+          fields: ['cnt'],
+          label: {
+            renderer: Ext.util.Format.numberRenderer('0,0')
+          },
+          title: '销售量',
+          grid: true,
+          minimum: 0
+        },
+        {
+          type: 'Category',
+          position: 'bottom',
+          fields: ['goods_name'],
+          title: '产品'
+        }
+      ],
+      series: [
+        {
+          type: 'column',
+          axis: 'left',
+          highlight: true,
+          tips: {
+            trackMouse: true,
+            width: 140,
+            height: 28,
+            renderer: function(storeItem, item) {
+              this.setTitle(storeItem.get('goods_name') + ': ' + parseInt(storeItem.get('cnt')) + '');
+            }
+          },
+          label: {
+            display: 'insideEnd',
+            'text-anchor': 'middle',
+            field: 'cnt',
+            renderer: Ext.util.Format.numberRenderer('0'),
+            //orientation: 'vertical',
+            color: '#333'
+          },
+          xField: 'goods_name',
+          yField: 'cnt'
+        }
+      ]
+    });
+    return me.__saleTopGrid;
+  },
   getMoneyGrid: function () {
     var me = this;
     if (me.__moneyGrid) {
@@ -329,6 +579,7 @@ PCL.define("PSI.Home.MainForm", {
       }, {
         header: "账龄30-60天",
         dataIndex: "money30to60",
+        width: 120,
         menuDisabled: true,
         sortable: false,
         align: "right",
@@ -336,6 +587,7 @@ PCL.define("PSI.Home.MainForm", {
       }, {
         header: "账龄60-90天",
         dataIndex: "money60to90",
+        width: 120,
         menuDisabled: true,
         sortable: false,
         align: "right",
@@ -372,6 +624,28 @@ PCL.define("PSI.Home.MainForm", {
         height: 40
       },
       layout: "fit",
+      tbar: [{
+        xtype: "combo",
+        queryMode: "local",
+        editable: false,
+        valueField: "id",
+        labelWidth: 60,
+        labelAlign: "right",
+        labelSeparator: "",
+        fieldLabel: "选择时间",
+        margin: "5, 0, 0, 0",
+        store: PCL.create("PCL.data.ArrayStore", {
+          fields: ["id", "text"],
+          data: [["this_month", "这个月"],["past_six_months", "近半年"], ["this_year", "今年"],
+            ["last_year", "去年"]]
+        }),
+        value: "this_month",
+        listeners: {
+          change: function (e) {
+            me.querySaleData(e.value);
+          }
+        }
+      }],
       items: me.getSaleChart()
     };
   },
@@ -392,7 +666,22 @@ PCL.define("PSI.Home.MainForm", {
       items: me.getSaleGrid()
     };
   },
-
+  getSalePortal3: function () {
+    var me = this;
+    return {
+      flex: 1,
+      width: "100%",
+      height: 270,
+      margin: "5",
+      header: {
+        title: "<span style='font-size:120%;font-weight:normal;'>销售统计</span>",
+        iconCls: "PSI-portal-sale",
+        height: 40
+      },
+      layout: "fit",
+      items: me.getSalePortal3Grid()
+    };
+  },
   getPurchasePortal1: function () {
     var me = this;
     return {
@@ -406,6 +695,28 @@ PCL.define("PSI.Home.MainForm", {
       height: 270,
       margin: "5",
       layout: "fit",
+      tbar: [{
+        xtype: "combo",
+        queryMode: "local",
+        editable: false,
+        valueField: "id",
+        labelWidth: 60,
+        labelAlign: "right",
+        labelSeparator: "",
+        fieldLabel: "选择时间",
+        margin: "5, 0, 0, 0",
+        store: PCL.create("PCL.data.ArrayStore", {
+          fields: ["id", "text"],
+          data: [["this_month", "这个月"], ["past_six_months", "近半年"], ["this_year", "今年"],
+            ["last_year", "去年"]]
+        }),
+        value: "this_month",
+        listeners: {
+          change: function (e) {
+            me.queryPurchaseData(e.value);
+          }
+        }
+      }],
       items: me.getPurchaseChart()
     };
   },
@@ -441,6 +752,54 @@ PCL.define("PSI.Home.MainForm", {
       margin: "5",
       layout: "fit",
       items: [me.getInventoryGrid()]
+    };
+  },
+  getSaleBriefPortal: function () {
+    var me = this;
+    return {
+      header: {
+        title: "<span style='font-size:120%;font-weight:normal;'>销售统计</span>",
+        iconCls: "PSI-portal-sale",
+        height: 40
+      },
+      flex: 1,
+      width: "50%",
+      height: 120,
+      margin: "5",
+      //layout: "fit",
+      items: [me.getSaleBriefGrid()]
+    };
+  },
+  getSaleCntBriefPortal: function () {
+    var me = this;
+    return {
+      header: {
+        title: "<span style='font-size:120%;font-weight:normal;'>销售出库量统计</span>",
+        iconCls: "PSI-portal-sale",
+        height: 40
+      },
+      flex: 1,
+      width: "50%",
+      height: 120,
+      margin: "5",
+      //layout: "fit",
+      items: [me.getSaleCntBriefGrid()]
+    };
+  },
+  getSaleTopPortal:function () {
+    var me = this;
+    return {
+      header: {
+        title: "<span style='font-size:120%;font-weight:normal;'>销售前10</span>",
+        iconCls: "PSI-portal-sale",
+        height: 40
+      },
+      flex: 1,
+      width: "100%",
+      height: 350,
+      margin: "5",
+      //layout: "fit",
+      items: [me.getSaleTopGrid()]
     };
   },
 
@@ -482,14 +841,78 @@ PCL.define("PSI.Home.MainForm", {
       }
     });
   },
+  querySaleBriefData: function () {
+    var me = this;
+    var grid = me.getSaleBriefGrid();
+    var el = grid.getEl() || PCL.getBody();
+    el.mask(PSI.Const.LOADING);
+    PCL.Ajax.request({
+      url: PSI.Const.BASE_URL + "Home/Portal/saleBriefPortal",
+      method: "POST",
+      callback: function (options, success, response) {
+        var store = grid.getStore();
+        store.removeAll();
 
-  querySaleData: function () {
+        if (success) {
+          var data = PCL.JSON.decode(response.responseText);
+          store.add(data);
+        }
+
+        el.unmask();
+      }
+    });
+  },
+  querySaleCntBriefData: function () {
+    var me = this;
+    var grid = me.getSaleCntBriefGrid();
+    var el = grid.getEl() || PCL.getBody();
+    el.mask(PSI.Const.LOADING);
+    PCL.Ajax.request({
+      url: PSI.Const.BASE_URL + "Home/Portal/saleCntBriefPortal",
+      method: "POST",
+      callback: function (options, success, response) {
+        var store = grid.getStore();
+        store.removeAll();
+
+        if (success) {
+          var data = PCL.JSON.decode(response.responseText);
+          store.add(data);
+        }
+
+        el.unmask();
+      }
+    });
+  },
+  querySaleTopData:function () {
+    var me = this;
+    var grid = me.getSaleTopGrid();
+    var el = grid.getEl() || PCL.getBody();
+    el.mask(PSI.Const.LOADING);
+    PCL.Ajax.request({
+      url: PSI.Const.BASE_URL + "Home/Portal/saleTopPortal",
+      method: "POST",
+      callback: function (options, success, response) {
+        var store = grid.getStore();
+        store.removeAll();
+
+        if (success) {
+          var data = PCL.JSON.decode(response.responseText);
+          store.add(data);
+        }
+        el.unmask();
+      }
+    });
+  },
+  querySaleData: function (type) {
     var me = this;
     var grid = me.getSaleGrid();
     var el = grid.getEl() || PCL.getBody();
     el.mask(PSI.Const.LOADING);
     PCL.Ajax.request({
       url: PSI.Const.BASE_URL + "Home/Portal/salePortal",
+      params: {
+        type: type,
+      },
       method: "POST",
       callback: function (options, success, response) {
         var store = grid.getStore();
@@ -522,13 +945,16 @@ PCL.define("PSI.Home.MainForm", {
     }
   },
 
-  queryPurchaseData: function () {
+  queryPurchaseData: function (type) {
     var me = this;
     var grid = me.getPurchaseGrid();
     var el = grid.getEl() || PCL.getBody();
     el.mask(PSI.Const.LOADING);
     PCL.Ajax.request({
       url: PSI.Const.BASE_URL + "Home/Portal/purchasePortal",
+      params: {
+        type: type,
+      },
       method: "POST",
       callback: function (options, success, response) {
         var store = grid.getStore();

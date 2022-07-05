@@ -1,7 +1,7 @@
 /**
  * 业务设置 - 编辑设置项目
  * 
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */
@@ -216,7 +216,7 @@ PCL.define("PSI.BizConfig.EditForm", {
             store: PCL.create(
               "PCL.data.ArrayStore", {
               fields: ["id", "text"],
-              data: [["0", "记应收账款"],
+              data: [["0", "记应收账款/月结"],
               ["1", "现金收款"],
               ["2", "用预收款支付"]]
             }),
@@ -233,7 +233,7 @@ PCL.define("PSI.BizConfig.EditForm", {
             store: PCL.create(
               "PCL.data.ArrayStore", {
               fields: ["id", "text"],
-              data: [["0", "记应收账款"],
+              data: [["0", "记应收账款/月结"],
               ["1", "现金收款"]]
             }),
             value: "0"

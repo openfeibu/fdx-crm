@@ -1,19 +1,17 @@
-﻿/**
- * 自定义字段 - 物料字段，显示建议采购价
- * 
+/**
+ * 自定义字段 - 仓库
+ *
  * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */
-PCL.define("PSI.Goods.GoodsWithPurchaseFieldField", {
+PCL.define("PSI.Express.ExpressField", {
   extend: "PCL.form.field.Trigger",
-  alias: "widget.psi_goods_with_purchaseprice_field",
+  alias: "widget.psi_expressfield",
 
   config: {
-    parentCmp: null,
-    showAddButton: false,
-    supplierIdFunc: null,
-    supplierIdScope: null
+    fid: null,
+    showModal: false
   },
 
   /**
@@ -21,14 +19,20 @@ PCL.define("PSI.Goods.GoodsWithPurchaseFieldField", {
    */
   initComponent: function () {
     var me = this;
-
+    me.__idValue = null;
+    me.__freight = 0;
     me.enableKeyEvents = true;
 
     me.callParent(arguments);
 
     me.on("keydown", function (field, e) {
+      if (me.readOnly) {
+        return;
+      }
+
       if (e.getKey() == e.BACKSPACE) {
         field.setValue(null);
+        me.setIdValue(null);
         e.preventDefault();
         return false;
       }
@@ -53,11 +57,15 @@ PCL.define("PSI.Goods.GoodsWithPurchaseFieldField", {
    */
   onTriggerClick: function (e) {
     var me = this;
-    var modelName = "PSI_Goods_GoodsWithPurchaseFieldField_PSIGoodsField";
+
+    if (me.readOnly) {
+      return;
+    }
+
+    var modelName = "PSIExpressField";
     PCL.define(modelName, {
       extend: "PCL.data.Model",
-      fields: ["id", "code", "name", "spec", "unitName",
-        "purchasePrice", "memo", "taxRate", "taxRateType"]
+      fields: ["id", "code", "name","freight"]
     });
 
     var store = PCL.create("PCL.data.Store", {
@@ -74,75 +82,32 @@ PCL.define("PSI.Goods.GoodsWithPurchaseFieldField", {
         enableTextSelection: true
       },
       columns: [{
-        header: "物料编码",
+        header: "编码",
         dataIndex: "code",
-        menuDisabled: true,
-        width: 70
+        menuDisabled: true
       }, {
-        header: "品名",
+        header: "物流",
         dataIndex: "name",
         menuDisabled: true,
         flex: 1
       }, {
-        header: "规格型号",
-        dataIndex: "spec",
+        header: "运费",
+        dataIndex: "freight",
         menuDisabled: true,
         flex: 1
-      }, {
-        header: "单位",
-        dataIndex: "unitName",
-        menuDisabled: true,
-        width: 60
-      }, {
-        header: "建议采购价",
-        dataIndex: "purchasePrice",
-        menuDisabled: true,
-        align: "right",
-        xtype: "numbercolumn"
-      }, {
-        header: "备注",
-        dataIndex: "memo",
-        menuDisabled: true,
-        width: 300
       }]
     });
     me.lookupGrid = lookupGrid;
     me.lookupGrid.on("itemdblclick", me.onOK, me);
 
-    var buttons = [{
-      xtype: "container",
-      html: `
-        <div class="PSI-lookup-note">
-          输入编码、品名拼音字头、规格型号拼音字头可以过滤查询；
-          ↑ ↓ 键改变当前选择项 ；回车键返回
-        </div>
-        `
-    }, "->"];
-    if (me.getShowAddButton()) {
-      buttons.push({
-        text: "新建物料",
-        handler: me.onAddGoods,
-        scope: me
-      });
-    }
-    buttons.push({
-      text: "确定",
-      handler: me.onOK,
-      scope: me
-    }, {
-      text: "取消",
-      handler: function () {
-        wnd.close();
-      }
-    });
-
     var wnd = PCL.create("PCL.window.Window", {
-      title: "选择 - 物料",
-      width: 950,
+      title: "选择 - 物流",
+      modal: me.getShowModal(),
+      width: 700,
       height: 300,
-      layout: "border",
       header: false,
       border: 0,
+      layout: "border",
       items: [{
         region: "center",
         xtype: "panel",
@@ -161,40 +126,53 @@ PCL.define("PSI.Goods.GoodsWithPurchaseFieldField", {
           bodyPadding: 5,
           bodyCls: "PSI-Field",
           items: [{
-            id: "__editGoods",
+            id: "PSI_Express_ExpressField_editExpress",
             xtype: "textfield",
             labelWidth: 0,
             labelAlign: "right",
-            labelSeparator: ""
+            labelSeparator: "",
           }
           ]
         }]
       }],
-      buttons: buttons
+      buttons: [{
+        xtype: "container",
+        html: `
+          <div class="PSI-lookup-note">
+            输入编码、物流公司名称拼音字头可以过滤查询；
+            ↑ ↓ 键改变当前选择项 ；回车键返回
+          </div>
+          `
+      }, "->", {
+        text: "确定",
+        handler: me.onOK,
+        scope: me
+      }, {
+        text: "取消",
+        handler: function () {
+          wnd.close();
+        }
+      }]
     });
 
     wnd.on("close", function () {
       me.focus();
     });
-    wnd.on("deactivate", function () {
-      wnd.close();
-    });
+    if (!me.getShowModal()) {
+      wnd.on("deactivate", function () {
+        wnd.close();
+      });
+    }
     me.wnd = wnd;
 
-    var editName = PCL.getCmp("__editGoods");
+    var editName = PCL.getCmp("PSI_Express_ExpressField_editExpress");
     editName.on("change", function () {
-      var supplierId = null;
-      var supplierIdFunc = me.getSupplierIdFunc();
-      if (supplierIdFunc) {
-        supplierId = supplierIdFunc.apply(me.getSupplierIdScope());
-      }
       var store = me.lookupGrid.getStore();
       PCL.Ajax.request({
-        url: PSI.Const.BASE_URL
-          + "Home/Goods/queryDataWithPurchasePrice",
+        url: PSI.Const.BASE_URL + "FEIBU0001/Express/queryData",
         params: {
           queryKey: editName.getValue(),
-          supplierId: supplierId
+          fid: me.getFid()
         },
         method: "POST",
         callback: function (opt, success, response) {
@@ -271,18 +249,30 @@ PCL.define("PSI.Goods.GoodsWithPurchaseFieldField", {
     var data = item[0].getData();
 
     me.wnd.close();
+
     me.focus();
-    me.setValue(data.code);
+    me.setFreightValue(data.freight);
+    me.setValue(data.name);
+    me.setIdValue(data.id);
     me.focus();
 
-    if (me.getParentCmp() && me.getParentCmp().__setGoodsInfo) {
-      me.getParentCmp().__setGoodsInfo(data)
-    }
   },
 
-  onAddGoods: function () {
-    var form = PCL.create("PSI.Goods.GoodsEditForm");
+  setIdValue: function (id) {
+    this.__idValue = id;
+  },
 
-    form.show();
+  getIdValue: function () {
+    return this.__idValue;
+  },
+  setFreightValue: function (freight) {
+    this.__freightValue = freight;
+  },
+  getFreightValue: function () {
+    return this.__freightValue;
+  },
+  clearIdValue: function () {
+    this.setValue(null);
+    this.__idValue = null;
   }
 });

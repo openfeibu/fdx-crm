@@ -1,7 +1,7 @@
 /**
  * 采购退货出库单 - 新增或编辑界面
  * 
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */
@@ -174,7 +174,7 @@ PCL.define("PSI.PurchaseRej.PREditForm", {
           valueField: "id",
           store: PCL.create("PCL.data.ArrayStore", {
             fields: ["id", "text"],
-            data: [["0", "记应收账款"],
+            data: [["0", "记应收账款/月结"],
             ["1", "现金收款"]]
           }),
           value: "0",

@@ -1,7 +1,7 @@
 /**
  * 自定义字段 - 组织机构字段,用数据域过滤
  * 
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */

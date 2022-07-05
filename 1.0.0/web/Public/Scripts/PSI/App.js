@@ -1,7 +1,7 @@
 /**
  * PSI的应用容器：承载主菜单、业务模块的UI
  * 
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */
@@ -226,7 +226,7 @@ PCL.define("PSI.App", {
         header: {
           cls: "PSI-Copyright",
           titleAlign: "center",
-          title: `Copyright &copy; 2015-${year} 艾格林门信息服务（大连）有限公司, All Rights Reserved`
+          title: `Copyright &copy; 2015-${year} 广州飞步信息科技有限公司, All Rights Reserved`
         }
       });
 

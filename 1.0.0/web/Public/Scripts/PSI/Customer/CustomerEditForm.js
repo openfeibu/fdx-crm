@@ -1,7 +1,7 @@
 /**
  * 客户资料 - 新增或编辑界面
  * 
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */
@@ -141,22 +141,30 @@ PCL.define("PSI.Customer.CustomerEditForm", {
               scope: me
             }
           },
-          width: width1,
-          colspan: 2
+          width: width2,
+          //colspan: 2
         }, {
-          id: "PSI_Customer_CustomerEditForm_editAddress",
-          fieldLabel: "地址",
-          name: "address",
-          value: entity == null ? null : entity
-            .get("address"),
+          id: "PSI_Customer_CustomerEditForm_editReceivingType",
+          fieldLabel: "收款方式",
+          name: "receivingType",
+          xtype: "combo",
+          queryMode: "local",
+          editable: false,
+          valueField: "id",
+          store: PCL.create("PCL.data.ArrayStore", {
+            fields: ["id", "text"],
+            data: [["0", "记应收账款/月结（月结）"],
+              ["1", "现金收款"],
+              ["2", "预收款"]]
+          }),
+          value: "0",
           listeners: {
             specialkey: {
               fn: me.onEditSpecialKey,
               scope: me
             }
           },
-          width: width1,
-          colspan: 2
+          width: width2,
         }, {
           id: "PSI_Customer_CustomerEditForm_editContact01",
           fieldLabel: "联系人",
@@ -173,6 +181,9 @@ PCL.define("PSI.Customer.CustomerEditForm", {
         }, {
           id: "PSI_Customer_CustomerEditForm_editMobile01",
           fieldLabel: "手机",
+          allowBlank: false,
+          blankText: "没有输入客户名称",
+          beforeLabelTextTpl: PSI.Const.REQUIRED,
           name: "mobile01",
           value: entity == null ? null : entity
             .get("mobile01"),
@@ -183,6 +194,20 @@ PCL.define("PSI.Customer.CustomerEditForm", {
             }
           },
           width: width2,
+        }, {
+          id: "PSI_Customer_CustomerEditForm_editAddress",
+          fieldLabel: "地址",
+          name: "address",
+          value: entity == null ? null : entity
+              .get("address"),
+          listeners: {
+            specialkey: {
+              fn: me.onEditSpecialKey,
+              scope: me
+            }
+          },
+          width: width1,
+          colspan: 2
         }, {
           id: "PSI_Customer_CustomerEditForm_editTel01",
           fieldLabel: "固话",
@@ -424,6 +449,7 @@ PCL.define("PSI.Customer.CustomerEditForm", {
     me.editCode = PCL.getCmp("PSI_Customer_CustomerEditForm_editCode");
     me.editName = PCL.getCmp("PSI_Customer_CustomerEditForm_editName");
     me.editAddress = PCL.getCmp("PSI_Customer_CustomerEditForm_editAddress");
+    me.editReceivingType = PCL.getCmp("PSI_Customer_CustomerEditForm_editReceivingType");
     me.editContact01 = PCL.getCmp("PSI_Customer_CustomerEditForm_editContact01");
     me.editMobile01 = PCL.getCmp("PSI_Customer_CustomerEditForm_editMobile01");
     me.editTel01 = PCL.getCmp("PSI_Customer_CustomerEditForm_editTel01");
@@ -445,7 +471,7 @@ PCL.define("PSI.Customer.CustomerEditForm", {
     me.editRecordStatus = PCL.getCmp("PSI_Customer_CustomerEditForm_editRecordStatus");
 
     me.__editorList = [me.editCategory, me.editCode, me.editName,
-    me.editAddress, me.editContact01, me.editMobile01,
+    me.editAddress, me.editReceivingType, me.editContact01, me.editMobile01,
     me.editTel01, me.editQQ01, me.editContact02, me.editMobile02,
     me.editTel02, me.editQQ02, me.editAddressReceipt,
     me.editBankName, me.editBankAccount, me.editTax, me.editFax,
@@ -479,6 +505,7 @@ PCL.define("PSI.Customer.CustomerEditForm", {
             me.editCode.setValue(data.code);
             me.editName.setValue(data.name);
             me.editAddress.setValue(data.address);
+            me.editReceivingType.setValue(data.receivingType);
             me.editContact01.setValue(data.contact01);
             me.editMobile01.setValue(data.mobile01);
             me.editTel01.setValue(data.tel01);
@@ -639,7 +666,7 @@ PCL.define("PSI.Customer.CustomerEditForm", {
 
     me.editCode.focus();
 
-    var editors = [me.editCode, me.editName, me.editAddress,
+    var editors = [me.editCode, me.editName, me.editAddress, me.editReceivingType,
     me.editContact01, me.editMobile01, me.editTel01, me.editQQ01,
     me.editContact02, me.editMobile02, me.editTel02, me.editQQ02,
     me.editAddressReceipt, me.editBankName, me.editBankAccount,

@@ -1,7 +1,7 @@
 /**
  * 销售出库 - 查看界面
  * 
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */
@@ -73,6 +73,16 @@ Ext.define("PSI.Bill.WSViewForm", {
           labelWidth: 60,
           ...fieldProps,
         }, {
+          id: "editExpressName",
+          fieldLabel: "物流",
+          labelWidth: 60,
+          ...fieldProps,
+        }, {
+          id: "editFreight",
+          fieldLabel: "运费",
+          labelWidth: 60,
+          ...fieldProps,
+        }, {
           id: "editBizUser",
           fieldLabel: "业务员",
           labelWidth: 60,
@@ -115,6 +125,8 @@ Ext.define("PSI.Bill.WSViewForm", {
 
           Ext.getCmp("editCustomer").setValue(data.customerName);
           Ext.getCmp("editWarehouse").setValue(data.warehouseName);
+          Ext.getCmp("editExpressName").setValue(data.expressName);
+          Ext.getCmp("editFreight").setValue(data.freight);
           Ext.getCmp("editBizUser").setValue(data.bizUserName);
           Ext.getCmp("editBizDT").setValue(data.bizDT);
           Ext.getCmp("editBillMemo").setValue(data.memo);

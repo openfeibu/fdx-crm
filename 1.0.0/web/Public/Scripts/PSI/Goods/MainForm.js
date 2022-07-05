@@ -1,7 +1,7 @@
 /**
  * 物料 - 主界面
  * 
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */
@@ -878,13 +878,14 @@ PCL.define("PSI.Goods.MainForm", {
         ftype: "summary",
         dock: "bottom"
       }],
-      title: "物料安全库存",
-      tbar: [{
+      title: "物料库存",
+      /*tbar: [{
         text: "设置物料安全库存",
-        disabled: me.getPGoodsSI() == "0",
+        //hidden: me.getPGoodsSI() == "0",
+
         handler: me.onSafetyInventory,
         scope: me
-      }],
+      }],*/
       columnLines: false,
       columns: [{
         header: "仓库编码",
@@ -898,7 +899,8 @@ PCL.define("PSI.Goods.MainForm", {
         width: 100,
         menuDisabled: true,
         sortable: false
-      }, {
+      },
+      /*{
         header: "库存上限",
         dataIndex: "inventoryUpper",
         width: 120,
@@ -906,8 +908,9 @@ PCL.define("PSI.Goods.MainForm", {
         sortable: false,
         align: "right",
         xtype: "numbercolumn",
-        format: "0"
-      }, {
+        format: "0",
+      },
+      {
         header: "安全库存量",
         dataIndex: "safetyInventory",
         width: 120,
@@ -919,7 +922,9 @@ PCL.define("PSI.Goods.MainForm", {
         summaryRenderer: function () {
           return "当前库存合计";
         }
-      }, {
+      },
+       */
+      {
         header: "当前库存",
         dataIndex: "inventoryCount",
         width: 120,
@@ -980,7 +985,8 @@ PCL.define("PSI.Goods.MainForm", {
       + goods.get("spec");
 
     var grid = me.getSIGrid();
-    grid.setTitle("物料[" + info + "]的安全库存");
+    //grid.setTitle("物料[" + info + "]的安全库存");
+    grid.setTitle("物料[" + info + "]的库存");
 
     var el = grid.getEl() || PCL.getBody();
     el.mask(PSI.Const.LOADING);
@@ -1048,6 +1054,7 @@ PCL.define("PSI.Goods.MainForm", {
    */
   onSafetyInventory: function () {
     var me = this;
+    return;
     if (me.getPGoodsSI() == "0") {
       return;
     }
@@ -1257,6 +1264,8 @@ PCL.define("PSI.Goods.MainForm", {
         enableTextSelection: true
       },
       title: "静态BOM",
+      //hidden:me.getPAddBOM() == "0",
+      hidden:1,
       tbar: [{
         text: "新建子件",
         scope: me,
@@ -1448,6 +1457,8 @@ PCL.define("PSI.Goods.MainForm", {
         enableTextSelection: true
       },
       title: "价格体系",
+      //hidden:me.getPPriceSystem() == "0",
+      hidden:1,
       columnLines: true,
       columns: [{
         header: "名称",

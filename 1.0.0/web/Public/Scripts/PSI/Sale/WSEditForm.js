@@ -1,7 +1,7 @@
 /**
  * 销售出库 - 新建或编辑界面
  * 
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */
@@ -197,6 +197,44 @@ Ext.define("PSI.Sale.WSEditForm", {
           },
           callbackFunc: me.__setCustomerExtData
         }, {
+          id: "editExpress",
+          xtype: "psi_expressfield",
+          fid: "ct20220531145123",
+          fieldLabel: "物流",
+          labelWidth: 60,
+          labelAlign: "right",
+          labelSeparator: "",
+          allowBlank: false,
+          blankText: "没有输入物流",
+          beforeLabelTextTpl: PSI.Const.REQUIRED,
+          width: 200,
+          listeners: {
+            specialkey: {
+              fn: me.onEditExpressSpecialKey,
+              scope: me
+            },
+            change:function(){
+              me.editFreight.setValue();
+              var freight = Ext.getCmp("editExpress").getFreightValue();
+              Ext.getCmp("editFreight").setValue(freight);
+            }
+          }
+        }, {
+          id: "editFreight",
+          labelWidth: 60,
+          labelAlign: "right",
+          labelSeparator: "",
+          fieldLabel: "运费",
+          xtype: "textfield",
+          listeners: {
+            specialkey: {
+              fn: me.onEditFreightSpecialKey,
+              scope: me
+            }
+          },
+          colspan: 3,
+          width: 200
+        }, {
           id: "editReceivingType",
           labelWidth: 60,
           labelAlign: "right",
@@ -208,7 +246,7 @@ Ext.define("PSI.Sale.WSEditForm", {
           valueField: "id",
           store: Ext.create("Ext.data.ArrayStore", {
             fields: ["id", "text"],
-            data: [["0", "记应收账款"],
+            data: [["0", "记应收账款/月结"],
             ["1", "现金收款"],
             ["2", "用预收款支付"]]
           }),
@@ -269,6 +307,8 @@ Ext.define("PSI.Sale.WSEditForm", {
     me.editBizUser = Ext.getCmp("editBizUser");
     me.editWarehouse = Ext.getCmp("editWarehouse");
     me.editCustomer = Ext.getCmp("editCustomer");
+    me.editExpress = Ext.getCmp("editExpress");
+    me.editFreight = Ext.getCmp("editFreight");
     me.editReceivingType = Ext.getCmp("editReceivingType");
     me.editDealAddress = Ext.getCmp("editDealAddress");
     me.editBillMemo = Ext.getCmp("editBillMemo");
@@ -358,6 +398,14 @@ Ext.define("PSI.Sale.WSEditForm", {
               editWarehouse.setIdValue(data.warehouseId);
               editWarehouse.setValue(data.warehouseName);
             }
+
+            if (data.expressId) {
+              var editExpress = Ext
+                  .getCmp("editExpress");
+              editExpress.setIdValue(data.expressId);
+              editExpress.setValue(data.expressName);
+            }
+
           } else {
 
             if (data.ref) {
@@ -376,6 +424,14 @@ Ext.define("PSI.Sale.WSEditForm", {
               .setIdValue(data.warehouseId);
             Ext.getCmp("editWarehouse")
               .setValue(data.warehouseName);
+
+            Ext.getCmp("editExpress")
+                .setIdValue(data.expressId);
+            Ext.getCmp("editExpress")
+                .setValue(data.expressName);
+
+            Ext.getCmp("editFreight")
+                .setValue(data.freight);
 
             Ext.getCmp("editBizUser")
               .setIdValue(data.bizUserId);
@@ -498,6 +554,20 @@ Ext.define("PSI.Sale.WSEditForm", {
     }
   },
 
+  onEditExpressSpecialKey: function (field, e) {
+    var me = this;
+
+    if (e.getKey() == e.ENTER) {
+      me.editFreight.focus();
+    }
+  },
+  onEditFreightSpecialKey: function (field, e) {
+    var me = this;
+
+    if (e.getKey() == e.ENTER) {
+      me.editBizUser.focus();
+    }
+  },
   onEditBizUserSpecialKey: function (field, e) {
     var me = this;
 
@@ -888,6 +958,8 @@ Ext.define("PSI.Sale.WSEditForm", {
         .format(Ext.getCmp("editBizDT").getValue(), "Y-m-d"),
       customerId: Ext.getCmp("editCustomer").getIdValue(),
       warehouseId: Ext.getCmp("editWarehouse").getIdValue(),
+      expressId: Ext.getCmp("editExpress").getIdValue(),
+      freight: Ext.getCmp("editFreight").getValue(),
       bizUserId: Ext.getCmp("editBizUser").getIdValue(),
       receivingType: Ext.getCmp("editReceivingType").getValue(),
       billMemo: Ext.getCmp("editBillMemo").getValue(),
@@ -930,6 +1002,8 @@ Ext.define("PSI.Sale.WSEditForm", {
     Ext.getCmp("editBizDT").setReadOnly(true);
     Ext.getCmp("editCustomer").setReadOnly(true);
     Ext.getCmp("editWarehouse").setReadOnly(true);
+    Ext.getCmp("editExpress").setReadOnly(true);
+    Ext.getCmp("editFreight").setReadOnly(true);
     Ext.getCmp("editBizUser").setReadOnly(true);
     Ext.getCmp("columnActionDelete").hide();
     Ext.getCmp("columnActionAdd").hide();
@@ -974,6 +1048,9 @@ Ext.define("PSI.Sale.WSEditForm", {
       customerName: Ext.getCmp("editCustomer").getValue(),
       warehouseId: Ext.getCmp("editWarehouse").getIdValue(),
       warehouseName: Ext.getCmp("editWarehouse").getValue(),
+      expressId: Ext.getCmp("editExpress").getIdValue(),
+      expressName: Ext.getCmp("editExpress").getValue(),
+      freight: Ext.getCmp("editFreight").getValue(),
       bizUserId: Ext.getCmp("editBizUser").getIdValue(),
       bizUserName: Ext.getCmp("editBizUser").getValue(),
       billMemo: Ext.getCmp("editBillMemo").getValue(),
@@ -1028,6 +1105,10 @@ Ext.define("PSI.Sale.WSEditForm", {
 
     Ext.getCmp("editWarehouse").setIdValue(bill.warehouseId);
     Ext.getCmp("editWarehouse").setValue(bill.warehouseName);
+
+    Ext.getCmp("editExpress").setIdValue(bill.expressId);
+    Ext.getCmp("editExpress").setValue(bill.expressName);
+    Ext.getCmp("editFreight").setValue(bill.freight);
 
     Ext.getCmp("editBizUser").setIdValue(bill.bizUserId);
     Ext.getCmp("editBizUser").setValue(bill.bizUserName);
@@ -1100,6 +1181,10 @@ Ext.define("PSI.Sale.WSEditForm", {
     if (data.warehouseId) {
       editWarehouse.setIdValue(data.warehouseId);
       editWarehouse.setValue(data.warehouseName);
+    }
+    var editReceivingType = Ext.getCmp("editReceivingType");
+    if (data.receivingType) {
+      editReceivingType.setValue(data.receivingType);
     }
   }
 });

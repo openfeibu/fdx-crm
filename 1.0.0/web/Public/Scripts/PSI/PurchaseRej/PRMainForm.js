@@ -1,7 +1,7 @@
 /**
  * 采购退货出库 - 主界面
  * 
- * @author 艾格林门信息服务（大连）有限公司
+ * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */
@@ -208,7 +208,7 @@ PCL.define("PSI.PurchaseRej.PRMainForm", {
       valueField: "id",
       store: PCL.create("PCL.data.ArrayStore", {
         fields: ["id", "text"],
-        data: [[-1, "全部"], [0, "记应收账款"], [1, "现金收款"]]
+        data: [[-1, "全部"], [0, "记应收账款/月结"], [1, "现金收款"]]
       }),
       value: -1
     }, {
@@ -522,10 +522,10 @@ PCL.define("PSI.PurchaseRej.PRMainForm", {
         dataIndex: "receivingType",
         menuDisabled: true,
         sortable: false,
-        width: 90,
+        width: 130,
         renderer: function (value) {
           if (value == 0) {
-            return "记应收账款";
+            return "记应收账款/月结";
           } else if (value == 1) {
             return "现金收款";
           } else {
