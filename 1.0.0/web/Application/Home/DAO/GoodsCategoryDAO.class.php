@@ -216,6 +216,13 @@ class GoodsCategoryDAO extends PSIBaseExDAO
       $result[$i]["iconCls"] = "PSI-GoodsCategory";
 
       $result[$i]["cnt"] = $this->getGoodsCountWithAllSub($db, $id, $params, $rs);
+	    
+	    $sql = "select balance_count
+              from t_inventory
+              where goods_id in (select g.id from t_goods g where g.category_id = '%s') ";
+	
+	    $data = $db->query($sql, $id);
+	    $result[$i]['inventoryCount'] = !$data ? 0 : $data[0]["balance_count"];
     }
 
     if ($inQuery) {
