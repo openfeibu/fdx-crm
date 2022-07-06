@@ -566,7 +566,7 @@ PCL.define("PSI.Goods.MainForm", {
 
   onCategoryGridSelect: function () {
     var me = this;
-    me.getSIGrid().setTitle("物料安全库存");
+    me.getSIGrid().setTitle("物料库存");
     me.getSIGrid().getStore().removeAll();
     me.getGoodsBOMGrid().getStore().removeAll();
     me.getGoodsPriceGrid().getStore().removeAll();
@@ -1098,7 +1098,7 @@ PCL.define("PSI.Goods.MainForm", {
     var modelName = "PSIGoodsCategory";
     PCL.define(modelName, {
       extend: "PCL.data.Model",
-      fields: ["id", "text", "fullName", "code", "cnt", "leaf",
+      fields: ["id", "text", "fullName", "code","inventoryCount", "cnt", "leaf",
         "children", "taxRate", "mType"]
     });
 
@@ -1162,6 +1162,15 @@ PCL.define("PSI.Goods.MainForm", {
           text: "编码",
           dataIndex: "code",
           width: 100
+        }, {
+          xtype: "numbercolumn",
+          text: "当前库存",
+          dataIndex: "inventoryCount",
+          align: "right",
+          width: 90,
+          renderer: function (value) {
+            return value === '' ? "" : parseInt(value);
+          }
         }, {
           text: "物料种类数",
           dataIndex: "cnt",
