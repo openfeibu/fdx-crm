@@ -87,7 +87,11 @@ class UserController extends PSIBaseController
 
     $this->display();
   }
-
+	public function logout()
+	{
+		session(null);
+		redirect(__ROOT__);
+	}
   /**
    * 页面：修改我的密码
    * 
