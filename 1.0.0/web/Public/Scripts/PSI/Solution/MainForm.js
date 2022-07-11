@@ -36,13 +36,13 @@ PCL.define("PSI.Solution.MainForm", {
         text: "设置默认解决方案",
         handler: me._onDefault,
         scope: me
-      }, "-", {
+      }, "-", /*{
         text: "指南",
         handler() {
           me.focus();
           window.open(me.URL("Home/Help/index?t=solution"));
         }
-      }, "-", {
+      }, "-",*/ {
         text: "关闭",
         handler() {
           me.closeWindow();

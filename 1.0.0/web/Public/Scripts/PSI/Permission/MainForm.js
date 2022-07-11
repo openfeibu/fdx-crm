@@ -175,13 +175,13 @@ PCL.define("PSI.Permission.MainForm", {
         scope: me,
         disabled: me.getPAdd() == "0"
       }]
-    }, "-", {
+    }, "-", /*{
       text: "指南",
       handler() {
         me.focus();
         window.open(me.URL("Home/Help/index?t=permission"));
       }
-    }, "-", {
+    }, "-",*/ {
       text: "关闭",
       handler() {
         me.closeWindow();

@@ -140,13 +140,13 @@ PCL.define("PSI.CodeTable.MainForm", {
         scope: me,
         handler: me._onSolutionGenSQL
       }]
-    }, "-", {
+    }, "-", /*{
       text: "指南",
       handler() {
         me.focus();
         window.open(me.URL("Home/Help/index?t=codetable"));
       }
-    }, "-", {
+    }, "-",*/ {
       text: "关闭",
       handler() {
         me.closeWindow();

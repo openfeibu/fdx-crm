@@ -139,13 +139,13 @@ PCL.define("PSI.Goods.MainForm", {
       disabled: me.getPExcel() == "0",
       handler: me.onExcel,
       scope: me
-    }, "-", {
+    }, "-", /*{
       text: "指南",
       handler: function () {
         me.focus();
         window.open(me.URL("Home/Help/index?t=goods"));
       }
-    }, "-", {
+    }, "-",*/ {
       text: "关闭",
       handler: function () {
         me.closeWindow();

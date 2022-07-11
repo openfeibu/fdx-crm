@@ -173,13 +173,13 @@ PCL.define("PSI.PurchaseOrder.POMainForm", {
     }, {
       xtype: "tbseparator",
       hidden: me.getPermission().print == "0"
-    }, {
+    }, /*{
       text: "指南",
       handler: function () {
         me.focus();
         window.open(me.URL("Home/Help/index?t=pobill"));
       }
-    }, "-", {
+    }, "-",*/ {
       text: "关闭",
       handler: function () {
         me.closeWindow();

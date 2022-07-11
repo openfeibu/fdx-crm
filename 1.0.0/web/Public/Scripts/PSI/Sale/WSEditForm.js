@@ -78,14 +78,14 @@ Ext.define("PSI.Sale.WSEditForm", {
         },
         scope: me,
         id: "buttonCancel"
-      }, "->", {
+      }, "->", /*{
         text: "表单通用操作指南",
         iconCls: "PSI-help",
         handler: function () {
           me.focus();
           window.open(me.URL("Home/Help/index?t=commBill"));
         }
-      }, "-", {
+      }, "-",*/ {
         fieldLabel: "快捷访问",
         labelSeparator: "",
         margin: "5 5 5 0",

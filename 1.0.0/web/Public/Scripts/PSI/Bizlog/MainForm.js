@@ -127,13 +127,13 @@ PCL.define("PSI.Bizlog.MainForm", {
     }, {
       xtype: "displayfield",
       value: "条记录"
-    }, "-", {
+    }, "-", /*{
       text: "指南",
       handler() {
         me.focus();
         window.open(me.URL("Home/Help/index?t=bizlog"));
       }
-    }, "-", {
+    }, "-",*/ {
       text: "关闭",
       handler() {
         me.closeWindow();

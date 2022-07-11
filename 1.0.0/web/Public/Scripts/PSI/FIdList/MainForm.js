@@ -43,13 +43,13 @@ PCL.define("PSI.FIdList.MainForm", {
       text: "编辑fid的编码和助记码",
       handler: me._onEdit,
       scope: me,
-    }, "-", {
+    }, "-", /*{
       text: "指南",
       handler() {
         me.focus();
         window.open(me.URL("/Home/Help/index?t=fidList"));
       }
-    }, "-", {
+    }, "-",*/ {
       text: "关闭",
       handler() {
         me.closeWindow();

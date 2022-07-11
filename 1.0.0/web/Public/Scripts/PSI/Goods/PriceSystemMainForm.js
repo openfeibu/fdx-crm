@@ -29,14 +29,14 @@ PCL.define("PSI.Goods.PriceSystemMainForm", {
         text: "删除价格",
         handler: me.onDeletePrice,
         scope: me
-      }, "-", {
+      }, "-", /*{
         text: "指南",
         handler: function () {
           me.focus();
           var url = me.URL("/Home/Help/index?t=priceSystem")
           window.open(url);
         }
-      }, "-", {
+      }, "-",*/ {
         text: "关闭",
         handler: function () {
           me.closeWindow();

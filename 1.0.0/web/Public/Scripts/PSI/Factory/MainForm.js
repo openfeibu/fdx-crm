@@ -116,13 +116,13 @@ PCL.define("PSI.Factory.MainForm", {
     }, {
       hidden: me.getPermission().del == "0",
       xtype: "tbseparator"
-    }, {
+    }, /*{
       text: "指南",
       handler: function () {
         me.focus();
         window.open(me.URL("Home/Help/index?t=factory"));
       }
-    }, "-", {
+    }, "-",*/ {
       text: "关闭",
       handler: function () {
         me.closeWindow();

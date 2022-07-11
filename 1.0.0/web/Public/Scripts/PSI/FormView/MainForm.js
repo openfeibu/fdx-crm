@@ -117,13 +117,13 @@ Ext.define("PSI.FormView.MainForm", {
       text: "删除视图",
       handler: me._onDeleteFv,
       scope: me
-    }, "-", {
+    }, "-", /*{
       text: "指南",
       handler() {
         me.focus();
         window.open(me.URL("Home/Help/index?t=formview"));
       }
-    }, "-", {
+    }, "-",*/ {
       text: "关闭",
       handler() {
         me.closeWindow();

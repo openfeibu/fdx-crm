@@ -64,13 +64,13 @@ PCL.define("PSI.User.MainForm", {
           disabled: me.getPChangePassword() == "0",
           handler: me._onEditUserPassword,
           scope: me
-        }, "-", {
+        }, "-", /*{
           text: "指南",
           handler() {
             me.focus();
             window.open(me.URL("/Home/Help/index?t=user"));
           }
-        }, "-", {
+        }, "-",*/ {
           text: "关闭",
           handler() {
             me.closeWindow();

@@ -53,13 +53,13 @@ PCL.define("PSI.Goods.UnitMainForm", {
       text: "删除计量单位",
       handler: me._onDeleteUnit,
       scope: me
-    }, "-", {
+    }, "-", /*{
       text: "指南",
       handler() {
         me.focus();
         window.open(me.URL("Home/Help/index?t=goodsUnit"));
       }
-    }, "-", {
+    }, "-",*/ {
       text: "关闭",
       handler() {
         me.closeWindow();

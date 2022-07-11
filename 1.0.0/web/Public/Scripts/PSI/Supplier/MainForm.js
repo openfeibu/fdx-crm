@@ -139,13 +139,13 @@ PCL.define("PSI.Supplier.MainForm", {
       disabled: me.getPDeleteSupplier() == "0",
       handler: me.onDeleteSupplier,
       scope: me
-    }, "-", {
+    }, "-", /*{
       text: "指南",
       handler: function () {
         me.focus();
         window.open(me.URL("Home/Help/index?t=supplier"));
       }
-    }, "-", {
+    }, "-",*/ {
       text: "关闭",
       handler: function () {
         me.closeWindow();

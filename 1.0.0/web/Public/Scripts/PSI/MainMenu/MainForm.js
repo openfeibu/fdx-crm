@@ -61,14 +61,14 @@ PCL.define("PSI.MainMenu.MainForm", {
         scope: me,
         handler: me._onGenSQL
       }]
-    }, "-", {
+    }, "-", /*{
       text: "指南",
       handler() {
         me.focus();
         const url = me.URL("Home/Help/index?t=mainMenuMaintain")
         window.open(url);
       }
-    }, "-", {
+    }, "-",*/ {
       text: "关闭",
       handler() {
         me.closeWindow();

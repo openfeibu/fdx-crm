@@ -160,13 +160,13 @@ Ext.define("PSI.Form.MainForm", {
       text: "删除表单",
       handler: me._onDeleteForm,
       scope: me
-    }, "-", {
+    }, "-", /*{
       text: "指南",
       handler() {
         me.focus();
         window.open(me.URL("Home/Help/index?t=form"));
       }
-    }, "-", {
+    }, "-",*/ {
       text: "关闭",
       handler() {
         me.closeWindow();

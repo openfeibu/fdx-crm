@@ -82,13 +82,13 @@ PCL.define("PSI.Warehouse.MainForm", {
       });
     }
 
-    result.push("-", {
+    result.push("-", /*{
       text: "指南",
       handler() {
         me.focus();
         window.open(me.URL("Home/Help/index?t=warehouse"));
       }
-    }, "-", {
+    }, "-",*/ {
       text: "关闭",
       handler() {
         me.closeWindow();

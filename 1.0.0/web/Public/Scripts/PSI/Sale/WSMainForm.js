@@ -124,13 +124,13 @@ Ext.define("PSI.Sale.WSMainForm", {
     }, {
       xtype: "tbseparator",
       hidden: me.getPermission().print == "0"
-    }, {
+    }, /*{
       text: "指南",
       handler: function () {
         me.focus();
         window.open(me.URL("Home/Help/index?t=wsbill"));
       }
-    }, "-", {
+    }, "-",*/ {
       text: "关闭",
       handler: function () {
         me.closeWindow();

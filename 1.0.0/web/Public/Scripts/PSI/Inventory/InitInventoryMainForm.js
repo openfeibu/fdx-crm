@@ -237,13 +237,13 @@ PCL.define("PSI.Inventory.InitInventoryMainForm", {
         text: "取消建账完毕标记",
         scope: me,
         handler: me.onCancel
-      }, "-", {
+      }, "-", /*{
         text: "指南",
         handler: function () {
           me.focus();
           window.open(me.URL("/Home/Help/index?t=initInv"));
         }
-      }, "-", {
+      }, "-",*/ {
         text: "关闭",
         handler: function () {
           me.closeWindow();

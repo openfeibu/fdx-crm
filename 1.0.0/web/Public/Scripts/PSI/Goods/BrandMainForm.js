@@ -55,13 +55,13 @@ PCL.define("PSI.Goods.BrandMainForm", {
       text: "刷新",
       handler: me._onRefreshGrid,
       scope: me
-    }, "-", {
+    }, "-", /*{
       text: "指南",
       handler() {
         me.focus();
         window.open(me.URL("Home/Help/index?t=goodsBrand"));
       }
-    }, "-", {
+    }, "-",*/ {
       text: "关闭",
       handler() {
         me.closeWindow();

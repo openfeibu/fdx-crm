@@ -121,13 +121,13 @@ PCL.define("PSI.Customer.MainForm", {
       disabled: me.getPDeleteCustomer() == "0",
       handler: me.onDeleteCustomer,
       scope: me
-    }, "-", {
+    }, "-", /*{
       text: "指南",
       handler() {
         me.focus();
         window.open(me.URL("Home/Help/index?t=customer"));
       }
-    }, "-", {
+    }, "-",*/ {
       text: "关闭",
       handler() {
         me.closeWindow();

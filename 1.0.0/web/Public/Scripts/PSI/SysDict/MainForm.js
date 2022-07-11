@@ -68,13 +68,13 @@ PCL.define("PSI.SysDict.MainForm", {
   getToolbarCmp() {
     const me = this;
 
-    return [{
+    return [/*{
       text: "指南",
       handler() {
         me.focus();
         window.open(me.URL("Home/Help/index?t=sysdict"));
       }
-    }, "-", {
+    }, "-",*/ {
       text: "关闭",
       handler() {
         me.closeWindow();

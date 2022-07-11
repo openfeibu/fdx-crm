@@ -127,13 +127,13 @@ PCL.define("PSI.Purchase.PWMainForm", {
     }, {
       hidden: me.getPermission().print == "0",
       xtype: "tbseparator"
-    }, {
+    }, /*{
       text: "指南",
       handler() {
         me.focus();
         window.open(me.URL("Home/Help/index?t=pwbill"));
       }
-    }, "-", {
+    }, "-",*/ {
       text: "关闭",
       handler() {
         me.closeWindow();

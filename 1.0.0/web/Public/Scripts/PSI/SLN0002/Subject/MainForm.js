@@ -92,13 +92,13 @@ PCL.define("PSI.SLN0002.Subject.MainForm", {
       text: "删除科目",
       handler: me._onDeleteSubject,
       scope: me
-    }, "-", {
+    }, "-", /*{
       text: "指南",
       handler() {
         me.focus();
         window.open(me.URL("/Home/Help/index?t=subject"));
       }
-    }, "-", {
+    }, "-",*/ {
       text: "关闭",
       handler() {
         me.closeWindow();

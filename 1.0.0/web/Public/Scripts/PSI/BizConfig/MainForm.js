@@ -133,13 +133,13 @@ PCL.define("PSI.BizConfig.MainForm", {
       text: "设置",
       handler: me._onEdit,
       scope: me
-    }, "-", {
+    }, "-", /*{
       text: "指南",
       handler() {
         me.focus();
         window.open(me.URL("/Home/Help/index?t=bizconfig"));
       }
-    }, "-", {
+    }, "-",*/ {
       text: "关闭",
       handler() {
         me.closeWindow();

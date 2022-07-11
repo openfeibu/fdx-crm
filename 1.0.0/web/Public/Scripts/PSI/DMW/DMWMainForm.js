@@ -124,13 +124,13 @@ PCL.define("PSI.DMW.DMWMainForm", {
     }, {
       hidden: me.getPermission().print == "0",
       xtype: "tbseparator"
-    }, {
+    }, /*{
       text: "指南",
       handler: function () {
         me.focus();
         window.open(me.URL("Home/Help/index?t=dmwbill"));
       }
-    }, "-", {
+    }, "-",*/ {
       text: "关闭",
       handler: function () {
         me.closeWindow();
