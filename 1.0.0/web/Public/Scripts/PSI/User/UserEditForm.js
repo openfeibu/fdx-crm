@@ -9,7 +9,8 @@ Ext.define("PSI.User.UserEditForm", {
   extend: "PSI.AFX.Form.EditForm",
 
   config: {
-    defaultOrg: null
+    defaultOrg: null,
+    defaultRole: null,
   },
 
   /**
@@ -130,6 +131,26 @@ Ext.define("PSI.User.UserEditForm", {
           id: "editOrgId",
           xtype: "hidden",
           name: "orgId",
+        }, {
+          id: "editRoleName",
+          xtype: "PSI_role_editor",
+          fieldLabel: "所属角色",
+          allowBlank: false,
+          blankText: "没有选择所属角色",
+          beforeLabelTextTpl: PSI.Const.REQUIRED,
+          parentItem: me,
+          listeners: {
+            specialkey: {
+              fn: me.__onEditSpecialKey,
+              scope: me
+            }
+          },
+          colspan: 2,
+          width: width1
+        }, {
+          id: "editRoleId",
+          xtype: "hidden",
+          name: "roleId",
         }, {
           id: "editBirthday",
           fieldLabel: "生日",
@@ -276,12 +297,20 @@ Ext.define("PSI.User.UserEditForm", {
         fullName: org.get("fullName")
       });
     }
-
+    if (me.getDefaultRole()) {
+      const role = me.getDefaultRole();
+      me.setRole({
+        id: role.get("id"),
+        name: role.get("name")
+      });
+    }
     me.editLoginName = Ext.getCmp("editLoginName");
     me.editName = Ext.getCmp("editName");
     me.editOrgCode = Ext.getCmp("editOrgCode");
     me.editOrgId = Ext.getCmp("editOrgId");
     me.editOrgName = Ext.getCmp("editOrgName");
+    me.editRoleId = Ext.getCmp("editRoleId");
+    me.editRoleName = Ext.getCmp("editRoleName");
     me.editBirthday = Ext.getCmp("editBirthday");
     me.editIdCardNumber = Ext.getCmp("editIdCardNumber");
     me.editTel = Ext.getCmp("editTel");
@@ -294,7 +323,7 @@ Ext.define("PSI.User.UserEditForm", {
 
     me.__editorList = [
       me.editLoginName, me.editName, me.editOrgCode,
-      me.editOrgName, me.editBirthday, me.editIdCardNumber, me.editTel,
+      me.editOrgName, me.editRoleName, me.editBirthday, me.editIdCardNumber, me.editTel,
       me.editTel02, me.editAddress, me.editGender, me.editEnabled];
   },
 
@@ -357,6 +386,8 @@ Ext.define("PSI.User.UserEditForm", {
           me.editEnabled.setIdValue(data.enabledId);
           me.editOrgId.setValue(data.orgId);
           me.editOrgName.setValue(data.orgFullName);
+          me.editRoleId.setValue(data.roleId);
+          me.editRoleName.setValue(data.roleName);
         }
       }
     });
@@ -370,7 +401,14 @@ Ext.define("PSI.User.UserEditForm", {
     const editOrgId = Ext.getCmp("editOrgId");
     editOrgId.setValue(data.id);
   },
+  // xtype: "PSI_role_editor"回调本方法
+  setRole(data) {
+    const editRoleName = Ext.getCmp("editRoleName");
+    editRoleName.setValue(data.name);
 
+    const editRoleId = Ext.getCmp("editRoleId");
+    editRoleId.setValue(data.id);
+  },
   /**
    * @private
    */

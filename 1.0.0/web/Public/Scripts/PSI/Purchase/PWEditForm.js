@@ -202,34 +202,12 @@ PCL.define("PSI.Purchase.PWEditForm", {
             fields: ["id", "text"],
             data: [["0", "记应付账款"],
             ["1", "现金付款"],
-            ["2", "预付款"]]
+            /*["2", "预付款"]*/]
           }),
           value: "0",
           listeners: {
             specialkey: {
               fn: me.onEditPaymentTypeSpecialKey,
-              scope: me
-            }
-          }
-        }, {
-          id: "editExpand",
-          labelWidth: 60,
-          labelAlign: "right",
-          labelSeparator: "",
-          fieldLabel: "自动拆分",
-          xtype: "combo",
-          queryMode: "local",
-          editable: false,
-          valueField: "id",
-          store: PCL.create("PCL.data.ArrayStore", {
-            fields: ["id", "text"],
-            data: [["0", "不自动执行拆分业务"],
-            ["1", "生成拆分单并执行"]]
-          }),
-          value: "0",
-          listeners: {
-            specialkey: {
-              fn: me.onEditExpandSpecialKey,
               scope: me
             }
           }
@@ -814,7 +792,7 @@ PCL.define("PSI.Purchase.PWEditForm", {
       warehouseId: me.editWarehouse.getIdValue(),
       bizUserId: me.editBizUser.getIdValue(),
       paymentType: me.editPaymentType.getValue(),
-      expandByBOM: me.editExpand.getValue(),
+      expandByBOM: 0,
       pobillRef: me.getPobillRef(),
       billMemo: me.editBillMemo.getValue(),
       viewPrice: me.getViewPrice() ? "1" : "0",

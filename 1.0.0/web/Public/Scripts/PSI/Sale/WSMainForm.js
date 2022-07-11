@@ -220,7 +220,7 @@ Ext.define("PSI.Sale.WSMainForm", {
       store: Ext.create("Ext.data.ArrayStore", {
         fields: ["id", "text"],
         data: [[-1, "全部"], [0, "记应收账款/月结"], [1, "现金收款"],
-        [2, "用预收款支付"]]
+        /*[2, "用预收款支付"]*/]
       }),
       value: -1
     }, {

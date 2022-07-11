@@ -111,7 +111,8 @@ PCL.define("PSI.User.OrgEditForm", {
           xtype: "hidden",
           name: "orgType",
           value: 0,
-        }, {
+        },
+         /*{
           id: "PSI_User_OrgEditForm_editOrgType",
           xtype: "psi_sysdictfield",
           tableName: "t_sysdict_sln0000_org_type",
@@ -126,7 +127,8 @@ PCL.define("PSI.User.OrgEditForm", {
               scope: me
             }
           }
-        }, {
+        },*/
+         {
           xtype: "displayfield",
           fieldLabel: "说明",
           colspan: 2,
@@ -216,8 +218,8 @@ PCL.define("PSI.User.OrgEditForm", {
           me.editParentOrgId.setValue(parentOrgId);
           me.editName.setValue(name);
           me.editOrgCode.setValue(orgCode);
-          me.editOrgType.setValue(orgType);
-          me.editOrgType.setIdValue(orgTypeId);
+          // me.editOrgType.setValue(orgType);
+          // me.editOrgType.setIdValue(orgTypeId);
           me.editOrgTypeId.setValue(orgTypeId);
         }
       }

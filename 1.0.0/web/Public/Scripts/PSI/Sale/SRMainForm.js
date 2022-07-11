@@ -219,7 +219,7 @@ Ext.define("PSI.Sale.SRMainForm", {
       store: Ext.create("Ext.data.ArrayStore", {
         fields: ["id", "text"],
         data: [[-1, "全部"], [0, "记应付账款"], [1, "现金付款"],
-        [2, "退款转入预收款"]]
+        /*[2, "退款转入预收款"]*/]
       }),
       value: -1
     }, {

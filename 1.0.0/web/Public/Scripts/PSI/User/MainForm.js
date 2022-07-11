@@ -31,17 +31,17 @@ PCL.define("PSI.User.MainForm", {
       items: [{
         tbar: [{
           text: "新建组织机构",
-          disabled: me.getPAddOrg() == "0",
+          hidden: me.getPAddOrg() == "0",
           handler: me._onAddOrg,
           scope: me
         }, {
           text: "编辑组织机构",
-          disabled: me.getPEditOrg() == "0",
+          hidden: me.getPEditOrg() == "0",
           handler: me._onEditOrg,
           scope: me
         }, {
           text: "删除组织机构",
-          disabled: me.getPDeleteOrg() == "0",
+          hidden: me.getPDeleteOrg() == "0",
           handler: me._onDeleteOrg,
           scope: me
         }, "-", {
@@ -283,10 +283,6 @@ PCL.define("PSI.User.MainForm", {
           dataIndex: "userCount",
           width: 80,
           align: "right"
-        }, {
-          text: "组织机构性质",
-          dataIndex: "orgType",
-          width: 200
         }]
       }
     });

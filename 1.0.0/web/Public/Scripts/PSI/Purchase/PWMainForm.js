@@ -216,7 +216,7 @@ PCL.define("PSI.Purchase.PWMainForm", {
       store: PCL.create("PCL.data.ArrayStore", {
         fields: ["id", "text"],
         data: [[-1, "全部"], [0, "记应付账款"], [1, "现金付款"],
-        [2, "预付款"]]
+        /*[2, "预付款"]*/]
       }),
       value: -1
     }, {
@@ -402,36 +402,6 @@ PCL.define("PSI.Purchase.PWMainForm", {
           header: "备注",
           dataIndex: "billMemo",
           width: 150
-        }, {
-          header: "自动拆分?",
-          dataIndex: "expandByBOM",
-          width: 80,
-          align: "center",
-          renderer(value) {
-            if (parseInt(value) == 1) {
-              return "▲";
-            } else {
-              return "";
-            }
-          }
-        }, {
-          header: "拆分单号",
-          dataIndex: "wspBillRef",
-          width: 140,
-          renderer(value) {
-            if (value) {
-              return "<a href='"
-                + PSI.Const.BASE_URL
-                + "Home/Bill/viewIndex?fid=2001&refType="
-                + encodeURIComponent("存货拆分")
-                + "&ref="
-                + encodeURIComponent(value)
-                + "' target='_blank'>" + value
-                + "</a>";
-            } else {
-              return "";
-            }
-          }
         }]
       },
       store: store,

@@ -257,7 +257,7 @@ PCL.define("PSI.PurchaseOrder.POMainForm", {
       store: PCL.create("PCL.data.ArrayStore", {
         fields: ["id", "text"],
         data: [[-1, "全部"], [0, "记应付账款"], [1, "现金付款"],
-        [2, "预付款"]]
+        /*[2, "预付款"]*/]
       }),
       value: -1
     }, {

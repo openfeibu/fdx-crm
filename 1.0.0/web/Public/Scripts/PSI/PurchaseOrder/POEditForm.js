@@ -247,7 +247,7 @@ PCL.define("PSI.PurchaseOrder.POEditForm", {
             fields: ["id", "text"],
             data: [["0", "记应付账款"],
             ["1", "现金付款"],
-            ["2", "预付款"]]
+            /*["2", "预付款"]*/]
           }),
           value: "0",
           listeners: {

@@ -177,7 +177,7 @@ Ext.define("PSI.Sale.SREditForm", {
             fields: ["id", "text"],
             data: [["0", "记应付账款"],
             ["1", "现金付款"],
-            ["2", "退款转入预收款"]]
+            /*["2", "退款转入预收款"]*/]
           }),
           value: "0",
           listeners: {

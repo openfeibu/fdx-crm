@@ -248,7 +248,7 @@ Ext.define("PSI.Sale.WSEditForm", {
             fields: ["id", "text"],
             data: [["0", "记应收账款/月结"],
             ["1", "现金收款"],
-            ["2", "用预收款支付"]]
+            /*["2", "用预收款支付"]*/]
           }),
           value: "0",
           listeners: {
