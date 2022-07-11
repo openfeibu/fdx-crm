@@ -408,7 +408,7 @@ PCL.define("PSI.App", {
       xtype: "tbtext",
       text: `<span style='color:#8c8c8c;font-weight:bold;font-size:13px' title=${uname}>
                 ${shortName}
-            </span>"`
+            </span>`
     });
   },
 
