@@ -337,6 +337,7 @@ class UserDAO extends PSIBaseExDAO
     $name = trim($params["name"]);
     $orgCode = trim($params["orgCode"]);
     $orgId = $params["orgId"];
+	  $roleId = $params["roleId"];
     $enabled = $params["enabled"];
     $gender = $params["gender"];
     $birthday = $params["birthday"];
@@ -425,7 +426,14 @@ class UserDAO extends PSIBaseExDAO
     }
 
     $params["id"] = $id;
-
+	  
+	  $sql = "insert into t_role_user (role_id, user_id)
+                values ('%s', '%s') ";
+	  $rc = $db->execute($sql, $roleId, $id);
+	  if ($rc === false) {
+		  return $this->sqlError(__METHOD__, __LINE__);
+	  }
+	  
     // 操作成功
     return null;
   }
@@ -453,6 +461,7 @@ class UserDAO extends PSIBaseExDAO
     $name = trim($params["name"]);
     $orgCode = trim($params["orgCode"]);
     $orgId = $params["orgId"];
+	  $roleId = $params["roleId"];
     $enabled = $params["enabled"];
     $gender = $params["gender"];
     $birthday = $params["birthday"];
@@ -574,7 +583,19 @@ class UserDAO extends PSIBaseExDAO
         return $this->sqlError(__METHOD__, __LINE__);
       }
     }
-
+		
+    //修改用户权限
+	  $sql = "delete from t_role_user where user_id = '%s' ";
+	  $rc = $db->execute($sql, $id);
+	  if ($rc === false) {
+		  return $this->sqlError(__METHOD__, __LINE__);
+	  }
+	  $sql = "insert into t_role_user (role_id, user_id)
+                values ('%s', '%s') ";
+	  $rc = $db->execute($sql, $roleId, $id);
+	  if ($rc === false) {
+		  return $this->sqlError(__METHOD__, __LINE__);
+	  }
     // 操作成功
     return null;
   }
@@ -1017,12 +1038,29 @@ class UserDAO extends PSIBaseExDAO
               where id = '%s' ";
       $data = $db->query($sql, $v["org_id"]);
       $orgFullName = $data[0]["full_name"];
+			
+	    //角色
+	    $sql = "select r.id, r.name
+              from t_role r, t_role_user u
+              where r.id = u.role_id and u.user_id = '%s' 
+              order by r.code Limit 1";
+	    $d = $db->query($sql, $id);
+	    if (!$d) {
+		    $roleName = "";
+		    $roleId = 0;
+	    }else{
+		    $roleName = $d[0]["name"];
+		    $roleId = $d[0]["name"];
+	    }
+	   
       return [
         "loginName" => $v["login_name"],
         "name" => $v["name"],
         "orgCode" => $v["org_code"],
         "orgId" => $v["org_id"],
         "orgFullName" => $orgFullName,
+	      "roleId" => $roleId,
+	      "roleName" => $roleName,
         "birthday" => $v["birthday"],
         "idCardNumber" => $v["id_card_number"],
         "tel" => $v["tel"],

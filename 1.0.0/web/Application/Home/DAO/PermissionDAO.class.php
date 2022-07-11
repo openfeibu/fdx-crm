@@ -37,8 +37,9 @@ class PermissionDAO extends PSIBaseExDAO
     $queryParams = [];
 
     $ds = new DataOrgDAO($db);
-    $rs = $ds->buildSQL(FIdConst::PERMISSION_MANAGEMENT, "r", $loginUserId);
-    if ($rs) {
+    //$rs = $ds->buildSQL(FIdConst::PERMISSION_MANAGEMENT, "r", $loginUserId);
+	  $rs = $ds->buildSQL(FIdConst::USER_MANAGEMENT_USERS, "r", $loginUserId);
+	  if ($rs) {
       $sql .= " and " . $rs[0];
       $queryParams = array_merge($queryParams, $rs[1]);
     }

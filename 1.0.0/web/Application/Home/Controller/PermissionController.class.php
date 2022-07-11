@@ -48,7 +48,7 @@ class PermissionController extends PSIBaseController
   {
     if (IS_POST) {
       $us = new UserService();
-      if (!$us->hasPermission(FIdConst::PERMISSION_MANAGEMENT)) {
+      if (!$us->hasPermission(FIdConst::PERMISSION_MANAGEMENT) && !$us->hasPermission(FIdConst::USER_MANAGEMENT_USERS)) {
         die("没有权限");
       }
 

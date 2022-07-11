@@ -330,6 +330,7 @@ class UserController extends PSIBaseController
         "name" => I("post.name"),
         "orgCode" => strtoupper(I("post.orgCode")),
         "orgId" => I("post.orgId"),
+	      "roleId" => I("post.roleId"),
         "enabled" => I("post.enabled"),
         "gender" => I("post.gender"),
         "birthday" => I("post.birthday"),

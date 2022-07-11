@@ -377,7 +377,7 @@ class WSBillDAO extends PSIBaseExDAO
     $sobillRef = $bill["sobillRef"];
   
     $expressId = $bill["expressId"];
-    $freight = $bill["freight"];
+    $freight = $bill["freight"] ?: 0;
     
     // 检查客户
     $customerDAO = new CustomerDAO($db);
@@ -385,7 +385,9 @@ class WSBillDAO extends PSIBaseExDAO
     if (!$customer) {
       return $this->bad("选择的客户不存在，无法保存数据");
     }
-
+	  if (!$expressId) {
+		  return $this->bad("未选择物流，无法保存数据");
+	  }
     // 检查仓库
     $warehouseDAO = new WarehouseDAO($db);
     $warehouse = $warehouseDAO->getWarehouseById($warehouseId);
@@ -666,7 +668,7 @@ class WSBillDAO extends PSIBaseExDAO
     $dealAddress = $bill["dealAddress"];
     
     $expressId = $bill["expressId"];
-    $freight = $bill["freight"];
+    $freight = $bill["freight"] ?: 0;
     
     // 检查客户
     $customerDAO = new CustomerDAO($db);
@@ -674,7 +676,10 @@ class WSBillDAO extends PSIBaseExDAO
     if (!$customer) {
       return $this->bad("选择的客户不存在，无法保存数据");
     }
-
+    
+	  if (!$expressId) {
+		  return $this->bad("未选择物流，无法保存数据");
+	  }
     // 检查仓库
     $warehouseDAO = new WarehouseDAO($db);
     $warehouse = $warehouseDAO->getWarehouseById($warehouseId);
