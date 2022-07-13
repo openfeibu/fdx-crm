@@ -220,5 +220,24 @@ PCL.define("PSI.Supplier.CategoryEditForm", {
     var editCode = me.editCode;
     editCode.focus();
     editCode.setValue(editCode.getValue());
+
+    if (me.adding) {
+      var el = me.getEl();
+      el.mask(PSI.Const.LOADING);
+      PCL.Ajax.request({
+        url: me.URL("Home/Index/autoCode"),
+        params: {
+          type:'supplier_category',
+        },
+        method: "POST",
+        callback: function (options, success, response) {
+          if (success) {
+            var data = PCL.JSON.decode(response.responseText);
+            me.editCode.setValue(data.code);
+          }
+          el.unmask();
+        }
+      });
+    }
   }
 });

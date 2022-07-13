@@ -405,7 +405,7 @@ PCL.define("PSI.Supplier.SupplierEditForm", {
           }),
           value: 1000,
           width: width2,
-        }, {
+        },{
           id: "PSI_Supplier_SupplierEditForm_editGoodsRange",
           xtype: "combo",
           queryMode: "local",
@@ -420,7 +420,9 @@ PCL.define("PSI.Supplier.SupplierEditForm", {
           }),
           value: 1,
           width: width2,
-        }],
+          hidden:1
+        }
+        ],
         buttons: buttons
       }],
       listeners: {
@@ -529,6 +531,22 @@ PCL.define("PSI.Supplier.SupplierEditForm", {
         };
         me.ajax(r);
       }
+      var el = me.getEl();
+      el.mask(PSI.Const.LOADING);
+      PCL.Ajax.request({
+        url: me.URL("Home/Index/autoCode"),
+        params: {
+          type:'supplier',
+        },
+        method: "POST",
+        callback: function (options, success, response) {
+          if (success) {
+            var data = PCL.JSON.decode(response.responseText);
+            me.editCode.setValue(data.code);
+          }
+          el.unmask();
+        }
+      });
     } else {
       // 编辑
       var el = me.getEl();

@@ -488,19 +488,21 @@ PCL.define("PSI.Customer.CustomerEditForm", {
 
     PCL.get(window).on('beforeunload', me.onWindowBeforeUnload);
 
-    if (!me.adding) {
-      // 编辑客户资料
-      var el = me.getEl();
-      el.mask(PSI.Const.LOADING);
-      PCL.Ajax.request({
-        url: me.URL("Home/Customer/customerInfo"),
-        params: {
-          id: me.getEntity().get("id")
-        },
-        method: "POST",
-        callback: function (options, success, response) {
-          if (success) {
-            var data = PCL.JSON.decode(response.responseText);
+
+    // 编辑客户资料
+    var el = me.getEl();
+    el.mask(PSI.Const.LOADING);
+    PCL.Ajax.request({
+      url: me.URL("Home/Customer/customerInfo"),
+      params: {
+        id: me.adding ? null : me.getEntity().get("id"),
+      },
+      method: "POST",
+      callback: function (options, success, response) {
+        el.unmask();
+        if (success) {
+          var data = PCL.JSON.decode(response.responseText);
+          if (!me.adding) {
             me.editCategory.setValue(data.categoryId);
             me.editCode.setValue(data.code);
             me.editName.setValue(data.name);
@@ -529,62 +531,65 @@ PCL.define("PSI.Customer.CustomerEditForm", {
             }
 
             me.editRecordStatus.setValue(parseInt(data.recordStatus));
-          }
 
-          el.unmask();
-        }
-      });
-    } else {
-      // 新建客户资料
-      if (me.getParentForm()) {
-        var grid = me.getParentForm().categoryGrid;
-        var item = grid.getSelectionModel().getSelection();
-        if (item == null || item.length != 1) {
-          return;
-        }
-
-        me.editCategory.setValue(item[0].get("id"));
-      } else {
-        // 在其他界面中调用新增客户资料
-        var modelName = "PSICustomerCategory_CustomerEditForm";
-        PCL.define(modelName, {
-          extend: "PCL.data.Model",
-          fields: ["id", "code", "name", {
-            name: "cnt",
-            type: "int"
-          }]
-        });
-        var store = PCL.create("PCL.data.Store", {
-          model: modelName,
-          autoLoad: false,
-          data: []
-        });
-        me.editCategory.bindStore(store);
-        var el = PCL.getBody();
-        el.mask(PSI.Const.LOADING);
-        PCL.Ajax.request({
-          url: me.URL("Home/Customer/categoryList"),
-          params: {
-            recordStatus: -1
-          },
-          method: "POST",
-          callback: function (options, success, response) {
-            store.removeAll();
-
-            if (success) {
-              var data = PCL.JSON.decode(response.responseText);
-              store.add(data);
-              if (store.getCount() > 0) {
-                var id = store.getAt(0).get("id");
-                me.editCategory.setValue(id);
+          } else {
+            me.editCode.setValue(data.code);
+            // 新建客户资料
+            if (me.getParentForm()) {
+              var grid = me.getParentForm().categoryGrid;
+              var item = grid.getSelectionModel().getSelection();
+              if (item == null || item.length != 1) {
+                return;
               }
-            }
 
-            el.unmask();
+              me.editCategory.setValue(item[0].get("id"));
+            } else {
+              // 在其他界面中调用新增客户资料
+              var modelName = "PSICustomerCategory_CustomerEditForm";
+              PCL.define(modelName, {
+                extend: "PCL.data.Model",
+                fields: ["id", "code", "name", {
+                  name: "cnt",
+                  type: "int"
+                }]
+              });
+              var store = PCL.create("PCL.data.Store", {
+                model: modelName,
+                autoLoad: false,
+                data: []
+              });
+              me.editCategory.bindStore(store);
+              var el2 = PCL.getBody();
+              el2.mask(PSI.Const.LOADING);
+              PCL.Ajax.request({
+                url: me.URL("Home/Customer/categoryList"),
+                params: {
+                  recordStatus: -1
+                },
+                method: "POST",
+                callback: function (options, success, response) {
+                  store.removeAll();
+
+                  if (success) {
+                    var data = PCL.JSON.decode(response.responseText);
+                    store.add(data);
+                    if (store.getCount() > 0) {
+                      var id = store.getAt(0).get("id");
+                      me.editCategory.setValue(id);
+                    }
+                  }
+
+                  el2.unmask();
+                }
+              });
+            }
           }
-        });
+        }
+
+
       }
-    }
+    });
+
 
     var editCode = me.editCode;
     editCode.focus();

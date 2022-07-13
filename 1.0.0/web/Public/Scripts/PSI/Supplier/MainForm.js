@@ -50,7 +50,8 @@ PCL.define("PSI.Supplier.MainForm", {
             layout: "fit",
             border: 0,
             items: [me.getMainGrid()]
-          }, {
+          },
+          /*{
             region: "south",
             height: 200,
             layout: "border",
@@ -78,7 +79,8 @@ PCL.define("PSI.Supplier.MainForm", {
               items: [me
                 .getGRGoodsGrid()]
             }]
-          }]
+          }*/
+          ]
         }, {
           id: "panelCategory",
           xtype: "panel",
@@ -538,16 +540,18 @@ PCL.define("PSI.Supplier.MainForm", {
           header: "应付期初余额日期",
           dataIndex: "initPayablesDT",
           width: 150
-        }, {
-          header: "关联物料的范围",
-          dataIndex: "goodsRange",
-          width: 120,
-          renderer: function (value) {
-            return value == 1
-              ? "全部物料"
-              : "<span style='color:red'>部分设置的物料</span>";
-          }
-        }, {
+        },
+          /*{
+            header: "关联物料的范围",
+            dataIndex: "goodsRange",
+            width: 120,
+            renderer: function (value) {
+              return value == 1
+                ? "全部物料"
+                : "<span style='color:red'>部分设置的物料</span>";
+            }
+          },*/
+        {
           header: "备注",
           dataIndex: "note",
           width: 400
@@ -1270,8 +1274,9 @@ PCL.define("PSI.Supplier.MainForm", {
     }
 
     var supplier = item[0];
-    var goodsRange = supplier.get("goodsRange");
 
+    var goodsRange = supplier.get("goodsRange");
+/*
     var info = "供应商[" + supplier.get("name") + "]";
     if (goodsRange == 1) {
       info += "能使用<strong>全部物料</strong>(<span class='PSI-field-note'>下表的设置不生效</span>)";
@@ -1280,7 +1285,7 @@ PCL.define("PSI.Supplier.MainForm", {
     }
     info = "<span style='font-size:120%;'>" + info + "</span>";
     PCL.getCmp("panelGoodsRange").setTitle(info);
-
+*/
     me.refreshGRCategoryGrid();
     me.refreshGRGoodsGrid();
   },

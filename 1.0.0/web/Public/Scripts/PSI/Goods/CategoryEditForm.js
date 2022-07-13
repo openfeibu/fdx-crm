@@ -301,38 +301,43 @@ PCL.define("PSI.Goods.CategoryEditForm", {
     editCode.focus();
     editCode.setValue(editCode.getValue());
 
+    /*
     if (!me.getEntity()) {
       return;
     }
+    */
 
     var el = me.getEl();
     el.mask(PSI.Const.LOADING);
     PCL.Ajax.request({
       url: me.URL("Home/Goods/getCategoryInfo"),
       params: {
-        id: me.getEntity().get("id")
+        id: me.adding ? null : me.getEntity().get("id"),
       },
       method: "POST",
       callback: function (options, success, response) {
         if (success) {
           var data = PCL.JSON.decode(response.responseText);
+          if (!me.adding) {
+            if (data.code) {
+              me.editCode.setValue(data.code);
+              me.editName.setValue(data.name);
+              me.editParentCategory.setIdValue(data.parentId);
+              me.editParentCategory.setValue(data.parentName);
+              if (data.taxRate) {
+                me.editTaxRate.setValue(parseInt(data.taxRate));
+              } else {
+                me.editTaxRate.setValue(-1);
+              }
 
-          if (data.code) {
+              if (data.mType) {
+                me.editMType.setValue(parseInt(data.mType));
+              } else {
+                me.editMType.setValue(-1);
+              }
+            }
+          } else {
             me.editCode.setValue(data.code);
-            me.editName.setValue(data.name);
-            me.editParentCategory.setIdValue(data.parentId);
-            me.editParentCategory.setValue(data.parentName);
-            if (data.taxRate) {
-              me.editTaxRate.setValue(parseInt(data.taxRate));
-            } else {
-              me.editTaxRate.setValue(-1);
-            }
-
-            if (data.mType) {
-              me.editMType.setValue(parseInt(data.mType));
-            } else {
-              me.editMType.setValue(-1);
-            }
           }
         }
 

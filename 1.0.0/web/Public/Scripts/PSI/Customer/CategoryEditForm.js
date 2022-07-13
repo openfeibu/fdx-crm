@@ -266,6 +266,28 @@ PCL.define("PSI.Customer.CategoryEditForm", {
 
     var el = me.getEl();
     el.mask(PSI.Const.LOADING);
+
+    PCL.Ajax.request({
+      url: me.URL("Home/Customer/categoryInfo"),
+      params: {
+        id: id,
+      },
+      method: "POST",
+      callback: function (options, success, response) {
+        if (success) {
+          var data = PCL.JSON.decode(response.responseText);
+          if (!me.adding) {
+
+          } else {
+            me.editCode.setValue(data.code);
+          }
+        }
+
+        el.unmask();
+      }
+    });
+    var el = me.getEl();
+    el.mask(PSI.Const.LOADING);
     var r = {
       url: me.URL("Home/Customer/priceSystemList"),
       params: {

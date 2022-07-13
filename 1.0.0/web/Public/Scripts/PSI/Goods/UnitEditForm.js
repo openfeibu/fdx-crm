@@ -244,6 +244,24 @@ PCL.define("PSI.Goods.UnitEditForm", {
     var v = editName.getValue();
     editName.setValue(null);
     editName.setValue(v);
+    if (me.adding) {
+      var el = me.getEl();
+      el.mask(PSI.Const.LOADING);
+      PCL.Ajax.request({
+        url: me.URL("Home/Index/autoCode"),
+        params: {
+          type:'goods_unit',
+        },
+        method: "POST",
+        callback: function (options, success, response) {
+          if (success) {
+            var data = PCL.JSON.decode(response.responseText);
+            me.editCode.setValue(data.code);
+          }
+          el.unmask();
+        }
+      });
+    }
   },
 
   /**

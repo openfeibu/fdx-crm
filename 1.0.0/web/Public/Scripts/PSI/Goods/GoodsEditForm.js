@@ -420,6 +420,7 @@ PCL.define("PSI.Goods.GoodsEditForm", {
             if (data.categoryId) {
               me.editCategory.setIdValue(data.categoryId);
               me.editCategory.setValue(data.categoryName);
+              me.editCode.setValue(data.code);
               var cmt = parseInt(data.categoryMType);
               if (cmt != -1) {
                 // cmt == -1表示分类不限物料类型
