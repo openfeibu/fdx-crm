@@ -85,6 +85,27 @@ class CustomerController extends PSIBaseController
       $this->ajaxReturn($cs->categoryList($params));
     }
   }
+	/**
+	 * 查询某个客户分类的信息
+	 */
+	public function categoryInfo()
+	{
+		if (IS_POST) {
+			$us = new UserService();
+			if (!$us->hasPermission(FIdConst::CUSTOMER)) {
+				die("没有权限");
+			}
+			
+			$id = I("post.id");
+			
+			$cs = new CustomerService();
+			$params = [
+				"id" => $id,
+			];
+			$data = $cs->categoryInfo($params);
+			$this->ajaxReturn($data);
+		}
+	}
 
   /**
    * 新增或编辑客户分类

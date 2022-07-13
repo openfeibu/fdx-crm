@@ -270,6 +270,32 @@ class CustomerDAO extends PSIBaseExDAO
       return null;
     }
   }
+	/**
+	 * 根据客户分类id查询客户分类
+	 *
+	 * @param array $params
+	 *        	客户分类id
+	 * @return array|NULL
+	 */
+	public function categoryInfo($params)
+	{
+		$db = $this->db;
+		$id = $params["id"];
+		
+		$sql = "select code, name from t_customer_category where id = '%s' ";
+		$data = $db->query($sql, $id);
+		if ($data) {
+			$res = [
+				"code" => $data[0]["code"],
+				"name" => $data[0]["name"]
+			];
+		} else {
+			$res = [
+				"code" => $this->autoCode(['autoCodeLength' => 4, 'tableName' => 't_customer_category'])
+			];
+		}
+		return $res;
+	}
 
   /**
    * 删除客户分类
@@ -1066,6 +1092,8 @@ class CustomerDAO extends PSIBaseExDAO
           $result["warehouseName"] = $warehouse["name"];
         }
       }
+    }else{
+	    $result["code"] = $this->autoCode(['autoCodeLength' => 10,'tableName' => 't_customer']);
     }
 
     return $result;

@@ -622,6 +622,8 @@ class GoodsCategoryDAO extends PSIBaseExDAO
         $result["parentName"] = null;
       }
       $result["mType"] = $v["m_type"];
+    }else{
+	    $result["code"] = $this->autoCode(['autoCodeLength' => 4,'tableName' => 't_goods_category']);
     }
 
     return $result;

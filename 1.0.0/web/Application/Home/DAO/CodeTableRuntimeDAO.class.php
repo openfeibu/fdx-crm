@@ -226,7 +226,7 @@ class CodeTableRuntimeDAO extends PSIBaseExDAO
   /**
    * 自动生成码表记录的编码
    */
-  private function autoCode($md)
+	public function autoCode($md)
   {
     $autoCodeLength = intval($md["autoCodeLength"]);
     if ($autoCodeLength < 0 || $autoCodeLength > 20) {
@@ -247,7 +247,7 @@ class CodeTableRuntimeDAO extends PSIBaseExDAO
       $c = "{$next}";
     }
 
-    return str_pad($c, $autoCodeLength, "0", STR_PAD_LEFT);;
+    return str_pad($c, $autoCodeLength, "0", STR_PAD_LEFT);
   }
 
   /**

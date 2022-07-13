@@ -4,7 +4,7 @@ namespace Home\Controller;
 
 use Home\Common\FIdConst;
 use Home\Service\UserService;
-
+use Home\DAO\PSIBaseExDAO;
 /**
  * 首页Controller
  *
@@ -39,5 +39,34 @@ class IndexController extends PSIBaseController
     } else {
       $this->gotoLoginPage();
     }
+  }
+  public function autoCode()
+  {
+	  $dao = new PSIBaseExDAO(M());
+	  $params = [
+		  "type" => I("post.type"),
+	  ];
+	  switch($params['type'])
+	  {
+		  case 'warehouse':
+			  $params['autoCodeLength'] = 4;
+			  $params['tableName'] = 't_warehouse';
+		  	break;
+		  case 'supplier':
+			  $params['autoCodeLength'] = 4;
+			  $params['tableName'] = 't_supplier';
+			  break;
+		  case 'supplier_category':
+			  $params['autoCodeLength'] = 4;
+			  $params['tableName'] = 't_supplier_category';
+			  break;
+		  case 'goods_unit':
+			  $params['autoCodeLength'] = 4;
+			  $params['tableName'] = 't_goods_unit';
+		    break;
+	  }
+	  return $this->ajaxReturn([
+	  	'code' => $dao->autoCode(['autoCodeLength' => $params['autoCodeLength'], 'tableName' => $params['tableName']])
+	  ]);
   }
 }

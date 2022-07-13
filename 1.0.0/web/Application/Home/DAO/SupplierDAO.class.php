@@ -748,7 +748,7 @@ class SupplierDAO extends PSIBaseExDAO
     $fax = $params["fax"];
     $note = $params["note"];
     $recordStatus = $params["recordStatus"];
-    $goodsRange = $params["goodsRange"];
+    $goodsRange = $params["goodsRange"] ?: 1;
 
     $taxRate = $params["taxRate"];
     if ($taxRate == "") {

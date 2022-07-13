@@ -33,6 +33,23 @@ class CustomerService extends PSIBaseExService
     return $dao->categoryList($params);
   }
 
+	/**
+	 * 客户分类详情
+	 *
+	 * @param array $params
+	 * @return array
+	 */
+	public function categoryInfo($params)
+	{
+		if ($this->isNotOnline()) {
+			return $this->emptyResult();
+		}
+		
+		$params["loginUserId"] = $this->getLoginUserId();
+		
+		$dao = new CustomerDAO($this->db());
+		return $dao->categoryInfo($params);
+	}
   /**
    * 新建或编辑客户分类
    */

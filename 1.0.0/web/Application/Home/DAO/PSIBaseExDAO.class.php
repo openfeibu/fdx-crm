@@ -132,4 +132,31 @@ class PSIBaseExDAO extends PSIBaseDAO
   {
     return strlen($s) > $length;
   }
+	
+	/**
+	 * 自动生成码表记录的编码
+	 */
+	public function autoCode($md)
+	{
+		$autoCodeLength = intval($md["autoCodeLength"]);
+		if ($autoCodeLength < 0 || $autoCodeLength > 20) {
+			return null;
+		}
+		
+		$db = $this->db;
+		
+		$c = "1";
+		
+		$tableName = $md["tableName"];
+		$sql = "select code from %s order by code desc limit 1";
+		$data = $db->query($sql, $tableName);
+		if ($data) {
+			$code = $data[0]["code"];
+			// 自动编码的时候，生成的编码都是数字流水号
+			$next = intval($code) + 1;
+			$c = "{$next}";
+		}
+		
+		return str_pad($c, $autoCodeLength, "0", STR_PAD_LEFT);
+	}
 }
