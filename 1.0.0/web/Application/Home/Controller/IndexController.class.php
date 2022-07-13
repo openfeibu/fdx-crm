@@ -45,6 +45,7 @@ class IndexController extends PSIBaseController
 	  $dao = new PSIBaseExDAO(M());
 	  $params = [
 		  "type" => I("post.type"),
+		  'code_field' => 'code',
 	  ];
 	  switch($params['type'])
 	  {
@@ -64,9 +65,14 @@ class IndexController extends PSIBaseController
 			  $params['autoCodeLength'] = 4;
 			  $params['tableName'] = 't_goods_unit';
 		    break;
+		  case 'user':
+			  $params['autoCodeLength'] = 4;
+			  $params['tableName'] = 't_user';
+			  $params['code_field'] = 'org_code';
+			  break;
 	  }
 	  return $this->ajaxReturn([
-	  	'code' => $dao->autoCode(['autoCodeLength' => $params['autoCodeLength'], 'tableName' => $params['tableName']])
+	  	'code' => $dao->autoCode($params)
 	  ]);
   }
 }

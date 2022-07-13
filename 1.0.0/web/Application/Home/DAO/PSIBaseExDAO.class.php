@@ -148,10 +148,12 @@ class PSIBaseExDAO extends PSIBaseDAO
 		$c = "1";
 		
 		$tableName = $md["tableName"];
-		$sql = "select code from %s order by code desc limit 1";
+		$code_field = isset($md['code_field']) && $md['code_field'] ? $md['code_field'] : 'code';
+		$sql = "select ".$code_field." as code from %s order by ".$code_field." desc limit 1";
 		$data = $db->query($sql, $tableName);
+		
 		if ($data) {
-			$code = $data[0]["code"];
+			$code = $data[0]['code'];
 			// 自动编码的时候，生成的编码都是数字流水号
 			$next = intval($code) + 1;
 			$c = "{$next}";

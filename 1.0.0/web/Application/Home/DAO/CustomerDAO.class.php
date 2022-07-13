@@ -394,6 +394,13 @@ class CustomerDAO extends PSIBaseExDAO
     if ($cnt > 0) {
       return $this->bad("编码为 [{$code}] 的客户已经存在");
     }
+	  // 检查客户名称是否已经存在
+	  $sql = "select count(*) as cnt from t_customer where name = '%s' ";
+	  $data = $db->query($sql, $name);
+	  $cnt = $data[0]["cnt"];
+	  if ($cnt > 0) {
+		  return $this->bad("编码为 [{$name}] 的客户已经存在");
+	  }
 
     $id = $this->newId();
     $params["id"] = $id;

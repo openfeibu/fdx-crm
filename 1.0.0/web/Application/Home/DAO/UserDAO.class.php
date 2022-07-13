@@ -1050,7 +1050,7 @@ class UserDAO extends PSIBaseExDAO
 		    $roleId = 0;
 	    }else{
 		    $roleName = $d[0]["name"];
-		    $roleId = $d[0]["name"];
+		    $roleId = $d[0]["id"];
 	    }
 	   
       return [
