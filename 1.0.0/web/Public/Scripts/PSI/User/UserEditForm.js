@@ -348,6 +348,24 @@ Ext.define("PSI.User.UserEditForm", {
 
     if (me.adding) {
       me.setFocusAndCursorPosToLast(me.editLoginName);
+
+      const el = me.getEl();
+      el.mask(PSI.Const.LOADING);
+      PCL.Ajax.request({
+        url: me.URL("Home/Index/autoCode"),
+        params: {
+          type:'user',
+        },
+        method: "POST",
+        callback: function (options, success, response) {
+          if (success) {
+            var data = PCL.JSON.decode(response.responseText);
+            me.editOrgCode.setValue(data.code);
+          }
+          el.unmask();
+        }
+      });
+
       return;
     }
 
