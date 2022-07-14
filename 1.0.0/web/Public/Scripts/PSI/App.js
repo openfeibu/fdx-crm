@@ -35,6 +35,7 @@ PCL.define("PSI.App", {
    * 构建URL的助手函数
    */
   URL(url) {
+	  
     return PSI.Const.BASE_URL + url;
   },
 
@@ -150,7 +151,8 @@ PCL.define("PSI.App", {
         if (fid === "-9999") {
           // TODO 在常用功能里面，应该是没有重新登录这项
           PSI.MsgBox.confirm("请确认是否重新登录", function () {
-            location.replace(url);
+            // location.replace(url);
+			 location.href = url;
           });
         } else {
           if (PSI.Const.MOT == "0") {
@@ -162,7 +164,8 @@ PCL.define("PSI.App", {
               me.getSelectionModel().deselectAll();
             }
             else {
-              location.replace(url);
+              // location.replace(url);
+			   location.href = url;
             }
           } else {
             // 模块打开方式：新窗口打开
@@ -322,7 +325,7 @@ PCL.define("PSI.App", {
 
         const url = me.URL(`Home/MainMenu/navigateTo/fid/${fid}`);
         if (PSI.Const.MOT == "0") {
-          location.replace(url);
+          location.href = url;
         } else {
           window.open(url);
         }
