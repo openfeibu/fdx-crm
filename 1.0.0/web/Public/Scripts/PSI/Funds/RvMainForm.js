@@ -150,7 +150,7 @@ PCL.define("PSI.Funds.RvMainForm", {
 
     PCL.define("PSIRv", {
       extend: "PCL.data.Model",
-      fields: ["id", "caId", "code", "name", "rvMoney",
+      fields: ["id", "caId", "code", "name", "recordStatus", "rvMoney",
         "actMoney", "balanceMoney"]
     });
 
@@ -203,7 +203,11 @@ PCL.define("PSI.Funds.RvMainForm", {
         dataIndex: "name",
         menuDisabled: true,
         sortable: false,
-        width: 300
+        width: 300,
+        renderer(value, metaData, record) {
+          console.log(record);
+          return PSI.CustomerCommon.recordStatusHtml(record.get("recordStatus"),value);
+        }
       }, {
         header: "应收金额",
         dataIndex: "rvMoney",

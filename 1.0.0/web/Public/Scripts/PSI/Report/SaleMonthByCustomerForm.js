@@ -154,7 +154,7 @@ PCL.define("PSI.Report.SaleMonthByCustomerForm", {
     var modelName = "PSIReportSaleMonthByCustomer";
     PCL.define(modelName, {
       extend: "PCL.data.Model",
-      fields: ["bizDT", "customerCode", "customerName",
+      fields: ["bizDT", "customerCode", "customerName","recordStatus",
         "saleMoney", "rejMoney", "m", "profit", "rate"]
     });
     var store = PCL.create("PCL.data.Store", {
@@ -199,13 +199,21 @@ PCL.define("PSI.Report.SaleMonthByCustomerForm", {
         header: "客户编码",
         dataIndex: "customerCode",
         menuDisabled: true,
-        sortable: true
+        sortable: true,
+        renderer(value, metaData, record) {
+          console.log(record);
+          return PSI.CustomerCommon.recordStatusHtml(record.get("recordStatus"),value);
+        }
       }, {
         header: "客户",
         dataIndex: "customerName",
         menuDisabled: true,
         sortable: false,
-        width: 200
+        width: 200,
+        renderer(value, metaData, record) {
+          console.log(record);
+          return PSI.CustomerCommon.recordStatusHtml(record.get("recordStatus"),value);
+        }
       }, {
         header: "销售出库金额",
         dataIndex: "saleMoney",

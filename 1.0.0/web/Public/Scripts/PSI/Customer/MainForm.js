@@ -121,6 +121,11 @@ PCL.define("PSI.Customer.MainForm", {
       disabled: me.getPDeleteCustomer() == "0",
       handler: me.onDeleteCustomer,
       scope: me
+    }, {
+      text: "合并客户",
+      //disabled: me.getPDeleteCustomer() == "0",
+      handler: me.onMergeCustomer,
+      scope: me
     }, "-", /*{
       text: "指南",
       handler() {
@@ -472,11 +477,7 @@ PCL.define("PSI.Customer.MainForm", {
           locked: true,
           width: 300,
           renderer(value, metaData, record) {
-            if (parseInt(record.get("recordStatus")) == 1000) {
-              return value;
-            } else {
-              return `<span class="PSI-record-disabled">${value}</span>`;
-            }
+            return PSI.CustomerCommon.recordStatusHtml(record.get("recordStatus"),value);
           }
         }, {
           header: "收款方式",
@@ -915,7 +916,34 @@ PCL.define("PSI.Customer.MainForm", {
 
     me.confirm(info, funcConfirm);
   },
+  onMergeCustomer(){
+    const me = this;
+    if (me.getPEditCustomer() == "0") {
+      return;
+    }
 
+    let item = me.getCategoryGrid().getSelectionModel().getSelection();
+    if (item == null || item.length != 1) {
+      me.showInfo("没有选择客户分类");
+      return;
+    }
+    const category = item[0];
+
+    item = me.getMainGrid().getSelectionModel().getSelection();
+    if (item == null || item.length != 1) {
+      me.showInfo("请选择要合并的客户");
+      return;
+    }
+
+    const customer = item[0];
+    customer.set("categoryId", category.get("id"));
+    const form = PCL.create("PSI.Customer.CustomerMergeForm", {
+      parentForm: me,
+      entity: customer
+    });
+
+    form.show();
+  },
   /**
    * @private
    */
