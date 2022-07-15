@@ -260,6 +260,7 @@ class SaleReportDAO extends PSIBaseExDAO
     $sql = "CREATE TEMPORARY TABLE psi_sale_report (
               biz_dt datetime,
               customer_code varchar(255), customer_name varchar(255),
+              record_status int(11) DEFAULT '1000',
               sale_money decimal(19,2),
               rej_money decimal(19,2), m decimal(19,2),
               profit decimal(19,2), rate decimal(19, 2)
@@ -268,7 +269,7 @@ class SaleReportDAO extends PSIBaseExDAO
 
     $result = [];
 
-    $sql = "select c.id, c.code, c.name
+    $sql = "select c.id, c.code, c.name, c.record_status
             from t_customer c
             where c.id in(
               select distinct w.customer_id
@@ -286,6 +287,7 @@ class SaleReportDAO extends PSIBaseExDAO
     foreach ($items as $v) {
       $customerCode = $v["code"];
       $customerName = $v["name"];
+	    $recordStatus = $v['record_status'];
 
       $customerId = $v["id"];
       $sql = "select sum(w.sale_money) as goods_money, sum(w.inventory_money) as inventory_money
@@ -324,15 +326,16 @@ class SaleReportDAO extends PSIBaseExDAO
         $rate = $profit / $m * 100;
       }
 
-      $sql = "insert into psi_sale_report (biz_dt, customer_code, customer_name,
+      $sql = "insert into psi_sale_report (biz_dt, customer_code, customer_name, record_status,
                 sale_money, rej_money, m, profit, rate)
-              values ('%s', '%s', '%s',
+              values ('%s', '%s', '%s',%f,
                 %f, %f, %f, %f, %f)";
       $db->execute(
         $sql,
         $dt,
         $customerCode,
         $customerName,
+	      $recordStatus,
         $saleMoney,
         $rejSaleMoney,
         $m,
@@ -341,7 +344,7 @@ class SaleReportDAO extends PSIBaseExDAO
       );
     }
 
-    $sql = "select biz_dt, customer_code, customer_name,
+    $sql = "select biz_dt, customer_code, customer_name, record_status,
               sale_money, rej_money,
               m, profit, rate
             from psi_sale_report
@@ -361,6 +364,7 @@ class SaleReportDAO extends PSIBaseExDAO
         "bizDT" => $this->toYMD($v["biz_dt"]),
         "customerCode" => $v["customer_code"],
         "customerName" => $v["customer_name"],
+	      "recordStatus" =>  $v["record_status"],
         "saleMoney" => $v["sale_money"],
         "rejMoney" => $v["rej_money"],
         "m" => $v["m"],
@@ -820,6 +824,7 @@ class SaleReportDAO extends PSIBaseExDAO
     $sql = "CREATE TEMPORARY TABLE psi_sale_report (
               biz_dt varchar(255),
               customer_code varchar(255), customer_name varchar(255),
+              record_status int(11) DEFAULT '1000',
               sale_money decimal(19,2),
               rej_money decimal(19,2), m decimal(19,2),
               profit decimal(19,2), rate decimal(19, 2)
@@ -832,7 +837,7 @@ class SaleReportDAO extends PSIBaseExDAO
       $dt = "$year-$month";
     }
 
-    $sql = "select c.id, c.code, c.name
+    $sql = "select c.id, c.code, c.name, c.record_status
             from t_customer c
             where c.id in(
               select distinct w.customer_id
@@ -851,7 +856,8 @@ class SaleReportDAO extends PSIBaseExDAO
 
       $customerCode = $v["code"];
       $customerName = $v["name"];
-
+			$recordStatus = $v["record_status"];
+	    
       $customerId = $v["id"];
       $sql = "select sum(w.sale_money) as goods_money, sum(w.inventory_money) as inventory_money
               from t_ws_bill w
@@ -891,15 +897,16 @@ class SaleReportDAO extends PSIBaseExDAO
         $rate = $profit / $m * 100;
       }
 
-      $sql = "insert into psi_sale_report (biz_dt, customer_code, customer_name,
+      $sql = "insert into psi_sale_report (biz_dt, customer_code, customer_name, record_status,
                 sale_money, rej_money, m, profit, rate)
-              values ('%s', '%s', '%s',
+              values ('%s', '%s', '%s', %f,
                 %f, %f, %f, %f, %f)";
       $db->execute(
         $sql,
         $dt,
         $customerCode,
         $customerName,
+	      $recordStatus,
         $saleMoney,
         $rejSaleMoney,
         $m,
@@ -909,7 +916,7 @@ class SaleReportDAO extends PSIBaseExDAO
     }
 
     $result = [];
-    $sql = "select biz_dt, customer_code, customer_name,
+    $sql = "select biz_dt, customer_code, customer_name, record_status,
               sale_money, rej_money,
               m, profit, rate
             from psi_sale_report
@@ -927,6 +934,7 @@ class SaleReportDAO extends PSIBaseExDAO
         "bizDT" => $v["biz_dt"],
         "customerCode" => $v["customer_code"],
         "customerName" => $v["customer_name"],
+	      "recordStatus" => $v["record_status"],
         "saleMoney" => $v["sale_money"],
         "rejMoney" => $v["rej_money"],
         "m" => $v["m"],

@@ -1179,4 +1179,91 @@ class CustomerDAO extends PSIBaseExDAO
       ];
     }
   }
+  
+  public function mergeCustomer($params)
+  {
+	  $db = $this->db;
+	  $oldWhereFromId = $params["fromId"];
+	  $newSetToId = $params["toId"];
+	  /**
+	  t_pre_receiving 预收款先不处理
+	  t_pre_receiving_detail 预收款先不处理
+	  t_sc_bill customer_id 直接 update
+	  t_so_bill customer_id 直接 update
+	  t_sr_bill customer_id 直接 update
+	  t_ws_bill customer_id 直接 update
+	  t_receivables	ca_id 叠加 act_money balance_money rv_money ca_type='customer'
+	  t_receivables_detail	ca_id ca_type='customer' 直接 update
+	  t_payables	ca_id 叠加 act_money balance_money pay_money  ca_type='customer'
+	  t_payables_detail	ca_id 直接 update
+	   */
+	  $customer_id_tables = ["t_sc_bill","t_so_bill","t_sr_bill","t_ws_bill"];
+	  foreach ($customer_id_tables as $key => $table)
+	  {
+		  $sql = "update {$table}
+            set customer_id = '%s'
+            where customer_id = '%s' ";
+		  $rc = $db->execute($sql, $newSetToId, $oldWhereFromId);
+		  if ($rc === false) {
+			  return $this->sqlError(__METHOD__, __LINE__);
+		  }
+	  }
+	  
+	  $where = " where ca_id = '%s' and ca_type='customer' ";
+	  $sql = "select act_money, balance_money, rv_money from t_receivables ".$where;
+	  $data = $db->query($sql, $oldWhereFromId);
+	  if ($data) {
+		  $sql = "update t_receivables
+            set act_money = act_money+%f, balance_money = balance_money+%f, rv_money = rv_money+%f ".$where;
+		  $rc = $db->execute($sql, $data[0]['act_money'], $data[0]['balance_money'], $data[0]['rv_money'], $newSetToId);
+		  if ($rc === false) {
+			  return $this->sqlError(__METHOD__, __LINE__);
+		  }
+		  $sql = "delete from t_receivables ".$where;
+		  $rc = $db->execute($sql, $oldWhereFromId);
+		  if ($rc === false) {
+			  return $this->sqlError(__METHOD__, __LINE__);
+		  }
+		  
+		  $sql = "update t_receivables_detail
+            set ca_id = '%s' ".$where;
+		  $rc = $db->execute($sql, $newSetToId, $oldWhereFromId);
+		  if ($rc === false) {
+			  return $this->sqlError(__METHOD__, __LINE__);
+		  }
+	  }
+	
+	  $sql = "select act_money, balance_money, pay_money from t_payables ".$where;
+	  $data = $db->query($sql, $oldWhereFromId);
+	  if ($data) {
+		  $sql = "update t_payables
+            set act_money = act_money+%f, balance_money = balance_money+%f, pay_money = pay_money+%f ".$where;
+		  $rc = $db->execute($sql, $data[0]['act_money'], $data[0]['balance_money'], $data[0]['pay_money'], $newSetToId);
+		  if ($rc === false) {
+			  return $this->sqlError(__METHOD__, __LINE__);
+		  }
+		
+		  $sql = "delete from t_payables ".$where;
+		  $rc = $db->execute($sql, $oldWhereFromId);
+		  if ($rc === false) {
+			  return $this->sqlError(__METHOD__, __LINE__);
+		  }
+		
+		  $sql = "update t_payables_detail
+            set ca_id = '%s' ".$where;
+		  $rc = $db->execute($sql, $newSetToId, $oldWhereFromId);
+		  if ($rc === false) {
+			  return $this->sqlError(__METHOD__, __LINE__);
+		  }
+	  }
+	  $sql = "update t_customer
+            set record_status = '0' 
+            where id = '%s' ";
+	  $rc = $db->execute($sql, $oldWhereFromId);
+	  if ($rc === false) {
+		  return $this->sqlError(__METHOD__, __LINE__);
+	  }
+	  
+	  return null;
+  }
 }

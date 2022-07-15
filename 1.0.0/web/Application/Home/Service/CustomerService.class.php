@@ -340,4 +340,43 @@ class CustomerService extends PSIBaseExService
     $dao = new CustomerDAO($this->db());
     return $dao->priceSystemList($params);
   }
+  
+  public function mergeCustomer($params)
+  {
+	  if ($this->isNotOnline()) {
+		  return $this->emptyResult();
+	  }
+	  if($params['fromId'] == $params['toId'])
+	  {
+		  return $this->bad("合并客户不能选择同一个");
+	  }
+	  
+	  $db = $this->db();
+	  $dao = new CustomerDAO($this->db());
+	  
+	  
+	  $fromCustomer = $dao->getCustomerById($params["fromId"]);
+	  if (!$fromCustomer) {
+		  $db->rollback();
+		  return $this->bad("合并客户来源不存在");
+	  }
+	  $toCustomer = $dao->getCustomerById($params["toId"]);
+	  if (!$toCustomer) {
+		  $db->rollback();
+		  return $this->bad("合并客户目标不存在");
+	  }
+	  $rc = $dao->mergeCustomer($params);
+	  if ($rc) {
+		  $db->rollback();
+		  return $rc;
+	  }
+	  // 记录业务日志
+	  $log = "合并客户资料：编码 = {$fromCustomer['code']},  名称 = {$fromCustomer['name']} 迁移至：编码 = {$toCustomer['code']},  名称 = {$toCustomer['name']}";
+	  $bs = new BizlogService($db);
+	  $bs->insertBizlog($log, $this->LOG_CATEGORY);
+	
+	  $db->commit();
+	  
+	  return $this->ok($params["fromId"]);
+  }
 }

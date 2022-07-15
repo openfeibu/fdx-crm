@@ -98,7 +98,7 @@ class ReceivablesDAO extends PSIBaseExDAO
 
     if ($caType == "customer") {
       $queryParams = [];
-      $sql = "select r.id, r.ca_id, c.code, c.name, r.act_money, r.balance_money, r.rv_money
+      $sql = "select r.id, r.ca_id, c.code, c.name, c.record_status, r.act_money, r.balance_money, r.rv_money
               from t_receivables r, t_customer c
               where (r.ca_type = '%s' and r.ca_id = c.id)";
       $queryParams[] = $caType;
@@ -135,6 +135,7 @@ class ReceivablesDAO extends PSIBaseExDAO
         $result[$i]["actMoney"] = $v["act_money"];
         $result[$i]["balanceMoney"] = $v["balance_money"];
         $result[$i]["rvMoney"] = $v["rv_money"];
+	      $result[$i]["recordStatus"] = $v["record_status"];
       }
 
       $queryParams = [];
@@ -169,7 +170,7 @@ class ReceivablesDAO extends PSIBaseExDAO
       ];
     } else {
       $queryParams = [];
-      $sql = "select r.id, r.ca_id, c.code, c.name, r.act_money, r.balance_money, r.rv_money
+      $sql = "select r.id, r.ca_id, c.code, c.name, c.record_status, r.act_money, r.balance_money, r.rv_money
               from t_receivables r, t_supplier c
               where r.ca_type = '%s' and r.ca_id = c.id ";
       $queryParams[] = $caType;
@@ -204,6 +205,7 @@ class ReceivablesDAO extends PSIBaseExDAO
         $result[$i]["actMoney"] = $v["act_money"];
         $result[$i]["balanceMoney"] = $v["balance_money"];
         $result[$i]["rvMoney"] = $v["rv_money"];
+	      $result[$i]["recordStatus"] = $v["record_status"];
       }
 
       $queryParams = [];

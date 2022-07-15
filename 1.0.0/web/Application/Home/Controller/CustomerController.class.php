@@ -361,4 +361,20 @@ class CustomerController extends PSIBaseController
       $this->ajaxReturn($cs->priceSystemList($params));
     }
   }
+  public function mergeCustomer()
+  {
+	  if (IS_POST) {
+		  $us = new UserService();
+		  if (!$us->hasPermission(FIdConst::CUSTOMER)) {
+			  die("没有权限");
+		  }
+		  $params = [
+		  	  'fromId' =>  I("post.id"),
+			    'toId' =>  I("post.toId")
+		  ];
+		  
+		  $cs = new CustomerService();
+		  $this->ajaxReturn($cs->mergeCustomer($params));
+	  }
+  }
 }
