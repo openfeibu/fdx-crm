@@ -1210,7 +1210,7 @@ class GoodsDAO extends PSIBaseExDAO
         $result["categoryId"] = $categoryId;
         $result["categoryName"] = $data[0]["full_name"];
         $result["categoryMType"] = $data[0]["m_type"];
-	      $result['code'] = $this->autoCode(['autoCodeLength' => 20, 'tableName' => 't_goods']);
+	      $result['code'] = $this->autoCode(['autoCodeLength' => 8, 'tableName' => 't_goods']);
       }
       return $result;
     }

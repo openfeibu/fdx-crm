@@ -14,6 +14,6 @@ class PinyinService
 {
   public function toPY($s)
   {
-    return strtoupper(pinyin($s, "first", ""));
+    return str_replace(' ','',strtoupper(pinyin($s, "first", "")));
   }
 }

@@ -52,7 +52,8 @@ class CustomerController extends PSIBaseController
       $this->assign("pDeleteCustomer", $us->hasPermission(FIdConst::CUSTOMER_DELETE) ? 1 : 0);
       // 按钮权限：导入客户资料
       $this->assign("pImportCustomer", $us->hasPermission(FIdConst::CUSTOMER_IMPORT) ? 1 : 0);
-
+			// 按钮权限：合并客户
+	    $this->assign("pMergeCustomer", $us->hasPermission(FIdConst::CUSTOMER_MERGE) ? 1 : 0);
       $this->display();
     } else {
       $this->gotoLoginPage("/Home/Customer/index");

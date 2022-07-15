@@ -321,7 +321,11 @@ class FIdConst
    * 导入客户
    */
   const CUSTOMER_IMPORT = "1007-09";
-
+	
+	/**
+	 * 合并客户
+	 */
+	const CUSTOMER_MERGE = "1007-10";
   /**
    * 库存建账
    */
