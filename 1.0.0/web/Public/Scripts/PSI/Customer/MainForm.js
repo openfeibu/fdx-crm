@@ -16,7 +16,8 @@ PCL.define("PSI.Customer.MainForm", {
     pAddCustomer: null,
     pEditCustomer: null,
     pDeleteCustomer: null,
-    pImportCustomer: null
+    pImportCustomer: null,
+    pMergeCustomer: null
   },
 
   /**
@@ -123,7 +124,7 @@ PCL.define("PSI.Customer.MainForm", {
       scope: me
     }, {
       text: "合并客户",
-      //disabled: me.getPDeleteCustomer() == "0",
+      hidden: me.getPMergeCustomer() == "0",
       handler: me.onMergeCustomer,
       scope: me
     }, "-", /*{
@@ -350,13 +351,15 @@ PCL.define("PSI.Customer.MainForm", {
         summaryRenderer() {
           return "客户数合计";
         }
-      }, {
+      },
+        /*{
         header: "价格体系",
         dataIndex: "priceSystem",
         width: 80,
         menuDisabled: true,
-        sortable: false
-      }, {
+        sortable: false,
+      }, */
+      {
         header: "客户数",
         dataIndex: "cnt",
         width: 80,

@@ -127,6 +127,7 @@ PCL.define("PSI.Customer.CategoryEditForm", {
           id: "PSI_Customer_CategoryEditForm_comboPrice",
           queryMode: "local",
           editable: false,
+          hidden:1,
           valueField: "id",
           displayField: "name",
           store: PCL.create("PCL.data.Store", {
