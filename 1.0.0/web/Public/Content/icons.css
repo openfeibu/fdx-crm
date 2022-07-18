@@ -455,7 +455,7 @@
 }
 
 .PSI-button-hide {
-    background-image:url(../Images/icons/hide.png?v=2018041801) !important;
+    /* background-image:url(../Images/icons/hide.png?v=2018041801) !important; */
 }
 
 .PSI-button-print {
