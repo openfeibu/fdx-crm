@@ -119,7 +119,7 @@ PCL.define("PSI.App", {
           renderer(value, metaData, record) {
             return `
             <a href='#' style='text-decoration:none'>
-              <span style='vertical-align: middle'>${value}</span>
+              <span style='vertical-align: middle; color:#3975d5'>${value}</span>
             </a>
             `;
           }
@@ -346,7 +346,7 @@ PCL.define("PSI.App", {
     };
 
     root.forEach((m1) => {
-      const menuItem = PCL.create("PCL.menu.Menu", { plain: true, bodyCls: "PSI-App-MainMenu" });
+      const menuItem = PCL.create("PCL.menu.Menu", { plain: true, bodyCls: "PSI-App-MainMenu fb-bg" });
       m1.children.forEach((m2) => {
         if (m2.children.length === 0) {
           // 只有二级菜单
@@ -359,7 +359,7 @@ PCL.define("PSI.App", {
             });
           }
         } else {
-          const menuItem2 = PCL.create("PCL.menu.Menu", { plain: true, bodyCls: "PSI-App-MainMenu" });
+          const menuItem2 = PCL.create("PCL.menu.Menu", { plain: true, bodyCls: "PSI-App-MainMenu fb-bg" });
 
           menuItem.add({
             text: m2.caption,
@@ -409,9 +409,9 @@ PCL.define("PSI.App", {
     const shortName = uname.substring(index + 1);
     theCmp.addTool({
       xtype: "tbtext",
-      text: `<span style='color:#8c8c8c;font-weight:bold;font-size:13px' title=${uname}>
+      text: `<span style='color:#fff;font-weight:bold;font-size:13px' title=${uname}>
                 ${shortName}
-            </span><a href="${PSI.Const.BASE_URL}Home/User/Logout/">退出</a>`
+            </span><a style="color:#dcdcdc;margin-left:5px" href="${PSI.Const.BASE_URL}Home/User/Logout/">退出</a>`
     });
   },
 
@@ -435,7 +435,7 @@ PCL.define("PSI.App", {
     const me = this;
     const panel = PCL.getCmp("_PSITopPanel");
     const title = `
-      <span style='font-size:140%;color:#c7c6c6;font-weight:bold;'>
+      <span style='font-size:140%;color:#fff;font-weight:bold;'>
         ${header.title} - ${me.getProductionName()}
       </span>
       `;

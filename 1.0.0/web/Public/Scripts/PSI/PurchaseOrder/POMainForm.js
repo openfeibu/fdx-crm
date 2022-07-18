@@ -288,7 +288,7 @@ PCL.define("PSI.PurchaseOrder.POMainForm", {
         scope: me
       }, {
         xtype: "button",
-        iconCls: "PSI-button-hide",
+        iconCls: "", //PSI-button-hide
         text: "隐藏工具栏",
         width: 130,
         height: 26,

@@ -499,7 +499,7 @@ PCL.define("PSI.Home.MainForm", {
 
     me.__saleTopGrid = PCL.create("PCL.chart.Chart", {
       renderTo: Ext.getBody(),
-      width: '80%',
+      width: '82%',
       height: 300,
       animate: true,
       store: PCL.create("PCL.data.Store", {
@@ -523,6 +523,7 @@ PCL.define("PSI.Home.MainForm", {
           type: 'Category',
           position: 'bottom',
           fields: ['goods_name'],
+		  
           title: '产品'
         }
       ],
@@ -545,8 +546,9 @@ PCL.define("PSI.Home.MainForm", {
             field: 'cnt',
             renderer: Ext.util.Format.numberRenderer('0'),
             //orientation: 'vertical',
-            color: '#333'
+            color: '#fff'
           },
+		   
           xField: 'goods_name',
           yField: 'cnt'
         }
@@ -577,13 +579,13 @@ PCL.define("PSI.Home.MainForm", {
       columns: [{
         header: "款项",
         dataIndex: "item",
-        width: 80,
+        width: '10%',
         menuDisabled: true,
         sortable: false
       }, {
         header: "当期余额",
         dataIndex: "balanceMoney",
-        width: 120,
+        width: '18%',
         menuDisabled: true,
         sortable: false,
         align: "right",
@@ -591,7 +593,7 @@ PCL.define("PSI.Home.MainForm", {
       }, {
         header: "账龄30天内",
         dataIndex: "money30",
-        width: 120,
+        width: '18%',
         menuDisabled: true,
         sortable: false,
         align: "right",
@@ -599,7 +601,7 @@ PCL.define("PSI.Home.MainForm", {
       }, {
         header: "账龄30-60天",
         dataIndex: "money30to60",
-        width: 120,
+        width: '18%',
         menuDisabled: true,
         sortable: false,
         align: "right",
@@ -607,7 +609,7 @@ PCL.define("PSI.Home.MainForm", {
       }, {
         header: "账龄60-90天",
         dataIndex: "money60to90",
-        width: 120,
+        width: '18%',
         menuDisabled: true,
         sortable: false,
         align: "right",
@@ -619,7 +621,7 @@ PCL.define("PSI.Home.MainForm", {
         sortable: false,
         align: "right",
         xtype: "numbercolumn",
-        width: 120
+        width: '18%'
       }],
       store: PCL.create("PCL.data.Store", {
         model: modelName,
@@ -639,7 +641,7 @@ PCL.define("PSI.Home.MainForm", {
       height: 270,
       margin: "5",
       header: {
-        title: "<span style='font-size:120%;font-weight:normal;'>销售看板</span>",
+        title: "<span style='font-size:120%;font-weight:normal;'>销售数据图表</span>",
         iconCls: "PSI-portal-sale",
         height: 40
       },
@@ -678,7 +680,7 @@ PCL.define("PSI.Home.MainForm", {
       height: 270,
       margin: "5",
       header: {
-        title: "<span style='font-size:120%;font-weight:normal;'>销售看板</span>",
+        title: "<span style='font-size:120%;font-weight:normal;'>销售数据</span>",
         iconCls: "PSI-portal-sale",
         height: 40
       },
@@ -810,7 +812,7 @@ PCL.define("PSI.Home.MainForm", {
     var me = this;
     return {
       header: {
-        title: "<span style='font-size:120%;font-weight:normal;'>产品销量前10</span>",
+        title: "<span style='font-size:120%;font-weight:normal;'>产品销量前10排行榜</span>",
         iconCls: "PSI-portal-sale",
         height: 40
       },

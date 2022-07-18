@@ -214,7 +214,7 @@ p {
   border: 0;
   height: 22px;
 }
-.x-btn-default-toolbar-small-focus{  background: #2963c0;}
+.x-btn-default-toolbar-small-focus{  background: none;}
 .PSI-App .x-btn-default-toolbar-small .x-btn-arrow {
   background-image: none;
 }
@@ -293,9 +293,9 @@ p {
 }
 
 .x-btn-default-small-over {
-  background-image: none;
+  /*background-image: none;
   border-color: #f759ab;
-  background-color: #ffadd2;
+  background-color: #ffadd2;*/
 }
 
 .x-btn-default-small {
@@ -807,4 +807,8 @@ background-color:#999 !important;
     background-color: #ffffff;
     color: #222222;
     
+}
+.fb-bg{
+	
+	background:#99bce8 !important;
 }
