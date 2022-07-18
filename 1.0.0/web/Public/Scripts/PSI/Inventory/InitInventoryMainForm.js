@@ -219,11 +219,11 @@ PCL.define("PSI.Inventory.InitInventoryMainForm", {
         scope: me,
         handler: me.onInitInv
       },
-      {
+      /*{
         text: "电子表格式录入建账数据",
         scope: me,
         handler: me.onInitInvBySheet
-      }, "-", {
+      }, "-",*/ {
         text: "刷新",
         scope: me,
         handler: function () {

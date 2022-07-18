@@ -137,6 +137,7 @@ PCL.define("PSI.Warehouse.EditForm", {
         }, {
           id: "PSI_Warehouse_EditForm_editOrg",
           fieldLabel: "核算组织机构",
+          hidden: true,
           xtype: "psi_orgfield",
           value: entity == null ? null : entity
             .get("orgName"),
@@ -192,6 +193,7 @@ PCL.define("PSI.Warehouse.EditForm", {
           xtype: "combo",
           queryMode: "local",
           editable: false,
+          hidden: true,
           valueField: "id",
           labelAlign: "right",
           labelSeparator: "",
@@ -213,6 +215,7 @@ PCL.define("PSI.Warehouse.EditForm", {
           xtype: "combo",
           queryMode: "local",
           editable: false,
+          hidden: true,
           valueField: "id",
           labelAlign: "right",
           labelSeparator: "",
@@ -223,7 +226,7 @@ PCL.define("PSI.Warehouse.EditForm", {
             data: [[0, "不启用物料限制"], [1, "启用物料限制"]]
           }),
           value: entity == null
-            ? 1
+            ? 0
             : parseInt(entity.get("limitGoods")),
           name: "limitGoods"
         }],

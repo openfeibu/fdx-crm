@@ -153,11 +153,11 @@ PCL.define("PSI.Warehouse.MainForm", {
               return `<span class="PSI-record-disabled">${value}</span>`;
             }
           }
-        }, {
+        }, /*{
           header: "核算组织机构",
           dataIndex: "orgName",
           width: 250
-        }, {
+        },*/ {
           header: "销售核算面积(平方米)",
           dataIndex: "saleArea",
           width: 150,
@@ -171,11 +171,11 @@ PCL.define("PSI.Warehouse.MainForm", {
               ? "建账完毕"
               : "<span style='color:red'>待建账</span>";
           }
-        }, {
+        }, /*{
           header: "用途",
           dataIndex: "usageTypeName",
           width: 200
-        }, {
+        }, */{
           header: "仓库状态",
           dataIndex: "enabled",
           width: 90,
