@@ -176,11 +176,12 @@ PCL.define("PSI.Home.MainForm", {
         dataIndex: "month",
         width: '20%',
         menuDisabled: true,
+		align: "center",
         sortable: false
       }, {
         header: "销售额(不含税)",
         dataIndex: "saleMoney",
-        width: '30%',
+        width: '80%',
         menuDisabled: true,
         sortable: false,
         align: "right",
@@ -243,7 +244,7 @@ PCL.define("PSI.Home.MainForm", {
         width: '70%',
         menuDisabled: true,
         sortable: false,
-        align: "center",
+        align: "right",
         xtype: "numbercolumn"
       }],
       store: PCL.create("PCL.data.Store", {
@@ -297,7 +298,7 @@ PCL.define("PSI.Home.MainForm", {
         width: '50%',
         menuDisabled: true,
         sortable: false,
-        align: "center",
+        align: "right",
         xtype: "numbercolumn",
         summaryType: "sum"
       }
@@ -499,7 +500,7 @@ PCL.define("PSI.Home.MainForm", {
 
     me.__saleTopGrid = PCL.create("PCL.chart.Chart", {
       renderTo: Ext.getBody(),
-      width: '82%',
+      width: '100%',
       height: 300,
       animate: true,
       store: PCL.create("PCL.data.Store", {
@@ -709,7 +710,7 @@ PCL.define("PSI.Home.MainForm", {
     var me = this;
     return {
       header: {
-        title: "<span style='font-size:120%;font-weight:normal;'>采购看板</span>",
+        title: "<span style='font-size:120%;font-weight:normal;'>采购数据图表</span>",
         iconCls: "PSI-portal-purchase",
         height: 40
       },
@@ -748,7 +749,7 @@ PCL.define("PSI.Home.MainForm", {
     var me = this;
     return {
       header: {
-        title: "<span style='font-size:120%;font-weight:normal;'>采购看板</span>",
+        title: "<span style='font-size:120%;font-weight:normal;'>采购数据</span>",
         iconCls: "PSI-portal-purchase",
         height: 40
       },
@@ -765,7 +766,7 @@ PCL.define("PSI.Home.MainForm", {
     var me = this;
     return {
       header: {
-        title: "<span style='font-size:120%;font-weight:normal;'>库存看板</span>",
+        title: "<span style='font-size:120%;font-weight:normal;'>库存金额统计</span>",
         iconCls: "PSI-portal-inventory",
         height: 40
       },
@@ -830,7 +831,7 @@ PCL.define("PSI.Home.MainForm", {
     var me = this;
     return {
       header: {
-        title: "<span style='font-size:120%;font-weight:normal;'>资金看板</span>",
+        title: "<span style='font-size:120%;font-weight:normal;'>财务统计</span>",
         iconCls: "PSI-portal-money",
         height: 40
       },
