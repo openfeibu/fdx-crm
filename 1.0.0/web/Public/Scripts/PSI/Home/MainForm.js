@@ -185,7 +185,7 @@ PCL.define("PSI.Home.MainForm", {
         sortable: false,
         align: "right",
         xtype: "numbercolumn"
-      }, {
+      }/*, {
         header: "毛利",
         dataIndex: "profit",
         width: '30%',
@@ -200,7 +200,7 @@ PCL.define("PSI.Home.MainForm", {
         menuDisabled: true,
         sortable: false,
         align: "right"
-      }],
+      }*/],
       store: PCL.create("PCL.data.Store", {
         model: modelName,
         autoLoad: false,
@@ -507,6 +507,7 @@ PCL.define("PSI.Home.MainForm", {
         autoLoad: false,
         data: []
       }),
+      //theme:'Blue',
       axes: [
         {
           type: "Numeric",
@@ -1062,7 +1063,7 @@ PCL.define("PSI.Home.MainForm", {
         type: "Numeric",
         position: "left",
         grid: true,
-        fields: ["不含税销售额", "毛利"],
+        fields: ["不含税销售额"/*, "毛利"*/],
         label: {
           renderer: function (v) {
             return me.formatMoney2(v);
@@ -1091,7 +1092,7 @@ PCL.define("PSI.Home.MainForm", {
               .formatMoney(storeItem.get("不含税销售额")));
           }
         }
-      }, {
+      }/*, {
         type: "line",
         xField: "month",
         yField: "毛利",
@@ -1114,7 +1115,7 @@ PCL.define("PSI.Home.MainForm", {
                 .get("毛利")));
           }
         }
-      }]
+      }*/]
     });
     return me.__saleChart;
   },

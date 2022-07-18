@@ -217,7 +217,7 @@ PCL.define("PSI.Report.SaleDayByCustomerForm", {
         sortable: true,
         align: "right",
         xtype: "numbercolumn"
-      }, {
+      }, /*{
         header: "毛利",
         dataIndex: "profit",
         menuDisabled: true,
@@ -230,7 +230,7 @@ PCL.define("PSI.Report.SaleDayByCustomerForm", {
         menuDisabled: true,
         sortable: true,
         align: "right"
-      }],
+      }*/],
       store: store
     });
 
@@ -293,7 +293,7 @@ PCL.define("PSI.Report.SaleDayByCustomerForm", {
         sortable: false,
         align: "right",
         xtype: "numbercolumn"
-      }, {
+      }, /*{
         header: "毛利",
         dataIndex: "profit",
         menuDisabled: true,
@@ -306,7 +306,7 @@ PCL.define("PSI.Report.SaleDayByCustomerForm", {
         menuDisabled: true,
         sortable: false,
         align: "right"
-      }],
+      }*/],
       store: store
     });
 

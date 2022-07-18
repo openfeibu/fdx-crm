@@ -226,7 +226,7 @@ PCL.define("PSI.Report.SaleMonthByBizuserForm", {
         sortable: true,
         align: "right",
         xtype: "numbercolumn"
-      }, {
+      }, /*{
         header: "毛利",
         dataIndex: "profit",
         menuDisabled: true,
@@ -239,7 +239,7 @@ PCL.define("PSI.Report.SaleMonthByBizuserForm", {
         menuDisabled: true,
         sortable: true,
         align: "right"
-      }],
+      }*/],
       store: store
     });
 
@@ -302,7 +302,7 @@ PCL.define("PSI.Report.SaleMonthByBizuserForm", {
         sortable: false,
         align: "right",
         xtype: "numbercolumn"
-      }, {
+      }, /*{
         header: "毛利",
         dataIndex: "profit",
         menuDisabled: true,
@@ -315,7 +315,7 @@ PCL.define("PSI.Report.SaleMonthByBizuserForm", {
         menuDisabled: true,
         sortable: false,
         align: "right"
-      }],
+      }*/],
       store: store
     });
 

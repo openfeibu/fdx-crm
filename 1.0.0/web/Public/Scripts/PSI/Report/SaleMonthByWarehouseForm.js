@@ -228,7 +228,7 @@ PCL.define("PSI.Report.SaleMonthByWarehouseForm", {
         sortable: true,
         align: "right",
         xtype: "numbercolumn"
-      }, {
+      }, /*{
         header: "毛利",
         dataIndex: "profit",
         menuDisabled: true,
@@ -241,7 +241,7 @@ PCL.define("PSI.Report.SaleMonthByWarehouseForm", {
         menuDisabled: true,
         sortable: true,
         align: "right"
-      }, {
+      }, */{
         header: "每平方米销售额",
         dataIndex: "saleAreaRate",
         menuDisabled: true,
@@ -318,7 +318,7 @@ PCL.define("PSI.Report.SaleMonthByWarehouseForm", {
         sortable: false,
         align: "right",
         xtype: "numbercolumn"
-      }, {
+      },/* {
         header: "毛利",
         dataIndex: "profit",
         menuDisabled: true,
@@ -331,7 +331,7 @@ PCL.define("PSI.Report.SaleMonthByWarehouseForm", {
         menuDisabled: true,
         sortable: false,
         align: "right"
-      }],
+      }*/],
       store: store
     });
 
