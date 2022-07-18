@@ -285,7 +285,7 @@ PCL.define("PSI.Home.MainForm", {
       columns: [{
         header: "仓库",
         dataIndex: "warehouseName",
-        width: '50%',
+        width: '49.5%',
         menuDisabled: true,
         sortable: false,
         align: "center",
@@ -295,7 +295,7 @@ PCL.define("PSI.Home.MainForm", {
       }, {
         header: "存货金额",
         dataIndex: "inventoryMoney",
-        width: '50%',
+        width: '49.5%',
         menuDisabled: true,
         sortable: false,
         align: "right",
