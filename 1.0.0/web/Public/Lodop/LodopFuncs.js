@@ -46,14 +46,14 @@ function needCLodop() {
 if (needCLodop()) {
 	var head = document.head || document.getElementsByTagName("head")[0]
 			|| document.documentElement;
-	// var oscript = document.createElement("script");
-	// oscript.src = "https://localhost:8443/CLodopfuncs.js?priority=1";
-	// head.insertBefore(oscript, head.firstChild);
+	var oscript = document.createElement("script");
+	oscript.src = "https://localhost:8443/CLodopfuncs.js?priority=1";
+	head.insertBefore(oscript, head.firstChild);
 
 	// 引用双端口(8000和18000）避免其中某个被占用：
-	oscript = document.createElement("script");
-	oscript.src = "http://39.108.144.9:18000/CLodopfuncs.js?priority=0";
-	head.insertBefore(oscript, head.firstChild);
+	// oscript = document.createElement("script");
+	// oscript.src = "http://39.108.144.9:18000/CLodopfuncs.js?priority=0";
+	// head.insertBefore(oscript, head.firstChild);
 };
 
 // ====获取LODOP对象的主过程：====
@@ -129,14 +129,14 @@ function getLodop(oOBJECT, oEMBED) {
 			// =====Lodop插件未安装时提示下载地址:==========
 			if ((LODOP == null) || (typeof(LODOP.VERSION) == "undefined")) {
 				/*
-				 * if (navigator.userAgent.indexOf('Chrome')>=0)
-				 * document.body.innerHTML=strHtmChrome+document.body.innerHTML;
-				 * if (navigator.userAgent.indexOf('Firefox')>=0)
-				 * document.body.innerHTML=strHtmFireFox+document.body.innerHTML;
-				 * if (is64IE) document.write(strHtm64_Install); else if (isIE)
-				 * document.write(strHtmInstall); else
-				 * document.body.innerHTML=strHtmInstall+document.body.innerHTML;
-				 */
+				 if (navigator.userAgent.indexOf('Chrome')>=0)
+				 document.body.innerHTML=strHtmChrome+document.body.innerHTML;
+				 if (navigator.userAgent.indexOf('Firefox')>=0)
+				 document.body.innerHTML=strHtmFireFox+document.body.innerHTML;
+				 if (is64IE) document.write(strHtm64_Install); else if (isIE)
+				 document.write(strHtmInstall); else
+				 document.body.innerHTML=strHtmInstall+document.body.innerHTML;
+					*/
 				return LODOP;
 			};
 		};

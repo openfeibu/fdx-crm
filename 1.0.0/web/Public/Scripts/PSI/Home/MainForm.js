@@ -537,7 +537,7 @@ PCL.define("PSI.Home.MainForm", {
             height: 28,
             renderer: function(storeItem, item) {
               this.setTitle(storeItem.get('goods_name') + ': ' + parseInt(storeItem.get('cnt')) + '');
-            }
+            },
           },
           label: {
             display: 'insideEnd',
