@@ -435,9 +435,11 @@ PCL.define("PSI.App", {
     const me = this;
     const panel = PCL.getCmp("_PSITopPanel");
     const title = `
+	<a href="/">
       <span style='font-size:140%;color:#fff;font-weight:bold;'>
         ${header.title} - ${me.getProductionName()}
       </span>
+	  </a>
       `;
 
     panel.setTitle(title);
