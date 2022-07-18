@@ -72,7 +72,8 @@ class MainMenuService extends PSIBaseExService
     $m1 = $db->query($sql);
 
     // 从1开始，是因为0给常用功能了
-    $index1 = 1;
+    //$index1 = 1;
+	  $index1 = 0; //隐藏常用功能
     foreach ($m1 as $menuItem1) {
       //加工
 //      if($menuItem1['id'] == 12)
