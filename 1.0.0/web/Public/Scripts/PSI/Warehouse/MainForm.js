@@ -52,22 +52,22 @@ PCL.define("PSI.Warehouse.MainForm", {
 
     const result = [{
       text: "新建仓库",
-      disabled: me.getPAdd() == "0",
+      hidden: me.getPAdd() == "0",
       handler: me._onAddWarehouse,
       scope: me
     }, {
       text: "编辑仓库",
-      disabled: me.getPEdit() == "0",
+      hidden: me.getPEdit() == "0",
       handler: me._onEditWarehouse,
       scope: me
     }, {
       text: "删除仓库",
-      disabled: me.getPDelete() == "0",
+      hidden: me.getPDelete() == "0",
       handler: me._onDeleteWarehouse,
       scope: me
     }, "-", {
       text: "修改数据域",
-      disabled: me.getPEditDataOrg() == "0",
+      hidden: me.getPEditDataOrg() == "0",
       handler: me._onEditDataOrg,
       scope: me
     }];
