@@ -815,7 +815,8 @@ background-color:#999 !important;
 .fb-bg.PSI-App-MainMenu .x-menu-item-text{color:#333 !important;}
 
 .x-menu-item-link{line-height:30px;}
-.x-menu-item-icon{top:9px;}
+.x-menu-item-icon{top:2px;left:5px;color: #4576ce;
+    font-weight: bold;}
 
 .x-grid-record-gray .x-grid-td{ background: #948d8e; }
 
