@@ -341,7 +341,7 @@ PCL.define("PSI.App", {
       }
 
       // TODO 还需要处理LCAP其他模块
-
+     
       return `PSI-fid${fid}`;
     };
 
@@ -355,7 +355,7 @@ PCL.define("PSI.App", {
               text: m2.caption,
               fid: m2.fid,
               handler: menuItemClick,
-              iconCls: getIconCls(m2.fid)
+              iconCls: m2.icon
             });
           }
         } else {
@@ -450,5 +450,6 @@ PCL.define("PSI.App", {
    */
   add(comp) {
     this._mainPanel.add(comp);
+	
   }
 });
