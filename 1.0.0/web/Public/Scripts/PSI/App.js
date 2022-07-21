@@ -363,7 +363,8 @@ PCL.define("PSI.App", {
 
           menuItem.add({
             text: m2.caption,
-            menu: menuItem2
+            menu: menuItem2,
+			iconCls: m2.icon
           });
 
           // 三级菜单
@@ -372,7 +373,7 @@ PCL.define("PSI.App", {
               text: m3.caption,
               fid: m3.fid,
               handler: menuItemClick,
-              iconCls: getIconCls(m3.fid)
+              iconCls: m3.icon
             });
           });
         }
