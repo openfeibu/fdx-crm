@@ -19,7 +19,33 @@ use Home\Service\UserService;
  */
 class ReportController extends PSIBaseController
 {
-
+	
+	/**
+	 * 概览
+	 */
+	public function overview()
+	{
+		$us = new UserService();
+		
+		if ($us->hasPermission(FIdConst::OVERVIEW)) {
+			$this->initVar();
+			
+			$this->assign("title", "数据概览");
+			
+			$this->assign("pSale", $us->hasPermission(FIdConst::PORTAL_SALE) ? 1 : 0);
+			$this->assign("pInventory", $us->hasPermission(FIdConst::PORTAL_INVENTORY) ? 1 : 0);
+			$this->assign("pPurchase", $us->hasPermission(FIdConst::PORTAL_PURCHASE) ? 1 : 0);
+			$this->assign("pMoney", $us->hasPermission(FIdConst::PORTAL_MONEY) ? 1 : 0);
+			$this->assign("pSaleBrief", $us->hasPermission(FIdConst::PORTAL_SALE_BRIEF) ? 1 : 0);
+			$this->assign("pSaleCntBrief", $us->hasPermission(FIdConst::PORTAL_SALE_CNT_BRIEF) ? 1 : 0);
+			$this->assign("pSaleTop", $us->hasPermission(FIdConst::PORTAL_SALE_TOP) ? 1 : 0);
+			
+			$this->display();
+		}else {
+			$this->gotoLoginPage("/Home/Report/overview");
+		}
+	
+	}
   /**
    * 销售日报表(按商品汇总)
    */

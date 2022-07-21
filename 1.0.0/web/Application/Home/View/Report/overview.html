@@ -1,0 +1,32 @@
+{/*
+* @author 广州飞步信息科技有限公司
+* @copyright 2015 - present
+* @license GPL v3
+*/}
+<layout name="layout" />
+
+<script src="{$uri}Public/Scripts/PSI/Report/MainForm.js?dt={$dtFlag}" type="text/javascript"></script>
+<script>
+  PCL.onReady(() => {
+    const app = PCL.create("PSI.App", {
+      userName: "{$loginUserName}",
+      productionName: "{$productionName}",
+      showCopyright: true,
+      //showRecent: true,
+      appHeaderInfo: {
+        title: "{$title}"
+      }
+    });
+
+    app.add(PCL.create("PSI.Report.MainForm", {
+      pSale: "{$pSale}",
+      pInventory: "{$pInventory}",
+      pPurchase: "{$pPurchase}",
+      pMoney: "{$pMoney}",
+      productionName: "{$productionName}",
+      pSaleBrief: "{$pSaleBrief}",
+      pSaleCntBrief: "{$pSaleCntBrief}",
+      pSaleTop: "{$pSaleTop}"
+    }));
+  });
+</script>
