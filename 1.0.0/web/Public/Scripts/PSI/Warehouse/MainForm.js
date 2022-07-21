@@ -65,7 +65,7 @@ PCL.define("PSI.Warehouse.MainForm", {
       hidden: me.getPDelete() == "0",
       handler: me._onDeleteWarehouse,
       scope: me
-    }, "-", {
+    }, {
       text: "修改数据域",
       hidden: me.getPEditDataOrg() == "0",
       handler: me._onEditDataOrg,
