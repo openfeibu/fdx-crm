@@ -205,7 +205,6 @@ PCL.define("PSI.Funds.RvMainForm", {
         sortable: false,
         width: 300,
         renderer(value, metaData, record) {
-          console.log(record);
           return PSI.CustomerCommon.recordStatusHtml(record.get("recordStatus"),value);
         }
       }, {
@@ -304,7 +303,15 @@ PCL.define("PSI.Funds.RvMainForm", {
     me.__rvDetailGrid = PCL.create("PCL.grid.Panel", {
       cls: "PSI-HL",
       viewConfig: {
-        enableTextSelection: true
+        enableTextSelection: true,
+        getRowClass:function(record,index,p,ds) {
+          var cls = 'white-row';
+          if(record.data.balanceMoney <= 0)
+          {
+            cls = 'x-grid-record-green';
+          }
+          return cls;
+        }
       },
       header: {
         height: 30,
@@ -316,6 +323,14 @@ PCL.define("PSI.Funds.RvMainForm", {
         store: store
       }],
       columnLines: true,
+      selType: "checkboxmodel",
+      tbar: [{
+        text: "单据生成pdf",
+        iconCls: "PSI-button-pdf",
+        handler: me.onPDF,
+        id: "buttonPDF",
+        scope: me
+      }],
       columns: [{
         header: "业务类型",
         dataIndex: "refType",
@@ -383,7 +398,7 @@ PCL.define("PSI.Funds.RvMainForm", {
           fn: me.onRvDetailGridSelect,
           scope: me
         }
-      }
+      },
     });
 
     return me.__rvDetailGrid;
@@ -581,7 +596,6 @@ PCL.define("PSI.Funds.RvMainForm", {
     }
 
     var rvDetail = item[0];
-
     var form = PCL.create("PSI.Funds.RvRecordEditForm", {
       parentForm: me,
       rvDetail: rvDetail
@@ -640,7 +654,34 @@ PCL.define("PSI.Funds.RvMainForm", {
 
     });
   },
+  onPDF: function () {
+    var me = this;
+    const grid = me.__rvDetailGrid;
 
+    const items = grid.getSelectionModel().getSelection();
+    if (items == null || items.length == 0) {
+      me.showInfo("请选择要生成pdf的单据");
+      return;
+    }
+    var ids = '';
+    items.forEach(items => {
+      ids += items.get('id') + ',';
+    })
+    var url = PSI.Const.BASE_URL + "Home/Funds/rvPdf";
+    var oForm = document.createElement("form");　　　　//表单提交
+    oForm.method="post";
+    oForm.target="_blank";
+    oForm.action=url; 　　　　//action路径
+
+    var hasitemsids_input = document.createElement("input");
+    hasitemsids_input.type="hidden";
+    hasitemsids_input.name="ids";
+    hasitemsids_input.value=ids;  　　　　//待传参数
+    oForm.appendChild(hasitemsids_input);
+    document.body.appendChild(oForm);
+
+    oForm.submit();
+  },
   onClearQuery: function () {
     var me = this;
 

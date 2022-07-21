@@ -174,7 +174,9 @@ PCL.define("PSI.PurchaseRej.PREditForm", {
           valueField: "id",
           store: PCL.create("PCL.data.ArrayStore", {
             fields: ["id", "text"],
-            data: [["0", "记应收账款/月结"],
+            data: [
+              //["0", "记应收账款/月结"],
+              ["0", "冲销 记应付账款/月结"],
             ["1", "现金收款"]]
           }),
           value: "0",

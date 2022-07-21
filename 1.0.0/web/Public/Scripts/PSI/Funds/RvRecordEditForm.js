@@ -111,6 +111,7 @@ PCL.define("PSI.Funds.RvRecordEditForm", {
           hideTrigger: true,
           name: "actMoney",
           id: "editActMoney",
+          value: me.getRvDetail().get("balanceMoney"),
           listeners: {
             specialkey: {
               fn: me.onEditActMoneySpecialKey,

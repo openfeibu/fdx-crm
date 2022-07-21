@@ -32,7 +32,7 @@ Ext.define("PSI.Funds.PayMainForm", {
           fields: ["id", "text"],
           data: [["supplier", "供应商"],
           ["customer", "客户"],
-          ["factory", "工厂"]]
+          /*["factory", "工厂"]*/]
         }),
         value: "supplier",
         listeners: {
@@ -286,6 +286,17 @@ Ext.define("PSI.Funds.PayMainForm", {
 
     me.__payDetailGrid = Ext.create("Ext.grid.Panel", {
       cls: "PSI-HL",
+      viewConfig: {
+        enableTextSelection: true,
+        getRowClass:function(record,index,p,ds) {
+          var cls = 'white-row';
+          if(record.data.balanceMoney <= 0)
+          {
+            cls = 'x-grid-record-green';
+          }
+          return cls;
+        }
+      },
       header: {
         height: 30,
         title: me.formatGridHeaderTitle("业务单据")
