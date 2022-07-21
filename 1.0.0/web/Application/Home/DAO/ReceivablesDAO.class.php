@@ -284,7 +284,105 @@ class ReceivablesDAO extends PSIBaseExDAO
       "totalCount" => $cnt
     ];
   }
+  
+	public function getRvDetailDataForPDF($id_arr)
+	{
+		$db = $this->db;
+		
+		$sql = "select id, ca_id, ca_type, rv_money, act_money, balance_money, ref_type, ref_number, date_created, biz_date
+            from t_receivables_detail
+            where id in (";
+		foreach ($id_arr as $i => $id)
+		{
+			if ($i > 0) {
+				$sql .= ",";
+			}
+			$sql .= "'".$id."'";
+		}
+		$sql.=") order by biz_date desc, date_created desc";
 
+		$data = $db->query($sql);
+		$result = [];
+		$totalBalanceMoney = 0;
+		$ca = [];
+		foreach ($data as $i => $v) {
+			$result[$i]["id"] = $v["id"];
+			$result[$i]["refType"] = $v["ref_type"];
+			$result[$i]["refNumber"] = $v["ref_number"];
+			$result[$i]["dateCreated"] = $v["date_created"];
+			$result[$i]["bizDT"] = date("Y-m-d", strtotime($v["biz_date"]));
+			$result[$i]["rvMoney"] = $v["rv_money"];
+			$result[$i]["actMoney"] = $v["act_money"];
+			$result[$i]["balanceMoney"] = $v["balance_money"];
+			$bill = [];
+			switch ($result[$i]["refType"]) {
+				case "采购订单":
+					$dao = new POBillDAO($this->db);
+					$bill = $dao->getFullBillDataByRef($result[$i]["refNumber"]);
+					break;
+				case "采购入库":
+					$dao = new PWBillDAO($this->db);
+					$bill = $dao->getFullBillDataByRef($result[$i]["refNumber"]);
+					break;
+				case "成品委托生产入库":
+					$dao = new DMWBillDAO($this->db);
+					$bill = $dao->getFullBillDataByRef($result[$i]["refNumber"]);
+					break;
+				case "采购退货出库":
+					$dao = new PRBillDAO($this->db);
+					$bill = $dao->getFullBillDataByRef($result[$i]["refNumber"]);
+					break;
+				case "销售订单":
+					$dao = new SOBillDAO($this->db);
+					$bill = $dao->getFullBillDataByRef($result[$i]["refNumber"]);
+					break;
+				case "销售出库":
+					$dao = new WSBillDAO($this->db);
+					$bill = $dao->getFullBillDataByRef($result[$i]["refNumber"]);
+					break;
+				case "销售退货入库":
+					$dao = new SRBillDAO($this->db);
+					$bill = $dao->getFullBillDataByRef($result[$i]["refNumber"]);
+					break;
+				case "调拨入库":
+				case "调拨出库":
+					$dao = new ITBillDAO($this->db);
+					$bill = $dao->getFullBillDataByRef($result[$i]["refNumber"]);
+					break;
+				case "库存盘点-盘亏出库":
+				case "库存盘点-盘盈入库":
+					$dao = new ICBillDAO($this->db);
+					$bill = $dao->getFullBillDataByRef($result[$i]["refNumber"]);
+					break;
+			}
+			$result[$i]['bill'] = $bill;
+			if(!$ca)
+			{
+				if($v['ca_type'] == 'customer')
+				{
+					$ca_sql = "select name from t_customer c where c.id = '%s'";
+					$ca_data = $db->query($ca_sql, $v['ca_id']);
+					$ca = [
+						'caType' => '客户',
+						'caName' => $ca_data[0]['name']
+					];
+				}else{
+					$ca_sql = "select name from t_supplier c where c.id = '%s'";
+					$ca_data = $db->query($ca_sql, $v['ca_id']);
+					$ca = [
+						'caType' => '供应商',
+						'caName' => $ca_data[0]['name']
+					];
+				}
+			}
+			$totalBalanceMoney += $result[$i]["balanceMoney"];
+		}
+		return [
+			"dataList" => $result,
+			"ca" => $ca,
+			'totalBalanceMoney' => $totalBalanceMoney
+		];
+	}
   /**
    * 应收账款的收款记录
    *

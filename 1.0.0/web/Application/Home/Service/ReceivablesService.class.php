@@ -57,7 +57,118 @@ class ReceivablesService extends PSIBaseExService
     $dao = new ReceivablesDAO($this->db());
     return $dao->rvDetailList($params);
   }
-
+	
+  public function rvPdf($ids)
+  {
+	  if ($this->isNotOnline()) {
+		  return;
+	  }
+		$id_arr = array_filter(explode(',',$ids));
+	  if (!$id_arr) {
+		  return $this->bad("请选择数据");
+	  }
+	  
+	  $dao = new ReceivablesDAO($this->db());
+	  $rvDetailList = $dao->getRvDetailDataForPDF($id_arr);
+	  
+	  if (!$rvDetailList) {
+		  return;
+	  }
+		$ca = $rvDetailList['ca'];
+	  $dataList = $rvDetailList['dataList'];
+	  $totalBalanceMoney = $rvDetailList['totalBalanceMoney'];
+	  
+	  $bs = new BizConfigService();
+	  $productionName = $bs->getProductionName();
+	
+	  // 记录业务日志
+	  $log = "应收账款业务单据生成PDF文件";
+	  $bls = new BizlogService($this->db());
+	  $bls->insertBizlog($log, $this->LOG_CATEGORY);
+	
+	  ob_start();
+	
+	  $utilService = new UtilService();
+	
+	  $ps = new PDFService();
+	  $pdf = $ps->getInstance();
+	  $pdf->SetTitle("应收款业务单据");
+	
+	  $pdf->setHeaderFont([
+		  "stsongstdlight",
+		  "",
+		  16
+	  ]);
+	
+	  $pdf->setFooterFont([
+		  "stsongstdlight",
+		  "",
+		  14
+	  ]);
+	
+	  $pdf->SetHeaderData("", 0, $productionName, "应收款业务单据");
+	
+	  $pdf->SetFont("stsongstdlight", "", 10);
+	  $pdf->AddPage();
+	
+	  /**
+	   * 注意：
+	   * TCPDF中，用来拼接HTML的字符串需要用单引号，否则HTML中元素的属性就不会被解析
+	   */
+	  $html =  '
+				<table>
+				<tr>
+				<td colspan="2">'.$ca['caType'].'：' . $ca['caName'] . '</td>
+				<td>账单金额：' . $totalBalanceMoney . '</td></tr>
+				</table>';
+	  
+	  $pdf->writeHTML($html);
+	  
+	  foreach ($dataList as $v)
+	  {
+		  $html = '
+				<table>
+					<tr><td>单号：' . $v['refNumber'] . '</td><td>业务日期：' . $v["bizDT"] . '</td></tr>';
+		  if(isset($v['bill']['freight']))
+		  {
+			  $html .= '
+			  <tr><td>运费：' . $v['bill']['freight'] . '</td><td></td></tr>
+			  ';
+		  }
+		  $html .= '
+				</table>
+				';
+		  $html .= '<table border="1" cellpadding="1">
+					<tr><td>商品名称</td><td>规格型号</td><td>数量</td><td>单位</td>
+						<td>单价</td><td>销售金额</td><td>税率</td><td>价税合计</td>
+					</tr>
+				';
+		  foreach ($v['bill']["items"] as $bill_v) {
+			  $html .= '<tr>';
+			  $html .= '<td>' . $bill_v["goodsName"] . '</td>';
+			  $html .= '<td>' . $bill_v["goodsSpec"] . '</td>';
+			  $html .= '<td align="right">' . $bill_v["goodsCount"] . '</td>';
+			  $html .= '<td>' . $bill_v["unitName"] . '</td>';
+			  $html .= '<td align="right">' . $bill_v["goodsPrice"] . '</td>';
+			  $html .= '<td align="right">' . $bill_v["goodsMoney"] . '</td>';
+			  $html .= '<td align="right">' . $bill_v["taxRate"] . '%</td>';
+			  $html .= '<td align="right">' . $bill_v["moneyWithTax"] . '</td>';
+			  $html .= '</tr>';
+		  }
+		
+		  $html .= "";
+		
+		  $html .= '</table>';
+		  $pdf->writeHTML($html, true, false, true, false, '');
+	  }
+	  
+	 
+	 
+	
+	  ob_end_clean();
+	
+	  $pdf->Output(date('YmdHisu').".pdf", "I");
+  }
   /**
    * 应收账款的收款记录
    */

@@ -36,12 +36,14 @@ class MainMenuService extends PSIBaseExService
       if ($i > 2) {
         $subRecent[] = [
           "fid" => $v["fid"],
+	        "icon" => $v["icon"],
           "caption" => $v["name"],
           "children" => []
         ];
       } else {
         $recent[] = [
           "fid" => $v["fid"],
+	        "icon" => $v["icon"],
           "caption" => $v["name"],
           "children" => []
         ];
@@ -67,7 +69,7 @@ class MainMenuService extends PSIBaseExService
             where sys_category = 1";
 
     // 第一级主菜单
-    $sql = "select id, caption, fid from ($sub) m
+    $sql = "select id, caption, fid, icon from ($sub) m
 					where parent_id is null order by show_order";
     $m1 = $db->query($sql);
 
@@ -82,7 +84,7 @@ class MainMenuService extends PSIBaseExService
 //      }
       $children1 = [];
 
-      $sql = "select id, caption, fid from ($sub) m
+      $sql = "select id, caption, fid, icon from ($sub) m
 						where parent_id = '%s' order by show_order ";
       $m2 = $db->query($sql, $menuItem1["id"]);
 
@@ -90,7 +92,7 @@ class MainMenuService extends PSIBaseExService
       $index2 = 0;
       foreach ($m2 as $menuItem2) {
         $children2 = [];
-        $sql = "select id, caption, fid from ($sub) m
+        $sql = "select id, caption, fid, icon from ($sub) m
 							where parent_id = '%s' order by show_order ";
         $m3 = $db->query($sql, $menuItem2["id"]);
 
@@ -101,6 +103,7 @@ class MainMenuService extends PSIBaseExService
             $children2[$index3]["id"] = $menuItem3["id"];
             $children2[$index3]["caption"] = $menuItem3["caption"];
             $children2[$index3]["fid"] = $menuItem3["fid"];
+	          $children2[$index3]["icon"] = $menuItem3["icon"];
             $children2[$index3]["children"] = [];
             $index3++;
           }
@@ -113,6 +116,7 @@ class MainMenuService extends PSIBaseExService
             $children1[$index2]["id"] = $menuItem2["id"];
             $children1[$index2]["caption"] = $menuItem2["caption"];
             $children1[$index2]["fid"] = $menuItem2["fid"];
+	          $children1[$index2]["icon"] = $menuItem2["icon"];
             $children1[$index2]["children"] = $children2;
             $index2++;
           } else {
@@ -121,6 +125,7 @@ class MainMenuService extends PSIBaseExService
               $children1[$index2]["id"] = $menuItem2["id"];
               $children1[$index2]["caption"] = $menuItem2["caption"];
               $children1[$index2]["fid"] = $menuItem2["fid"];
+	            $children1[$index2]["icon"] = $menuItem2["icon"];
               $children1[$index2]["children"] = $children2;
               $index2++;
             }

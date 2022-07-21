@@ -1413,6 +1413,69 @@ class PRBillDAO extends PSIBaseExDAO
     }
 
     if ($receivingType == 0) {
+	    /*
+    	 * 冲销 记应付账款
+       * 冲销 应付账款总账
+    	 */
+	    $minusAllRejMoney = -$allRejMoney;
+	    $sql = "select pay_money, balance_money
+              from t_payables
+              where ca_id = '%s' and ca_type = 'supplier'
+                and company_id = '%s' ";
+	    $data = $db->query($sql, $supplierId, $companyId);
+	    if ($data) {
+		    $totalPayMoney = $data[0]["pay_money"];
+		    $totalBalanceMoney = $data[0]["balance_money"];
+		
+		    $totalPayMoney += $minusAllRejMoney;
+		    $totalBalanceMoney += $minusAllRejMoney;
+		    $sql = "update t_payables
+                set pay_money = %f, balance_money = %f
+                where ca_id = '%s' and ca_type = 'supplier'
+                  and company_id = '%s' ";
+		    $rc = $db->execute($sql, $totalPayMoney, $totalBalanceMoney, $supplierId, $companyId);
+		    if ($rc === false) {
+			    return $this->sqlError(__METHOD__, __LINE__);
+		    }
+	    } else {
+		
+		    $sql = "insert into t_payables (id, ca_id, ca_type, pay_money, balance_money,
+                  act_money, company_id)
+                values ('%s', '%s', 'supplier', %f, %f, %f, '%s')";
+		    $rc = $db->execute(
+			    $sql,
+			    $this->newId(),
+			    $supplierId,
+			    $minusAllRejMoney,
+			    $minusAllRejMoney,
+			    0,
+			    $companyId
+		    );
+		    if ($rc === false) {
+			    return $this->sqlError(__METHOD__, __LINE__);
+		    }
+	    }
+	
+	    // 应付账款明细账
+	    $sql = "insert into t_payables_detail(id, ca_id, ca_type, pay_money, balance_money,
+                biz_date, date_created, ref_number, ref_type, act_money, company_id)
+              values ('%s', '%s', 'supplier', %f, %f,
+                '%s', now(), '%s', '采购退货出库', 0, '%s')";
+	    $rc = $db->execute(
+		    $sql,
+		    $this->newId(),
+		    $supplierId,
+		    $minusAllRejMoney,
+		    $minusAllRejMoney,
+		    $bizDT,
+		    $ref,
+		    $companyId
+	    );
+	    if ($rc === false) {
+		    return $this->sqlError(__METHOD__, __LINE__);
+	    }
+	    /*
+    	 * 以下为旧的，退货出库 冲销 记应付账款，
       // 记应收账款
       // 应收总账
       $sql = "select rv_money, balance_money
@@ -1467,6 +1530,7 @@ class PRBillDAO extends PSIBaseExDAO
       if ($rc === false) {
         return $this->sqlError(__METHOD__, __LINE__);
       }
+	    */
     } else if ($receivingType == 1) {
       // 现金收款
       $inCash = $allRejMoney;
