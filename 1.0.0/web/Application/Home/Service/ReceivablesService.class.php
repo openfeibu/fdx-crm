@@ -128,37 +128,69 @@ class ReceivablesService extends PSIBaseExService
 	  {
 		  $html = '
 				<table>
-					<tr><td>单号：' . $v['refNumber'] . '</td><td>业务日期：' . $v["bizDT"] . '</td></tr>';
+					<tr><td>单号：' . $v['refNumber'] . '('.$v['refType'].')</td><td>业务日期：' . $v["bizDT"] . '</td><td>';
 		  if(isset($v['bill']['freight']))
 		  {
-			  $html .= '
-			  <tr><td>运费：' . $v['bill']['freight'] . '</td><td></td></tr>
-			  ';
+			  $html .= '运费：' . $v['bill']['freight'];
 		  }
-		  $html .= '
+			$html.='</td></tr>';
+		  if($v['refType'] == '销售退货入库')
+		  {
+			  $html .= '
+		   <tr><td>应退：' . abs($v['rvMoney']) . '</td><td>已退：' . abs($v['actMoney']) . '</td><td>未退金额：' . -$v['balanceMoney'] . '</td></tr>';
+			  $html .= '
 				</table>
 				';
-		  $html .= '<table border="1" cellpadding="1">
+			  $html .= '<table border="1" cellpadding="1">
+					<tr><td>商品名称</td><td>规格型号</td><td>退货数量</td><td>单位</td>
+						<td>单价</td><td>销售金额</td><td>税率</td><td>退款价税合计</td>
+					</tr>
+				';
+			  foreach ($v['bill']["items"] as $bill_v) {
+				  $html .= '<tr>';
+				  $html .= '<td>' . $bill_v["goodsName"] . '</td>';
+				  $html .= '<td>' . $bill_v["goodsSpec"] . '</td>';
+				  $html .= '<td align="right">' . $bill_v["rejCount"] . '</td>';
+				  $html .= '<td>' . $bill_v["unitName"] . '</td>';
+				  $html .= '<td align="right">' . $bill_v["rejPrice"] . '</td>';
+				  $html .= '<td align="right">' . $bill_v["rejMoney"] . '</td>';
+				  $html .= '<td align="right">' . $bill_v["taxRate"] . '</td>';
+				  $html .= '<td align="right">' . $bill_v["rejMoneyWithTax"] . '</td>';
+				  $html .= '</tr>';
+			  }
+			  $html .= "";
+			
+			  $html .= '</table>';
+		  }else{
+			  $html .= '
+		   <tr><td>应收：' . $v['rvMoney'] . '</td><td>已收：' . $v['actMoney'] . '</td><td>未收：' . $v['balanceMoney'] . '</td></tr>';
+			  $html .= '
+				</table>
+				';
+			  $html .= '<table border="1" cellpadding="1">
 					<tr><td>商品名称</td><td>规格型号</td><td>数量</td><td>单位</td>
 						<td>单价</td><td>销售金额</td><td>税率</td><td>价税合计</td>
 					</tr>
 				';
-		  foreach ($v['bill']["items"] as $bill_v) {
-			  $html .= '<tr>';
-			  $html .= '<td>' . $bill_v["goodsName"] . '</td>';
-			  $html .= '<td>' . $bill_v["goodsSpec"] . '</td>';
-			  $html .= '<td align="right">' . $bill_v["goodsCount"] . '</td>';
-			  $html .= '<td>' . $bill_v["unitName"] . '</td>';
-			  $html .= '<td align="right">' . $bill_v["goodsPrice"] . '</td>';
-			  $html .= '<td align="right">' . $bill_v["goodsMoney"] . '</td>';
-			  $html .= '<td align="right">' . $bill_v["taxRate"] . '%</td>';
-			  $html .= '<td align="right">' . $bill_v["moneyWithTax"] . '</td>';
-			  $html .= '</tr>';
+			  foreach ($v['bill']["items"] as $bill_v) {
+				  $html .= '<tr>';
+				  $html .= '<td>' . $bill_v["goodsName"] . '</td>';
+				  $html .= '<td>' . $bill_v["goodsSpec"] . '</td>';
+				  $html .= '<td align="right">' . $bill_v["goodsCount"] . '</td>';
+				  $html .= '<td>' . $bill_v["unitName"] . '</td>';
+				  $html .= '<td align="right">' . $bill_v["goodsPrice"] . '</td>';
+				  $html .= '<td align="right">' . $bill_v["goodsMoney"] . '</td>';
+				  $html .= '<td align="right">' . $bill_v["taxRate"] . '%</td>';
+				  $html .= '<td align="right">' . $bill_v["moneyWithTax"] . '</td>';
+				  $html .= '</tr>';
+			  }
+			  $html .= "";
+			
+			  $html .= '</table>';
 		  }
+		  
 		
-		  $html .= "";
-		
-		  $html .= '</table>';
+		  
 		  $pdf->writeHTML($html, true, false, true, false, '');
 	  }
 	  
