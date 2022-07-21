@@ -306,9 +306,11 @@ PCL.define("PSI.Funds.RvMainForm", {
         enableTextSelection: true,
         getRowClass:function(record,index,p,ds) {
           var cls = 'white-row';
-          if(record.data.balanceMoney <= 0)
+          if(record.data.balanceMoney == 0)
           {
             cls = 'x-grid-record-green';
+          }else if(record.data.balanceMoney < 0){
+            cls = 'x-grid-record-orange';
           }
           return cls;
         }
