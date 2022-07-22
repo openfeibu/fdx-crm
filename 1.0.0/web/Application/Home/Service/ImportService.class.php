@@ -239,8 +239,134 @@ class ImportService extends PSIBaseService
 
     return $this->ok();
   }
+	
+	/**
+	 * 导入Service
+	 *
+	 * @param
+	 *        	$params
+	 * @return array
+	 */
+	public function importInitInventorFromExcelFile($params)
+	{
+		$dataFile = $params["datafile"];
+		$ext = $params["ext"];
+		$warehouseId = $params["warehouseId"];
+		$message = "";
+		if (!$dataFile || !$ext) {
+			return $this->bad("上传Excel文件失败，请重新上传");
+		}
+		
+		// 设置php服务器可用内存，上传较大文件时可能会用到
+		ini_set('memory_limit', '1024M');
+		ini_set('max_execution_time', 300); // 300 seconds = 5 minutes
+		
+		require_once __DIR__ . '/../Common/PhpSpreadsheet/vendor/autoload.php';
+		
+		$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+		
+		// 载入文件
+		$objPHPExcel = $reader->load($dataFile);
+		
+		// 删除临时文件
+		unlink($dataFile);
+		
+		// 获取表中的第一个工作表
+		$currentSheet = $objPHPExcel->getSheet(0);
+		// 获取总行数
+		$allRow = $currentSheet->getHighestRow();
+		
+		// 如果没有数据行，直接返回
+		if ($allRow < 2) {
+			return $this->bad("Excel中没有数据，无法导入");
+		}
+		$db = M();
+		/**
+		 * 单元格定义
+		 * A 商品分类编码
+		 * B 商品编码
+		 * C 商品名称
+		 * D 规格型号
+		 * E 计量单位
+		 * F 销售单价
+		 * G 建议采购单价
+		 * H 条形码
+		 * I 备注
+		 * J 物料类型
+		 */
+		// 从第2行获取数据
+		$success_row = 0;
+		for ($currentRow = 2; $currentRow <= $allRow; $currentRow++) {
+			// 数据坐标
+			$indexCategory = 'A' . $currentRow;
+			$indexCode = 'B' . $currentRow;
+			$indexName = 'C' . $currentRow;
+			$indexSpec = 'D' . $currentRow;
+			$indexUnit = 'E' . $currentRow;
+			$indexGoodsCount = 'F' . $currentRow;
+			$indexGoodsMoney = 'G' . $currentRow;
 
-  /**
+			// 读取到的数据，保存到数组$arr中
+			$category = $currentSheet->getCell($indexCategory)->getValue();
+			$code = $currentSheet->getCell($indexCode)->getValue();
+			$name = $currentSheet->getCell($indexName)->getValue();
+			$spec = $currentSheet->getCell($indexSpec)->getValue();
+			$unit = $currentSheet->getCell($indexUnit)->getValue();
+			$goodsCount = $currentSheet->getCell($indexGoodsCount)->getValue();
+			$goodsMoney = $currentSheet->getCell($indexGoodsMoney)->getValue();
+			
+			// 如果为空则直接读取下一条记录
+			if (!$code || !$name)
+				continue;
+			
+			// 检查商品存在
+			$sql = "select id  from t_goods where code = '%s' ";
+			$data = $db->query($sql, $code);
+			if (!$data) {
+				$message .= "Excel中第{$currentRow}行记录 商品: 商品编码 = {$code}, 品名 = {$name}, 规格型号 = {$spec} 不存在，不能导入<br/><br/>";
+				continue;
+			}
+			$goodsId = $data[0]['id'];
+			// 检查仓库存在
+			$sql = "select id from t_warehouse where id = '%s' ";
+			$data = $db->query($sql, $warehouseId);
+			if (!$data) {
+				$message .= "仓库不存在，不能导入<br/><br/>";
+				continue;
+			}
+			$warehouseId = $data[0]['id'];
+			
+			$initInventoryService = new InitInventoryService();
+			
+			$res = $initInventoryService->commitInitInventoryGoods([
+				'warehouseId' => $warehouseId,
+				"goodsId" => $goodsId,
+				"goodsCount" => $goodsCount,
+				"goodsMoney" => $goodsMoney
+			]);
+			if(!$res['success'])
+			{
+				$message .= "Excel中第{$currentRow}行记录,".$res['msg']."<br/><br/>";
+			}else{
+				$success_row++;
+			}
+			
+		} // end of for
+		
+		if ($message) {
+			// 这个时候，Excel中有部分不能导入的数据
+			if (mb_strlen($message) >  300) {
+				// 防止太多的错误信息让前端页面乱，最大就返回300个字符的错误信息
+				$message = mb_substr($message, 0, 300) . "......(错误信息超过300个字符，后面的信息已经省略)";
+			}
+			
+			return $this->bad($message);
+		}
+
+		return $this->ok();
+	}
+	
+	/**
    * 客户导入Service
    *
    * @param

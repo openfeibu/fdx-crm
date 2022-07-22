@@ -5,6 +5,7 @@ namespace Home\Controller;
 use Home\Common\FIdConst;
 use Home\Service\InitInventoryService;
 use Home\Service\UserService;
+use Home\Service\ImportService;
 
 /**
  * 库存建账Controller
@@ -160,4 +161,49 @@ class InitInventoryController extends PSIBaseController
       $this->ajaxReturn($is->cancel($params));
     }
   }
+	/**
+	 * 通过Excel导入物料
+	 */
+	public function import()
+	{
+		if (IS_POST) {
+			$us = new UserService();
+			if (!$us->hasPermission(FIdConst::INVENTORY_INIT)) {
+				die("没有权限");
+			}
+			
+			$upload = new \Think\Upload();
+			
+			// 允许上传的文件后缀
+			$upload->exts = [
+				"xlsx"
+			];
+			
+			// 保存路径
+			$upload->savePath = "/Inventory/";
+			
+			// 先上传文件
+			$fileInfo = $upload->uploadOne($_FILES['data_file']);
+			if (!$fileInfo) {
+				$this->ajaxReturn(
+					[
+						"msg" => $upload->getError(),
+						"success" => false
+					]
+				);
+			} else {
+				$uploadFileFullPath = './Uploads' . $fileInfo['savepath'] . $fileInfo['savename']; // 获取上传到服务器文件路径
+				$uploadFileExt = $fileInfo['ext']; // 上传文件扩展名
+				
+				$params = [
+					'warehouseId' => I("post.warehouseId"),
+					"datafile" => $uploadFileFullPath,
+					"ext" => $uploadFileExt
+				];
+				$ims = new ImportService();
+				$this->ajaxReturn($ims->importInitInventorFromExcelFile($params));
+			}
+		}
+	}
+	
 }

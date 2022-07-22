@@ -6,6 +6,7 @@ use Home\Common\FIdConst;
 use Home\Service\InventoryService;
 use Home\Service\UserService;
 
+
 /**
  * 库存Controller
  *
@@ -147,4 +148,5 @@ class InventoryController extends PSIBaseController
     $service = new InventoryService();
     $service->exportExcel($params);
   }
+	
 }

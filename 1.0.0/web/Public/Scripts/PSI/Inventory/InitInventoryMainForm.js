@@ -218,12 +218,17 @@ PCL.define("PSI.Inventory.InitInventoryMainForm", {
         text: "录入建账数据",
         scope: me,
         handler: me.onInitInv
+      }, {
+        text: "导入建账数据",
+        handler: me.onImportInitInventory,
+        scope: me
       },
       /*{
         text: "电子表格式录入建账数据",
         scope: me,
         handler: me.onInitInvBySheet
-      }, "-",*/ {
+      }, "-",*/
+      {
         text: "刷新",
         scope: me,
         handler: function () {
@@ -461,5 +466,30 @@ PCL.define("PSI.Inventory.InitInventoryMainForm", {
     } else {
       grid.getSelectionModel().select(0);
     }
-  }
+  },
+  /**
+   * 导入建账
+   */
+  onImportInitInventory: function () {
+    const me = this;
+    var item = this.gridWarehouse.getSelectionModel().getSelection();
+    if (item == null || item.length != 1) {
+      me.showInfo("请选择要建账的仓库");
+      return;
+    }
+    var warehouse = item[0];
+
+    if (warehouse.get("inited") == 1) {
+      me.showInfo("仓库[" + warehouse.get("name") + "]已经建账完毕");
+      return;
+    }
+
+    var form = PCL.create("PSI.InitInventory.InitInventoryImportForm", {
+      warehouse: warehouse,
+      parentForm: this
+    });
+
+    form.show();
+  },
+
 });
