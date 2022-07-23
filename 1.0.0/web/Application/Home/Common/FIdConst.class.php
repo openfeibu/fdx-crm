@@ -266,7 +266,17 @@ class FIdConst
    * 导出Excel
    */
   const GOODS_EXPORT_EXCEL = "1001-11";
-
+	
+	/**
+	 * 物料 - 销售基准价可见
+	 */
+	const GOODS_VIEW_SALE_PRICE = "1001-12";
+	
+	/**
+	 * 物料 - 建议采购价可见
+	 */
+	const GOODS_VIEW_PURCHASE_PRICE = "1001-13";
+	
   /**
    * 基础数据-物料计量单位
    */

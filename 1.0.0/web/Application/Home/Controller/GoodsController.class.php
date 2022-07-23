@@ -70,7 +70,7 @@ class GoodsController extends PSIBaseController
 
       // 按钮权限：删除子件
       $this->assign("pDeleteBOM", $us->hasPermission(FIdConst::GOODS_BOM_DELETE) ? 1 : 0);
-
+			
       // 按钮权限：设置商品价格体系
       $this->assign(
         "pPriceSystem",
@@ -79,7 +79,13 @@ class GoodsController extends PSIBaseController
 
       // 按钮权限：导出Excel
       $this->assign("pExcel", $us->hasPermission(FIdConst::GOODS_EXPORT_EXCEL) ? 1 : 0);
-
+	
+	    // 查看销售基准价权限
+	    $this->assign("pViewSalePrice", $us->hasPermission(FIdConst::GOODS_VIEW_SALE_PRICE) ? 1 : 0);
+	    
+	    // 查看采购价权限
+	    $this->assign("pViewPurchasePrice", $us->hasPermission(FIdConst::GOODS_VIEW_PURCHASE_PRICE) ? 1 : 0);
+	    
       $this->display();
     } else {
       $this->gotoLoginPage("/Home/Goods/index");

@@ -328,10 +328,11 @@ class PWBillDAO extends PSIBaseExDAO
     $db = $this->db;
 
     $viewPrice = $bill["viewPrice"];
+	  /*
     if ($viewPrice == "0") {
       return $this->bad("没有赋权[采购入库-采购单价和金额可见]，不能新建采购入库单");
     }
-
+		*/
     // 业务日期
     $bizDT = $bill["bizDT"];
 

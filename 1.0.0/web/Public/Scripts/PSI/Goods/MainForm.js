@@ -21,7 +21,9 @@ PCL.define("PSI.Goods.MainForm", {
     pEditBOM: null,
     pDeleteBOM: null,
     pPriceSystem: null,
-    pExcel: null
+    pExcel: null,
+    pViewSalePrice: null,
+    pViewPurchasePrice: null,
   },
 
   /**
@@ -101,43 +103,51 @@ PCL.define("PSI.Goods.MainForm", {
 
     return [{
       text: "新建物料分类",
-      disabled: me.getPAddCategory() == "0",
+      hidden: me.getPAddCategory() == "0",
       handler: me.onAddCategory,
       scope: me
     }, {
       text: "编辑物料分类",
-      disabled: me.getPEditCategory() == "0",
+      hidden: me.getPEditCategory() == "0",
       handler: me.onEditCategory,
       scope: me
     }, {
       text: "删除物料分类",
-      disabled: me.getPDeleteCategory() == "0",
+      hidden: me.getPDeleteCategory() == "0",
       handler: me.onDeleteCategory,
       scope: me
-    }, "-", {
+    },"-", {
       text: "新建物料",
-      disabled: me.getPAddGoods() == "0",
+      hidden: me.getPAddGoods() == "0",
       handler: me.onAddGoods,
       scope: me
     }, {
       text: "导入物料",
-      disabled: me.getPImportGoods() == "0",
+      hidden: me.getPImportGoods() == "0",
       handler: me.onImportGoods,
       scope: me
-    }, "-", {
+    },  {
       text: "编辑物料",
-      disabled: me.getPEditGoods() == "0",
+      hidden: me.getPEditGoods() == "0",
       handler: me.onEditGoods,
       scope: me
     }, {
       text: "删除物料",
-      disabled: me.getPDeleteGoods() == "0",
+      hidden: me.getPDeleteGoods() == "0",
       handler: me.onDeleteGoods,
       scope: me
     }, "-", {
       text: "导出Excel",
       disabled: me.getPExcel() == "0",
       handler: me.onExcel,
+      scope: me
+    }, {
+      text: "下载导入模板",
+      handler: function () {
+      var me = this;
+      window.open(me.URL("/Uploads/Goods/goods_template.xlsx"));
+
+    },
       scope: me
     }, "-", /*{
       text: "指南",
@@ -401,14 +411,16 @@ PCL.define("PSI.Goods.MainForm", {
         menuDisabled: true,
         sortable: false,
         align: "right",
-        xtype: "numbercolumn"
+        xtype: "numbercolumn",
+        hidden: me.getPViewSalePrice() == "0",
       }, {
         header: "建议采购价",
         dataIndex: "purchasePrice",
         menuDisabled: true,
         sortable: false,
         align: "right",
-        xtype: "numbercolumn"
+        xtype: "numbercolumn",
+        hidden: me.getPViewPurchasePrice() == "0",
       }, {
         header: "税率",
         dataIndex: "taxRate",
@@ -588,7 +600,9 @@ PCL.define("PSI.Goods.MainForm", {
     }
 
     var form = PCL.create("PSI.Goods.GoodsEditForm", {
-      parentForm: me
+      parentForm: me,
+      pViewSalePrice:me.getPViewSalePrice(),
+      pViewPurchasePrice:me.getPViewPurchasePrice(),
     });
 
     form.show();
@@ -621,7 +635,9 @@ PCL.define("PSI.Goods.MainForm", {
     goods.set("categoryId", category.get("id"));
     var form = PCL.create("PSI.Goods.GoodsEditForm", {
       parentForm: me,
-      entity: goods
+      entity: goods,
+      pViewSalePrice:me.getPViewSalePrice(),
+      pViewPurchasePrice:me.getPViewPurchasePrice(),
     });
 
     form.show();

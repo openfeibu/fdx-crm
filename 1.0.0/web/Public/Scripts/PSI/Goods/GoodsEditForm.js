@@ -7,7 +7,10 @@
  */
 PCL.define("PSI.Goods.GoodsEditForm", {
   extend: "PSI.AFX.Form.EditForm",
-
+  config: {
+    pViewSalePrice: null,
+    pViewPurchasePrice: null,
+  },
   /**
    * 初始化组件
    */
@@ -225,6 +228,7 @@ PCL.define("PSI.Goods.GoodsEditForm", {
           name: "salePrice",
           id: "PSI_Goods_GoodsEditForm_editSalePrice",
           value: entity == null ? null : entity.get("salePrice"),
+          hidden: me.getPViewSalePrice() == "0",
           listeners: {
             specialkey: {
               fn: me.onEditSpecialKey,
@@ -240,6 +244,7 @@ PCL.define("PSI.Goods.GoodsEditForm", {
           name: "purchasePrice",
           id: "PSI_Goods_GoodsEditForm_editPurchasePrice",
           value: entity == null ? null : entity.get("purchasePrice"),
+          hidden: me.getPViewPurchasePrice() == "0",
           listeners: {
             specialkey: {
               fn: me.onEditSpecialKey,

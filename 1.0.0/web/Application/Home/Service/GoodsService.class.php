@@ -9,7 +9,7 @@ use Home\DAO\GoodsDAO;
 use Home\DAO\GoodsSiDAO;
 use Home\DAO\GoodsUnitDAO;
 use Home\DAO\PriceSystemDAO;
-
+use Home\Common\FIdConst;
 /**
  * 商品Service
  *
@@ -1000,7 +1000,7 @@ class GoodsService extends PSIBaseExService
     if ($this->isNotOnline()) {
       return;
     }
-
+	  $us = new UserService();
     require_once __DIR__ . '/../Common/PhpSpreadsheet/vendor/autoload.php';
 
     $params["loginUserId"] = $this->getLoginUserId();
@@ -1043,7 +1043,7 @@ class GoodsService extends PSIBaseExService
 
     $sheet->getColumnDimension('F')->setWidth(40);
     $sheet->setCellValue("F2", "品牌");
-
+		
     $sheet->getColumnDimension('G')->setWidth(15);
     $sheet->setCellValue("G2", "销售基准价");
 
@@ -1061,7 +1061,9 @@ class GoodsService extends PSIBaseExService
 
     $sheet->getColumnDimension('L')->setWidth(15);
     $sheet->setCellValue("L2", "状态");
-
+		
+	  $pViewSalePrice = $us->hasPermission(FIdConst::GOODS_VIEW_SALE_PRICE) ? 1 : 0;
+	  $pViewPurchasePrice = $us->hasPermission(FIdConst::GOODS_VIEW_PURCHASE_PRICE) ? 1 : 0;
     foreach ($data as $i => $v) {
       $row = $i + 3;
       $sheet->setCellValue("A" . $row, $v["categoryName"]);
@@ -1070,8 +1072,8 @@ class GoodsService extends PSIBaseExService
       $sheet->setCellValue("D" . $row, $v["spec"]);
       $sheet->setCellValue("E" . $row, $v["unitName"]);
       $sheet->setCellValue("F" . $row, $v["brandFullName"]);
-      $sheet->setCellValue("G" . $row, $v["salePrice"]);
-      $sheet->setCellValue("H" . $row, $v["purchasePrice"]);
+	    $sheet->setCellValue("G" . $row, $pViewSalePrice ? $v["salePrice"] : '***');
+	    $sheet->setCellValue("H" . $row, $pViewPurchasePrice ? $v["purchasePrice"] : '***');
       $sheet->setCellValue("I" . $row, $v["taxRate"]);
       $sheet->setCellValue("J" . $row, $v["barCode"]);
       $sheet->setCellValue("K" . $row, $v["memo"]);

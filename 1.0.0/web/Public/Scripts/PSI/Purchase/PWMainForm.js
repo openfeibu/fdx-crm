@@ -608,14 +608,14 @@ PCL.define("PSI.Purchase.PWMainForm", {
    */
   onAddBill() {
     const me = this;
-
+    /*
     if (me.getPermission().viewPrice == "0") {
       // 没有查看单价个权限，这个时候就不能新建采购入库单
       const info = "没有赋权[采购入库-采购单价和金额可见]，所以不能新建采购入库单";
       PSI.MsgBox.showInfo(info);
       return;
     }
-
+  */
     const form = PCL.create("PSI.Purchase.PWEditForm", {
       parentForm: me,
       showAddGoodsButton: me.getPermission().showAddGoodsButton,
