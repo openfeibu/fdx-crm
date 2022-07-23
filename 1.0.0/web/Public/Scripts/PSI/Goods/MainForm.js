@@ -116,7 +116,7 @@ PCL.define("PSI.Goods.MainForm", {
       hidden: me.getPDeleteCategory() == "0",
       handler: me.onDeleteCategory,
       scope: me
-    },"-", {
+    }, {
       text: "新建物料",
       hidden: me.getPAddGoods() == "0",
       handler: me.onAddGoods,
@@ -136,9 +136,9 @@ PCL.define("PSI.Goods.MainForm", {
       hidden: me.getPDeleteGoods() == "0",
       handler: me.onDeleteGoods,
       scope: me
-    }, "-", {
+    }, {
       text: "导出Excel",
-      disabled: me.getPExcel() == "0",
+      hidden: me.getPExcel() == "0",
       handler: me.onExcel,
       scope: me
     }, {
