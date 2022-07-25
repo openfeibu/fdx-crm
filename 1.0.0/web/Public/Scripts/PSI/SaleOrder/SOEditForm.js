@@ -855,5 +855,10 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
     PCL.getCmp("editTel").setValue(data.tel01);
     PCL.getCmp("editFax").setValue(data.fax);
     PCL.getCmp("editContact").setValue(data.contact01);
+
+    var editReceivingType = Ext.getCmp("editReceivingType");
+    if (data.receivingType) {
+      editReceivingType.setValue(data.receivingType);
+    }
   }
 });

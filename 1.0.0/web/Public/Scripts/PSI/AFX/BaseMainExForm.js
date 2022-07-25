@@ -32,6 +32,11 @@ Ext.define("PSI.AFX.BaseMainExForm", {
     PSI.MsgBox.confirm(confirmInfo, funcOnYes);
   },
 
+  confirmContent: function (confirmInfo, funcOnYes) {
+    PSI.MsgBox.confirmContent(confirmInfo, funcOnYes);
+  },
+
+
   ajax: function (r) {
     if (!r.method) {
       r.method = "POST";

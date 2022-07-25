@@ -98,7 +98,7 @@ Ext.define("PSI.Sale.SREditForm", {
           labelAlign: "right",
           labelSeparator: "",
           colspan: 4,
-          width: 430
+          width: 430,
         }, {
           id: "editRef",
           fieldLabel: "单号",

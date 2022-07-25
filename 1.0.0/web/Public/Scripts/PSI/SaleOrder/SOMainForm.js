@@ -93,11 +93,17 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
       xtype: "tbseparator",
       id: "tbseparator1"
     }, {
-      text: "审核",
+      text: "通过",
       hidden: me.getPermission().confirm == "0",
       scope: me,
       handler: me.onCommit,
       id: "buttonCommit"
+    }, {
+      text: "拒绝",
+      hidden: me.getPermission().confirm == "0",
+      scope: me,
+      handler: me.onRejectCommit,
+      id: "buttonRejectCommit"
     }, {
       text: "取消审核",
       hidden: me.getPermission().confirm == "0",
@@ -203,7 +209,7 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
       margin: "5, 0, 0, 0",
       store: PCL.create("PCL.data.ArrayStore", {
         fields: ["id", "text"],
-        data: [[-1, "全部"], [0, "待审核"], [1000, "已审核"],
+        data: [[-1, "全部"], [-1000, "已拒绝"], [0, "待审核"], [1000, "已通过"],
         [2000, "部分出库"], [3000, "全部出库"], [4000, "订单关闭"]]
       }),
       value: -1
@@ -416,9 +422,11 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
         renderer: function (value) {
           if (value == 0) {
             return "<span style='color:red'>待审核</span>";
+          } else if (value == -1000) {
+            return "已拒绝";
           } else if (value == 1000) {
-            return "已审核";
-          } else if (value == 2000) {
+            return "已通过";
+          }  else if (value == 2000) {
             return "<span style='color:green'>部分出库</span>";
           } else if (value == 3000) {
             return "全部出库";
@@ -807,7 +815,7 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
     var bill = item[0];
 
     if (bill.get("billStatus") > 0) {
-      me.showInfo("当前销售订单已经审核，不能删除");
+      me.showInfo("当前销售订单已经审核通过，不能删除");
       return;
     }
 
@@ -860,7 +868,8 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
       PCL.getCmp("buttonEdit").setDisabled(true);
       PCL.getCmp("buttonDelete").setDisabled(true);
       PCL.getCmp("buttonCommit").setDisabled(true);
-      PCL.getCmp("buttonCancelConfirm").setDisabled(true);
+      PCL.getCmp("buttonRejectCommit").setDisabled(true);
+      PCL.getCmp("buttonDelete").setDisabled(true);
       PCL.getCmp("buttonGenWSBill").setDisabled(true);
       PCL.getCmp("buttonGenPOBill").setDisabled(true);
 
@@ -885,7 +894,8 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
 
     PCL.getCmp("buttonDelete").setDisabled(commited);
     PCL.getCmp("buttonCommit").setDisabled(commited);
-    PCL.getCmp("buttonCancelConfirm").setDisabled(!commited);
+    PCL.getCmp("buttonCancelConfirm").setDisabled(!commited || bill.get("genPWBill"));
+    PCL.getCmp("buttonRejectCommit").setDisabled(commited);
     PCL.getCmp("buttonGenWSBill").setDisabled(!commited);
     PCL.getCmp("buttonGenPOBill").setDisabled(!commited);
 
@@ -997,7 +1007,61 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
     };
     me.confirm(info, funcConfirm);
   },
+  /**
+   * 拒绝销售订单
+   */
+  onRejectCommit: function () {
+    var me = this;
+    var item = me.getMainGrid().getSelectionModel().getSelection();
+    if (item == null || item.length != 1) {
+      me.showInfo("没有选择要审核的销售订单");
+      return;
+    }
+    var bill = item[0];
 
+    if (bill.get("billStatus") > 0) {
+      me.showInfo("当前销售订单已经审核，不能再次审核");
+      return;
+    }
+
+    var detailCount = me.getDetailGrid().getStore().getCount();
+    if (detailCount == 0) {
+      me.showInfo("当前销售订单没有录入商品明细，不能审核");
+      return;
+    }
+
+    var info = "请确认是否拒绝单号: <span style='color:red'>" + bill.get("ref")
+      + "</span> 的销售订单?";
+    var id = bill.get("id");
+
+    var funcConfirm = function () {
+      var el = PCL.getBody();
+      el.mask("正在提交中...");
+      var r = {
+        url: me.URL("Home/SaleOrder/commitSOBill"),
+        params: {
+          id: id
+        },
+        callback: function (options, success, response) {
+          el.unmask();
+
+          if (success) {
+            var data = me.decodeJSON(response.responseText);
+            if (data.success) {
+              me.refreshMainGrid(id);
+              me.tip("成功完成审核操作");
+            } else {
+              me.showInfo(data.msg);
+            }
+          } else {
+            me.showInfo("网络错误");
+          }
+        }
+      };
+      me.ajax(r);
+    };
+    me.confirmContent(info, funcConfirm);
+  },
   /**
    * 取消审核
    */
@@ -1146,7 +1210,7 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
     var bill = item[0];
 
     if (bill.get("billStatus") < 1000) {
-      me.showInfo("当前销售订单还没有审核，无法生成采购订单");
+      me.showInfo("当前销售订单还没有审核通过，无法生成采购订单");
       return;
     }
 
@@ -1211,7 +1275,7 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
     var bill = item[0];
 
     if (bill.get("billStatus") < 1000) {
-      me.showInfo("当前销售订单还没有审核，无法生成销售出库单");
+      me.showInfo("当前销售订单还没有审核通过，无法生成销售出库单");
       return;
     }
 

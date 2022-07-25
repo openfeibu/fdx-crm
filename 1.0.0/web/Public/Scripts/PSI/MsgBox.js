@@ -36,6 +36,20 @@ PCL.define("PSI.MsgBox", {
     },
 
     /**
+     * 显示确认信息
+     *
+     * @param {string} confirmInfo 显示给用户的确认信息
+     * @param {Function} funcOnYes 选择YES按钮后的回调函数
+     */
+    confirmContent(confirmInfo, funcOnYes) {
+      const form = PCL.create("PSI.AFX.MessageBox.ConfirmContentForm", {
+        msg: confirmInfo,
+        fn: funcOnYes
+      });
+      form.show();
+    },
+
+    /**
      * 显示提示信息，提示信息会在3.5秒后自动关闭
      * 如果显示了关闭按钮，用户可以随时单击关闭按钮关闭掉提示信息窗口
      * 
