@@ -10,6 +10,7 @@ PCL.define("PSI.App", {
     userName: "",
     productionName: "PSI",
     showCopyright: false,
+	showContent:false,
 
     // 当 showRecent == false的时候，原来是把常用功能折叠，从2022-4-4起，调整为不创建常用功能Grid
     // 这样就只在首页显示常用功能
@@ -260,8 +261,13 @@ PCL.define("PSI.App", {
       callback(opt, success, response) {
         if (success) {
           const data = PCL.JSON.decode(response.responseText);
+		  
+		 
           me.createMainMenu(data);
           me.refreshRectFidGrid();
+		  if(me.getShowContent()){
+			   me.setHomeNav(data)
+		  }
         }
 
         el.unmask();
@@ -415,7 +421,58 @@ PCL.define("PSI.App", {
             </span><a style="color:#dcdcdc;margin-left:5px" href="${PSI.Const.BASE_URL}Home/User/Logout/">退出</a>`
     });
   },
+  //设置首页内容
+  setHomeNav(data){
+	  let me = this;
+	  let html =`<div class="home-content"><div class="home-content-p">`;
+	  data.forEach(function(v,k){
+		   if(v.id == 01 || v.id == 09){
+			   return false;
+		   }
+			html+= `<div class="home-nav" click='menuItemClick'>
+						<div class="home-nav-t">`+v.caption+`</div>`;
+			if(v.children.length != 0){
+				html+=`<ul>`;
+					
+				v.children.forEach((v2) => {
+					if(v2.children.length === 0){
+						html+=`<li fid="`+v2.fid+`" click='menuItemClick'><i class="`+v2.icon+`"></i>`;
+						html+= v2.caption;
+						
+						html+=`</li>`
+					}else{
+						v2.children.forEach((v3) => {
+							html+=`<li fid="`+v3.fid+`" click='menuItemClick'><i class="`+v3.icon+`"></i>`;
+							html+= v3.caption;	
+							html+=`</li>`
+						  });
+					}
+				  });
+				html+=`</ul>`
+			}
+			html+=`</div>`
+			
+		})
+		html+=`</div></div>`
+		$(".x-panel-body ").html(html);
+		$(".home-nav li").on("click",function(){
+			const fid = $(this).attr("fid");
+			if (fid == "-9995") {
+				window.open(me.URL("Home/Help/index"));
+			  } else if (fid === "-9999") {
+				// 重新登录
+				location.replace(me.URL("Home/MainMenu/navigateTo/fid/-9999"));
+			  } else {
+				
+				const url = me.URL(`Home/MainMenu/navigateTo/fid/${fid}`);
+				location.href = url;
+			  }
+		})
 
+  },
+  
+  
+  
   // ===================================================
   // 设置模块的标题
   // 这个方法最初是给View中公开调用的
@@ -454,3 +511,4 @@ PCL.define("PSI.App", {
 	
   }
 });
+

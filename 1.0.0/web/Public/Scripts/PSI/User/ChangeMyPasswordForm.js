@@ -38,7 +38,7 @@ PCL.define("PSI.User.ChangeMyPasswordForm", {
         border: 0,
         items: [{
           id: "PSI_User_ChangeMyPasswordForm_editForm",
-          x: 200,
+          x: 0,
           y: 50,
           xtype: "form",
           layout: {
@@ -47,15 +47,16 @@ PCL.define("PSI.User.ChangeMyPasswordForm", {
             tableAttrs: PSI.Const.TABLE_LAYOUT,
           },
           height: 250,
-          width: 320,
+          width: 600,
           defaultType: 'textfield',
           border: 0,
           fieldDefaults: {
             labelWidth: 60,
-            labelAlign: "right",
+            labelAlign: "left",
             labelSeparator: "",
             msgTarget: 'side',
-            width: 300
+            width: 580
+	
           },
           items: [{
             xtype: "hidden",
@@ -64,11 +65,11 @@ PCL.define("PSI.User.ChangeMyPasswordForm", {
           }, {
             fieldLabel: "登录名",
             xtype: "displayfield",
-            value: `<span class='PSI-field-note'>${user.loginName}</span>`
+            value: `<span class='PSI-field-note2'>${user.loginName}</span>`
           }, {
             fieldLabel: "用户名",
             xtype: "displayfield",
-            value: `<span class='PSI-field-note'>${user.name}</span>`
+            value: `<span class='PSI-field-note2'>${user.name}</span>`
           }, {
             id: "PSI_User_ChangeMyPasswordForm_editOldPassword",
             fieldLabel: "旧密码",
@@ -116,8 +117,7 @@ PCL.define("PSI.User.ChangeMyPasswordForm", {
             text: "修改密码",
             formBind: true,
             handler: me._onOK,
-            scope: me,
-            iconCls: "PSI-button-ok"
+            scope: me
           }, {
             text: "取消",
             handler() {

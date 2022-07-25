@@ -26,26 +26,26 @@ PCL.define("PSI.AFX.MessageBox.ConfirmForm", {
     PCL.apply(me, {
       header: {
         title: `<span style='font-size:160%'>${PSI.Const.PROD_NAME}</span>`,
-        height: 40
+        height: 50
       },
-      height: 200,
+      height: 220,
       items: [{
         border: 0,
         xtype: "container",
         margin: "0 0 0 10",
         html: `
-              <h2 style='color:#843fa1;border-left:3px solid #1890ff;padding-left:5px;padding-right:10px'>${me.getMsg()}</h2>
+              <h2 style='color:#843fa1;padding-left:5px;padding-right:10px'>${me.getMsg()}</h2>
               `
       }],
       buttons: [{
         id: "PSI_AFX_MessageBox_ConfirmForm_buttonOK",
-        text: "是",
+        text: "确认",
         handler: me._onOK,
-        scope: me,
-        iconCls: "PSI-button-ok"
+        scope: me
+        
       }, {
         id: "PSI_AFX_MessageBox_ConfirmForm_buttonCancel",
-        text: "否",
+        text: "取消",
         handler: me._onCancel,
         scope: me,
       }],

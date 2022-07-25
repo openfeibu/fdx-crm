@@ -339,13 +339,13 @@ PCL.define("PSI.Customer.MainForm", {
       columns: [{
         header: "类别编码",
         dataIndex: "code",
-        width: 80,
+        width: '20%',
         menuDisabled: true,
         sortable: false
       }, {
         header: "类别",
         dataIndex: "name",
-        width: 160,
+        width: '60%',
         menuDisabled: true,
         sortable: false,
         summaryRenderer() {
@@ -362,7 +362,7 @@ PCL.define("PSI.Customer.MainForm", {
       {
         header: "客户数",
         dataIndex: "cnt",
-        width: 80,
+        width: '20%',
         menuDisabled: true,
         sortable: false,
         summaryType: "sum",

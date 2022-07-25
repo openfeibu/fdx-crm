@@ -666,7 +666,8 @@ PCL.define("PSI.Purchase.PWEditForm", {
             },
             scope: me
           }]
-        }, {
+        }
+		 , {
           header: "",
           id: "columnActionAdd",
           align: "center",
@@ -697,7 +698,8 @@ PCL.define("PSI.Purchase.PWEditForm", {
             },
             scope: me
           }]
-        }]
+        } 
+		]
       },
       store: store,
       listeners: {

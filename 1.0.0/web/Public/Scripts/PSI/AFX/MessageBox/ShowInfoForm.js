@@ -41,8 +41,7 @@ PCL.define("PSI.AFX.MessageBox.ShowInfoForm", {
         id: "PSI_AFX_MessageBox_ShowInfoForm_buttonOK",
         text: "确定",
         handler: me._onOK,
-        scope: me,
-        iconCls: "PSI-button-ok"
+        scope: me
       }],
       listeners: {
         show: {

@@ -37,7 +37,7 @@ PCL.define("PSI.About.MainForm", {
         height: 40
       },
       height: 510,
-      bodyCls: "PSI-About-body",
+      bodyCls: "PSI-About-body2",
       items: [{
         border: 0,
         xtype: "container",
