@@ -327,7 +327,7 @@ PCL.define("PSI.Report.PurchaseDetailForm", {
           xtype: "numbercolumn",
           width: 150
         }, {
-          header: "含税价",
+          header: "含税价", hidden: true, //含税价
           dataIndex: "goodsPriceWithTax",
           align: "right",
           xtype: "numbercolumn",

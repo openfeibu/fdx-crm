@@ -1158,7 +1158,7 @@ class SOBillDAO extends PSIBaseExDAO
               c.name as customer_name, s.contact, s.tel, s.fax, s.deal_address,
               s.deal_date, s.receiving_type, s.bill_memo, s.date_created,
               o.full_name as org_name, u1.name as biz_user_name, u2.name as input_user_name,
-              s.confirm_user_id, s.confirm_date, s.company_id, s.deal_date
+              s.confirm_user_id, s.confirm_date, s.company_id, s.deal_date, s.freight, s.total_money
             from t_so_bill s, t_customer c, t_org o, t_user u1, t_user u2
             where (s.customer_id = c.id) and (s.org_id = o.id)
               and (s.biz_user_id = u1.id) and (s.input_user_id = u2.id)
@@ -1185,7 +1185,9 @@ class SOBillDAO extends PSIBaseExDAO
     $bill["billMemo"] = $data[0]["bill_memo"];
     $bill["goodsMoney"] = $data[0]["goods_money"];
     $bill["moneyWithTax"] = $data[0]["money_with_tax"];
-
+	  $bill["freight"] = $data[0]["freight"];
+	  $bill["totalMoney"] = $data[0]["total_money"];
+	  
     $bill["printDT"] = date("Y-m-d H:i:s");
 
     // 明细表

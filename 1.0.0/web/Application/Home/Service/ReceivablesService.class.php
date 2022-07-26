@@ -126,7 +126,7 @@ class ReceivablesService extends PSIBaseExService
 	  
 	  foreach ($dataList as $v)
 	  {
-		  $html = '
+		  $html = '<hr/><br/>
 				<table>
 					<tr><td>单号：' . $v['refNumber'] . '('.$v['refType'].')</td><td>业务日期：' . $v["bizDT"] . '</td><td>';
 		  if(isset($v['bill']['freight']))
@@ -143,7 +143,7 @@ class ReceivablesService extends PSIBaseExService
 				';
 			  $html .= '<table border="1" cellpadding="1">
 					<tr><td>商品名称</td><td>规格型号</td><td>退货数量</td><td>单位</td>
-						<td>单价</td><td>销售金额</td><td>税率</td><td>退款价税合计</td>
+						<td>单价</td><td>销售金额</td>
 					</tr>
 				';
 			  foreach ($v['bill']["items"] as $bill_v) {
@@ -154,8 +154,8 @@ class ReceivablesService extends PSIBaseExService
 				  $html .= '<td>' . $bill_v["unitName"] . '</td>';
 				  $html .= '<td align="right">' . $bill_v["rejPrice"] . '</td>';
 				  $html .= '<td align="right">' . $bill_v["rejMoney"] . '</td>';
-				  $html .= '<td align="right">' . $bill_v["taxRate"] . '</td>';
-				  $html .= '<td align="right">' . $bill_v["rejMoneyWithTax"] . '</td>';
+				  //$html .= '<td align="right">' . $bill_v["taxRate"] . '</td>';
+				  //$html .= '<td align="right">' . $bill_v["rejMoneyWithTax"] . '</td>';
 				  $html .= '</tr>';
 			  }
 			  $html .= "";
@@ -169,7 +169,7 @@ class ReceivablesService extends PSIBaseExService
 				';
 			  $html .= '<table border="1" cellpadding="1">
 					<tr><td>商品名称</td><td>规格型号</td><td>数量</td><td>单位</td>
-						<td>单价</td><td>销售金额</td><td>税率</td><td>价税合计</td>
+						<td>单价</td><td>销售金额</td>
 					</tr>
 				';
 			  foreach ($v['bill']["items"] as $bill_v) {
@@ -180,8 +180,8 @@ class ReceivablesService extends PSIBaseExService
 				  $html .= '<td>' . $bill_v["unitName"] . '</td>';
 				  $html .= '<td align="right">' . $bill_v["goodsPrice"] . '</td>';
 				  $html .= '<td align="right">' . $bill_v["goodsMoney"] . '</td>';
-				  $html .= '<td align="right">' . $bill_v["taxRate"] . '%</td>';
-				  $html .= '<td align="right">' . $bill_v["moneyWithTax"] . '</td>';
+				  //$html .= '<td align="right">' . $bill_v["taxRate"] . '%</td>';
+				  //$html .= '<td align="right">' . $bill_v["moneyWithTax"] . '</td>';
 				  $html .= '</tr>';
 			  }
 			  $html .= "";

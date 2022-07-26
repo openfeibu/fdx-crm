@@ -102,7 +102,7 @@ class PurchaseReportService extends PSIBaseExService
 
     $sheet->getColumnDimension('L')->setWidth(15);
     $sheet->setCellValue("L2", "采购金额");
-
+		/*
     $sheet->getColumnDimension('M')->setWidth(15);
     $sheet->setCellValue("M2", "税率(%)");
 
@@ -114,9 +114,9 @@ class PurchaseReportService extends PSIBaseExService
 
     $sheet->getColumnDimension('P')->setWidth(15);
     $sheet->setCellValue("P2", "含税价");
-
+		*/
     $sheet->getColumnDimension('Q')->setWidth(30);
-    $sheet->setCellValue("Q2", "备注");
+    $sheet->setCellValue("M2", "备注");
 
     foreach ($items as $i => $v) {
       $row = $i + 3;
@@ -132,11 +132,13 @@ class PurchaseReportService extends PSIBaseExService
       $sheet->setCellValue("J" . $row, $v["unitName"]);
       $sheet->setCellValue("K" . $row, $v["goodsPrice"]);
       $sheet->setCellValue("L" . $row, $v["goodsMoney"]);
+	    /*
       $sheet->setCellValue("M" . $row, $v["taxRate"]);
       $sheet->setCellValue("N" . $row, $v["tax"]);
       $sheet->setCellValue("O" . $row, $v["moneyWithTax"]);
       $sheet->setCellValue("P" . $row, $v["goodsPriceWithTax"]);
-      $sheet->setCellValue("Q" . $row, $v["memo"]);
+	    */
+      $sheet->setCellValue("M" . $row, $v["memo"]);
     }
 
     // 画表格边框
@@ -148,7 +150,7 @@ class PurchaseReportService extends PSIBaseExService
       ]
     ];
     $lastRow = count($items) + 2;
-    $sheet->getStyle('A2:Q' . $lastRow)->applyFromArray($styleArray);
+    $sheet->getStyle('A2:M' . $lastRow)->applyFromArray($styleArray);
 
     // 把焦点放置在A1
     $sheet->setSelectedCells("A1");

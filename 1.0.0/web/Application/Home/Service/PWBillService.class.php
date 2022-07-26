@@ -306,7 +306,7 @@ class PWBillService extends PSIBaseExService
 					<tr><td>业务员：' . $bill["bizUserName"] . '</td><td></td></tr>';
     if ($canViewPrice) {
       $html .= '<tr><td>采购货款:' . $bill["goodsMoney"] . ' (' . $utilService->moneyToCap($bill["goodsMoney"]) . ')</td>' .
-        '<td>价税合计：' . $bill["moneyWithTax"] . ' (' . $utilService->moneyToCap($bill["moneyWithTax"]) . ')</td></tr>';
+        '</tr>';
     }
     $html .= '</table>';
 
@@ -315,7 +315,7 @@ class PWBillService extends PSIBaseExService
     $html = '<table border="1" cellpadding="1">
 					<tr><td>物料编码</td><td>品名</td><td>规格型号</td><td>数量</td><td>单位</td>';
     if ($canViewPrice) {
-      $html .= '<td>采购单价</td><td>采购金额</td><td>税率</td><td>价税合计</td>';
+      $html .= '<td>采购单价</td><td>采购金额</td>';
     }
     $html .= '</tr>';
     foreach ($bill["items"] as $v) {
@@ -328,8 +328,8 @@ class PWBillService extends PSIBaseExService
       if ($canViewPrice) {
         $html .= '<td align="right">' . $v["goodsPrice"] . '</td>';
         $html .= '<td align="right">' . $v["goodsMoney"] . '</td>';
-        $html .= '<td align="right">' . $v["taxRate"] . '%</td>';
-        $html .= '<td align="right">' . $v["moneyWithTax"] . '</td>';
+        //$html .= '<td align="right">' . $v["taxRate"] . '%</td>';
+        //$html .= '<td align="right">' . $v["moneyWithTax"] . '</td>';
       }
       $html .= '</tr>';
     }
