@@ -141,7 +141,7 @@ PCL.define("PSI.Goods.CategoryEditForm", {
           valueField: "id",
           labelAlign: "right",
           labelSeparator: "",
-          fieldLabel: "默认税率",
+          fieldLabel: "默认税率(%)", hidden: true, //隐藏税率
           store: PCL.create("PCL.data.ArrayStore", {
             fields: ["id", "text"],
             data: [[-1, "[不设定]"],
@@ -169,7 +169,7 @@ PCL.define("PSI.Goods.CategoryEditForm", {
           valueField: "id",
           labelAlign: "right",
           labelSeparator: "",
-          fieldLabel: "物料类型",
+          fieldLabel: "物料类型", hidden: true, //隐藏物料类型
           store: PCL.create("PCL.data.ArrayStore", {
             fields: ["id", "text"],
             data: [[-1, "[不限]"],
