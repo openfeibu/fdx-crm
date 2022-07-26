@@ -539,7 +539,7 @@ PCL.define("PSI.PurchaseRej.PRMainForm", {
         sortable: false,
         width: 150
       }, {
-        header: "退货金额(不含税)",
+        header: "退货金额", //退货金额(不含税)
         dataIndex: "rejMoney",
         menuDisabled: true,
         sortable: false,
@@ -547,7 +547,7 @@ PCL.define("PSI.PurchaseRej.PRMainForm", {
         xtype: "numbercolumn",
         width: 110
       }, {
-        header: "税金(红字)",
+        header: "税金(红字)", hidden: true, //隐藏税金
         dataIndex: "tax",
         menuDisabled: true,
         sortable: false,
@@ -555,7 +555,7 @@ PCL.define("PSI.PurchaseRej.PRMainForm", {
         xtype: "numbercolumn",
         width: 90
       }, {
-        header: "退货金额(含税)",
+        header: "退货金额(含税)", hidden: true, //隐藏
         dataIndex: "rejMoneyWithTax",
         menuDisabled: true,
         sortable: false,
@@ -700,7 +700,7 @@ PCL.define("PSI.PurchaseRej.PRMainForm", {
         width: 50,
         align: "center"
       }, {
-        header: "退货单价(不含税)",
+        header: "退货单价", //退货单价(不含税)
         dataIndex: "rejPrice",
         menuDisabled: true,
         sortable: false,
@@ -708,7 +708,7 @@ PCL.define("PSI.PurchaseRej.PRMainForm", {
         width: 110,
         xtype: "numbercolumn"
       }, {
-        header: "退货金额(不含税)",
+        header: "退货金额", //退货金额(不含税)
         dataIndex: "rejMoney",
         menuDisabled: true,
         sortable: false,
@@ -725,7 +725,7 @@ PCL.define("PSI.PurchaseRej.PRMainForm", {
         xtype: "numbercolumn",
         format: "#"
       }, {
-        header: "税金(红字)",
+        header: "税金(红字)", hidden: true, //隐藏税金
         dataIndex: "tax",
         menuDisabled: true,
         sortable: false,
@@ -733,7 +733,7 @@ PCL.define("PSI.PurchaseRej.PRMainForm", {
         width: 90,
         xtype: "numbercolumn"
       }, {
-        header: "退货单价(含税)",
+        header: "退货单价(含税)", hidden: true, //隐藏退货单价(含税)
         dataIndex: "rejPriceWithTax",
         menuDisabled: true,
         sortable: false,
@@ -741,7 +741,7 @@ PCL.define("PSI.PurchaseRej.PRMainForm", {
         width: 110,
         xtype: "numbercolumn"
       }, {
-        header: "退货金额(含税)",
+        header: "退货金额(含税)", hidden: true, //隐藏退货金额(含税)
         dataIndex: "rejMoneyWithTax",
         menuDisabled: true,
         sortable: false,

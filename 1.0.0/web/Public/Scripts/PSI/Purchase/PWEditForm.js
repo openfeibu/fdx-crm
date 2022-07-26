@@ -601,7 +601,7 @@ PCL.define("PSI.Purchase.PWEditForm", {
           summaryType: "sum",
           hidden: !me.getViewPrice()
         }, {
-          header: "含税价",
+          header: "含税价", hidden: true, //隐藏含税价
           dataIndex: "goodsPriceWithTax",
           align: "right",
           xtype: "numbercolumn",
@@ -610,14 +610,14 @@ PCL.define("PSI.Purchase.PWEditForm", {
             xtype: "numberfield",
             hideTrigger: true
           },
-          hidden: !me.getViewPrice()
+          //hidden: !me.getViewPrice()
         }, {
           header: "税率(%)", hidden: true, //隐藏税率
           dataIndex: "taxRate",
           align: "right",
           format: "0",
           width: 60,
-          hidden: !me.getViewPrice()
+          //hidden: !me.getViewPrice()
         }, {
           header: "税金", hidden: true, //隐藏税金
           dataIndex: "tax",
@@ -629,7 +629,7 @@ PCL.define("PSI.Purchase.PWEditForm", {
             hideTrigger: true
           },
           summaryType: "sum",
-          hidden: !me.getViewPrice()
+          //hidden: !me.getViewPrice()
         }, {
           header: "价税合计", hidden: true, //价税合计
           dataIndex: "moneyWithTax",
@@ -641,7 +641,7 @@ PCL.define("PSI.Purchase.PWEditForm", {
             hideTrigger: true
           },
           summaryType: "sum",
-          hidden: !me.getViewPrice()
+          //hidden: !me.getViewPrice()
         }, {
           header: "备注",
           dataIndex: "memo",

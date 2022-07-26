@@ -440,7 +440,7 @@ PCL.define("PSI.PurchaseRej.PREditForm", {
         width: 50,
         align: "center"
       }, {
-        header: "退货单价(含税)",
+        header: "退货单价(含税)", hidden: true, //隐藏退货单价(含税)
         dataIndex: "rejPriceWithTax",
         menuDisabled: true,
         sortable: false,
@@ -456,7 +456,7 @@ PCL.define("PSI.PurchaseRej.PREditForm", {
           return "金额合计";
         }
       }, {
-        header: "退货金额(含税)",
+        header: "退货金额(含税)", hidden: true, //隐藏退货金额(含税)
         dataIndex: "rejMoneyWithTax",
         menuDisabled: true,
         sortable: false,
@@ -470,7 +470,7 @@ PCL.define("PSI.PurchaseRej.PREditForm", {
         },
         summaryType: "sum"
       }, {
-        header: "退货单价(不含税)",
+        header: "退货单价", //退货单价(不含税)
         dataIndex: "rejPrice",
         menuDisabled: true,
         sortable: false,
@@ -483,7 +483,7 @@ PCL.define("PSI.PurchaseRej.PREditForm", {
           hideTrigger: true
         }
       }, {
-        header: "退货金额(不含税)",
+        header: "退货金额", //退货金额(不含税)
         dataIndex: "rejMoney",
         menuDisabled: true,
         sortable: false,
@@ -515,7 +515,7 @@ PCL.define("PSI.PurchaseRej.PREditForm", {
         align: "right",
         width: 80
       }, {
-        header: "原采购单价(不含税)",
+        header: "原采购单价", //原采购单价(不含税)
         dataIndex: "goodsPrice",
         menuDisabled: true,
         sortable: false,
@@ -524,7 +524,7 @@ PCL.define("PSI.PurchaseRej.PREditForm", {
         xtype: "numbercolumn",
         width: 120
       }, {
-        header: "原采购金额(不含税)",
+        header: "原采购金额", //原采购金额(不含税)
         dataIndex: "goodsMoney",
         menuDisabled: true,
         sortable: false,
@@ -533,7 +533,7 @@ PCL.define("PSI.PurchaseRej.PREditForm", {
         xtype: "numbercolumn",
         width: 120
       }, {
-        header: "原采购单价(含税)",
+        header: "原采购单价(含税)", hidden: true, //隐藏原采购单价(含税)
         dataIndex: "goodsPriceWithTax",
         menuDisabled: true,
         sortable: false,
@@ -542,7 +542,7 @@ PCL.define("PSI.PurchaseRej.PREditForm", {
         xtype: "numbercolumn",
         width: 110
       }, {
-        header: "原采购金额(含税)",
+        header: "原采购金额(含税)", hidden: true, //隐藏原采购金额(含税)
         dataIndex: "goodsMoneyWithTax",
         menuDisabled: true,
         sortable: false,

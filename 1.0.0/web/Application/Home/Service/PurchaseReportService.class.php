@@ -224,8 +224,7 @@ class PurchaseReportService extends PSIBaseExService
             <td>物料编码</td><td>品名</td>
 						<td>规格型号</td><td>入库数量</td><td>单位</td>
             <td>采购单价</td><td>采购金额</td>
-            <td>税率(%)</td><td>税金</td>
-            <td>价税合计</td><td>含税价</td><td>备注</td>
+            <td>备注</td>
 					</tr>
 				';
     foreach ($items as $v) {
@@ -242,10 +241,6 @@ class PurchaseReportService extends PSIBaseExService
       $html .= '<td>' . $v["unitName"] . '</td>';
       $html .= '<td align="right">' . $v["goodsPrice"] . '</td>';
       $html .= '<td align="right">' . $v["goodsMoney"] . '</td>';
-      $html .= '<td align="right">' . $v["taxRate"] . '</td>';
-      $html .= '<td align="right">' . $v["tax"] . '</td>';
-      $html .= '<td align="right">' . $v["moneyWithTax"] . '</td>';
-      $html .= '<td align="right">' . $v["goodsPriceWithTax"] . '</td>';
       $html .= '<td>' . $v["memo"] . '</td>';
       $html .= '</tr>';
     }

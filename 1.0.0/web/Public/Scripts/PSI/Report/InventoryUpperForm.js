@@ -54,7 +54,7 @@ PCL.define("PSI.Report.InventoryUpperForm", {
         handler: me.onQuery,
         scope: me
       }, "-", {
-        text: "打印",
+        text: "打印",hidden: true,
         menu: [{
           text: "打印预览",
           iconCls: "PSI-button-print-preview",

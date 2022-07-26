@@ -199,7 +199,7 @@ PCL.define("PSI.PurchaseRej.PRSelectPWBillForm", {
         menuDisabled: true,
         sortable: false
       }, {
-        header: "采购金额(不含税)",
+        header: "采购金额", //采购金额(不含税)
         dataIndex: "amount",
         menuDisabled: true,
         sortable: false,
@@ -215,7 +215,7 @@ PCL.define("PSI.PurchaseRej.PRSelectPWBillForm", {
         xtype: "numbercolumn",
         width: 80
       }, {
-        header: "采购金额(含税)",
+        header: "采购金额(含税)", hidden: true, //隐藏采购金额(含税)
         dataIndex: "moneyWithTax",
         menuDisabled: true,
         sortable: false,
@@ -363,7 +363,7 @@ PCL.define("PSI.PurchaseRej.PRSelectPWBillForm", {
         sortable: false,
         width: 60
       }, {
-        header: "采购单价(不含税)",
+        header: "采购单价", //采购单价(不含税)
         dataIndex: "goodsPrice",
         menuDisabled: true,
         sortable: false,
@@ -371,7 +371,7 @@ PCL.define("PSI.PurchaseRej.PRSelectPWBillForm", {
         xtype: "numbercolumn",
         width: 150
       }, {
-        header: "采购金额(不含税)",
+        header: "采购金额", //采购金额(不含税)
         dataIndex: "goodsMoney",
         menuDisabled: true,
         sortable: false,
@@ -396,7 +396,7 @@ PCL.define("PSI.PurchaseRej.PRSelectPWBillForm", {
         xtype: "numbercolumn",
         width: 100
       }, {
-        header: "采购单价(含税)",
+        header: "采购单价(含税)", hidden: true, //隐藏采购单价(含税)
         dataIndex: "priceWithTax",
         menuDisabled: true,
         sortable: false,
@@ -404,7 +404,7 @@ PCL.define("PSI.PurchaseRej.PRSelectPWBillForm", {
         xtype: "numbercolumn",
         width: 150
       }, {
-        header: "采购金额(含税)",
+        header: "采购金额(含税)", hidden: true, //隐藏采购金额(含税)
         dataIndex: "moneyWithTax",
         menuDisabled: true,
         sortable: false,

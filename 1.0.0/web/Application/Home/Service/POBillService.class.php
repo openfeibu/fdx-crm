@@ -389,9 +389,8 @@ class POBillService extends PSIBaseExService
 					<tr><td colspan="2">单号：' . $ref . '</td></tr>
 					<tr><td colspan="2">供应商：' . $bill["supplierName"] . '</td></tr>
 					<tr><td>交货日期：' . $bill["dealDate"] . '</td><td>交货地址:' . $bill["dealAddress"] . '</td></tr>
-					<tr><td>业务员：' . $bill["bizUserName"] . '</td><td>税金：' . $bill["tax"] . ' (' . $utilService->moneyToCap($bill["tax"]) . ')</td></tr>
+					<tr><td>业务员：' . $bill["bizUserName"] . '</td><td></td></tr>
           <tr><td>采购货款:' . $bill["goodsMoney"] . ' (' . $utilService->moneyToCap($bill["goodsMoney"]) . ')</td>
-              <td>价税合计：' . $bill["moneyWithTax"] . ' (' . $utilService->moneyToCap($bill["moneyWithTax"]) . ')</td>
           </tr>
 				</table>
 				';
@@ -411,8 +410,6 @@ class POBillService extends PSIBaseExService
       $html .= '<td>' . $v["unitName"] . '</td>';
       $html .= '<td align="right">' . $v["goodsPrice"] . '</td>';
       $html .= '<td align="right">' . $v["goodsMoney"] . '</td>';
-      $html .= '<td align="right">' . $v["taxRate"] . '%</td>';
-      $html .= '<td align="right">' . $v["moneyWithTax"] . '</td>';
       $html .= '</tr>';
     }
 

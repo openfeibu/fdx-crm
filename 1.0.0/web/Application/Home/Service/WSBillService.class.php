@@ -284,8 +284,8 @@ class WSBillService extends PSIBaseExService
 					<tr><td>单号：' . $ref . '</td><td>业务日期：' . $bill["bizDT"] . '</td></tr>
 					<tr><td colspan="2">客户：' . $bill["customerName"] . '</td></tr>
 					<tr><td>业务员：' . $bill["bizUserName"] . '</td><td>出库仓库:' . $bill["warehouseName"] . '</td></tr>
-          <tr><td>销售金额：' . $bill["saleMoney"] . ' (' . $utilService->moneyToCap($bill["saleMoney"]) . ')</td>'
-      . '<td>价税合计：' . $bill["moneyWithTax"] . ' (' . $utilService->moneyToCap($bill["moneyWithTax"]) . ')</td></tr>
+          <tr><td>销售金额：' . $bill["saleMoney"] . ' (' . $utilService->moneyToCap($bill["saleMoney"]) . ')</td><td>运费：' . $bill["freight"] . ' (' . $utilService->moneyToCap($bill["freight"]) . ')</td></tr>'
+      . '<tr><td colspan="2">合计：' . $bill["totalMoney"] . ' (' . $utilService->moneyToCap($bill["totalMoney"]) . ')</td></tr>
 					<tr><td colspan="2">送货地址:' . $bill["dealAddress"] . '</td></tr>
 					<tr><td colspan="2">备注:' . $bill["memo"] . '</td></tr>
 				</table>
@@ -294,7 +294,7 @@ class WSBillService extends PSIBaseExService
 
     $html = '<table border="1" cellpadding="1">
 					<tr><td>商品编号</td><td>商品名称</td><td>规格型号</td><td>数量</td><td>单位</td>
-						<td>单价</td><td>销售金额</td><td>税率</td><td>价税合计</td><td>序列号</td>
+						<td>单价</td><td>销售金额</td><td>序列号</td>
 					</tr>
 				';
     foreach ($bill["items"] as $v) {
@@ -306,8 +306,8 @@ class WSBillService extends PSIBaseExService
       $html .= '<td>' . $v["unitName"] . '</td>';
       $html .= '<td align="right">' . $v["goodsPrice"] . '</td>';
       $html .= '<td align="right">' . $v["goodsMoney"] . '</td>';
-      $html .= '<td align="right">' . $v["taxRate"] . '%</td>';
-      $html .= '<td align="right">' . $v["moneyWithTax"] . '</td>';
+      //$html .= '<td align="right">' . $v["taxRate"] . '%</td>';
+      //$html .= '<td align="right">' . $v["moneyWithTax"] . '</td>';
       $html .= '<td>' . $v["sn"] . '</td>';
       $html .= '</tr>';
     }

@@ -530,7 +530,7 @@ Ext.define("PSI.Sale.SRMainForm", {
         menuDisabled: true,
         sortable: false
       }, {
-        header: "退货金额(不含税)",
+        header: "退货金额", //退货金额(不含税)
         dataIndex: "amount",
         menuDisabled: true,
         sortable: false,
@@ -538,7 +538,7 @@ Ext.define("PSI.Sale.SRMainForm", {
         xtype: "numbercolumn",
         width: 130
       }, {
-        header: "税金(红字)",
+        header: "税金(红字)", hidden: true, //隐藏税金
         dataIndex: "tax",
         menuDisabled: true,
         sortable: false,
@@ -546,7 +546,7 @@ Ext.define("PSI.Sale.SRMainForm", {
         xtype: "numbercolumn",
         width: 120
       }, {
-        header: "退货金额(含税)",
+        header: "退货金额(含税)", hidden: true, //隐藏退货金额(含税)
         dataIndex: "moneyWithTax",
         menuDisabled: true,
         sortable: false,

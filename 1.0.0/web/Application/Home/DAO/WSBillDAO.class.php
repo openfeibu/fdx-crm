@@ -1111,7 +1111,7 @@ class WSBillDAO extends PSIBaseExDAO
               u.name as biz_user_name,
               h.name as warehouse_name,
               w.sale_money, w.memo, w.deal_address, w.company_id,
-              w.money_with_tax
+              w.money_with_tax, w.freight, w.total_money
             from t_ws_bill w, t_customer c, t_user u, t_warehouse h
             where w.customer_id = c.id and w.biz_user_id = u.id
               and w.warehouse_id = h.id
@@ -1138,7 +1138,8 @@ class WSBillDAO extends PSIBaseExDAO
     $bill["memo"] = $data[0]["memo"];
     $bill["dealAddress"] = $data[0]["deal_address"];
     $bill["moneyWithTax"] = $data[0]["money_with_tax"];
-
+	  $bill["freight"] = $data[0]["freight"];
+	  $bill["totalMoney"] = $data[0]["total_money"];
     // 明细表
     $sql = "select g.code, g.name, g.spec, u.name as unit_name, 
               convert(d.goods_count, $fmt) as goods_count,
@@ -2080,7 +2081,7 @@ class WSBillDAO extends PSIBaseExDAO
               u.name as biz_user_name,
               h.name as warehouse_name,
               w.sale_money, w.memo, w.deal_address, w.company_id,
-              w.money_with_tax
+              w.money_with_tax, w.freight, w.total_money
             from t_ws_bill w, t_customer c, t_user u, t_warehouse h
             where w.customer_id = c.id and w.biz_user_id = u.id
               and w.warehouse_id = h.id
@@ -2107,7 +2108,9 @@ class WSBillDAO extends PSIBaseExDAO
     $bill["billMemo"] = $data[0]["memo"];
     $bill["dealAddress"] = $data[0]["deal_address"];
     $bill["moneyWithTax"] = $data[0]["money_with_tax"];
-
+	  $bill["freight"] = $data[0]["freight"];
+	  $bill["totalMoney"] = $data[0]["total_money"];
+	  
     $bill["printDT"] = date("Y-m-d H:i:s");
 
     // 明细表

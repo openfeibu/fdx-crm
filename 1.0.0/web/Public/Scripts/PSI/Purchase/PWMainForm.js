@@ -362,14 +362,14 @@ PCL.define("PSI.Purchase.PWMainForm", {
           align: "right",
           xtype: "numbercolumn",
           width: 90,
-          hidden: me.getPermission().viewPrice == "0"
+          //hidden: me.getPermission().viewPrice == "0"
         }, {
           header: "价税合计", hidden: true, //价税合计
           dataIndex: "moneyWithTax",
           align: "right",
           xtype: "numbercolumn",
           width: 90,
-          hidden: me.getPermission().viewPrice == "0"
+          //hidden: me.getPermission().viewPrice == "0"
         }, {
           header: "付款方式",
           dataIndex: "paymentType",
@@ -553,7 +553,7 @@ PCL.define("PSI.Purchase.PWMainForm", {
           align: "right",
           xtype: "numbercolumn",
           format: "0",
-          hidden: me.getPermission().viewPrice == "0",
+          //hidden: me.getPermission().viewPrice == "0",
           width: 60
         }, {
           header: "税金", hidden: true, //隐藏税金
@@ -561,21 +561,21 @@ PCL.define("PSI.Purchase.PWMainForm", {
           align: "right",
           xtype: "numbercolumn",
           width: 90,
-          hidden: me.getPermission().viewPrice == "0"
+          //hidden: me.getPermission().viewPrice == "0"
         }, {
           header: "价税合计", hidden: true, //价税合计
           dataIndex: "moneyWithTax",
           align: "right",
           xtype: "numbercolumn",
           width: 90,
-          hidden: me.getPermission().viewPrice == "0"
+          //hidden: me.getPermission().viewPrice == "0"
         }, {
-          header: "含税价",
+          header: "含税价", hidden: true, //含税价
           dataIndex: "goodsPriceWithTax",
           align: "right",
           xtype: "numbercolumn",
           width: 90,
-          hidden: me.getPermission().viewPrice == "0"
+          //hidden: me.getPermission().viewPrice == "0"
         }, {
           header: "备注",
           dataIndex: "memo",

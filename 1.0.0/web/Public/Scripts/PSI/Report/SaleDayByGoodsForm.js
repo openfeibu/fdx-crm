@@ -76,7 +76,7 @@ PCL.define("PSI.Report.SaleDayByGoodsForm", {
         handler: me.onClearQuery,
         scope: me
       }, "-", {
-        text: "打印",
+        text: "打印",hidden: true,
         menu: [{
           text: "打印预览",
           iconCls: "PSI-button-print-preview",
@@ -239,20 +239,20 @@ PCL.define("PSI.Report.SaleDayByGoodsForm", {
         sortable: true,
         align: "right",
         xtype: "numbercolumn"
-      }, /*{
+      }, {
         header: "毛利",
         dataIndex: "profit",
         menuDisabled: true,
         sortable: true,
         align: "right",
         xtype: "numbercolumn"
-      }, {
+      },{
         header: "毛利率",
         dataIndex: "rate",
         menuDisabled: true,
         sortable: true,
         align: "right"
-      }*/],
+      }],
       store: store
     });
 
@@ -315,20 +315,20 @@ PCL.define("PSI.Report.SaleDayByGoodsForm", {
         sortable: false,
         align: "right",
         xtype: "numbercolumn"
-      }, /*{
+      }, {
         header: "毛利",
         dataIndex: "profit",
         menuDisabled: true,
         sortable: false,
         align: "right",
         xtype: "numbercolumn"
-      }, {
+      },{
         header: "毛利率",
         dataIndex: "rate",
         menuDisabled: true,
         sortable: false,
         align: "right"
-      }*/],
+      }],
       store: store
     });
 
