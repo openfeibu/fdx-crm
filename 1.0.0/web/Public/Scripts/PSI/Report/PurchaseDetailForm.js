@@ -315,13 +315,13 @@ PCL.define("PSI.Report.PurchaseDetailForm", {
           xtype: "numbercolumn",
           format: "0"
         }, {
-          header: "税金",
+          header: "税金", hidden: true, //隐藏税金
           dataIndex: "tax",
           align: "right",
           xtype: "numbercolumn",
           width: 150
         }, {
-          header: "价税合计",
+          header: "价税合计", hidden: true, //价税合计
           dataIndex: "moneyWithTax",
           align: "right",
           xtype: "numbercolumn",

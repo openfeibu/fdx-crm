@@ -207,7 +207,7 @@ PCL.define("PSI.PurchaseRej.PRSelectPWBillForm", {
         xtype: "numbercolumn",
         width: 130
       }, {
-        header: "税金",
+        header: "税金", hidden: true, //隐藏税金
         dataIndex: "tax",
         menuDisabled: true,
         sortable: false,
@@ -388,7 +388,7 @@ PCL.define("PSI.PurchaseRej.PRSelectPWBillForm", {
         width: 80,
         format: "#"
       }, {
-        header: "税金",
+        header: "税金", hidden: true, //隐藏税金
         dataIndex: "tax",
         menuDisabled: true,
         sortable: false,

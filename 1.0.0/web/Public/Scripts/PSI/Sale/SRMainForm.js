@@ -712,7 +712,7 @@ Ext.define("PSI.Sale.SRMainForm", {
         xtype: "numbercolumn",
         width: 90
       }, {
-        header: "价税合计",
+        header: "价税合计", hidden: true, //价税合计
         dataIndex: "rejSaleMoneyWithTax",
         menuDisabled: true,
         sortable: false,

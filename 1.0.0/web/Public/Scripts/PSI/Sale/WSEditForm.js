@@ -771,7 +771,7 @@ Ext.define("PSI.Sale.WSEditForm", {
         draggable: false,
         width: 60
       }, {
-        header: "税金",
+        header: "税金", hidden: true, //隐藏税金
         dataIndex: "tax",
         align: "right",
         xtype: "numbercolumn",
@@ -785,7 +785,7 @@ Ext.define("PSI.Sale.WSEditForm", {
         },
         summaryType: "sum"
       }, {
-        header: "价税合计",
+        header: "价税合计", hidden: true, //价税合计
         dataIndex: "moneyWithTax",
         align: "right",
         xtype: "numbercolumn",

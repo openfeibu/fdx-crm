@@ -330,7 +330,7 @@ PCL.define("PSI.Supplier.SupplierEditForm", {
           width: width2,
         }, {
           id: "PSI_Supplier_SupplierEditForm_editTaxRate",
-          fieldLabel: "税率",
+          fieldLabel: "税率(%)", hidden: true, //隐藏税率
           name: "taxRate",
           xtype: "numberfield",
           hideTrigger: true,
@@ -345,7 +345,7 @@ PCL.define("PSI.Supplier.SupplierEditForm", {
           },
           width: width2,
         }, {
-          xtype: "displayfield",
+          xtype: "displayfield",hidden: true, //隐藏税率
           value: "%"
         }, {
           id: "PSI_Supplier_SupplierEditForm_editInitPayables",

@@ -357,14 +357,14 @@ PCL.define("PSI.Purchase.PWMainForm", {
           width: 90,
           hidden: me.getPermission().viewPrice == "0"
         }, {
-          header: "税金",
+          header: "税金", hidden: true, //隐藏税金
           dataIndex: "tax",
           align: "right",
           xtype: "numbercolumn",
           width: 90,
           hidden: me.getPermission().viewPrice == "0"
         }, {
-          header: "价税合计",
+          header: "价税合计", hidden: true, //价税合计
           dataIndex: "moneyWithTax",
           align: "right",
           xtype: "numbercolumn",
@@ -556,14 +556,14 @@ PCL.define("PSI.Purchase.PWMainForm", {
           hidden: me.getPermission().viewPrice == "0",
           width: 60
         }, {
-          header: "税金",
+          header: "税金", hidden: true, //隐藏税金
           dataIndex: "tax",
           align: "right",
           xtype: "numbercolumn",
           width: 90,
           hidden: me.getPermission().viewPrice == "0"
         }, {
-          header: "价税合计",
+          header: "价税合计", hidden: true, //价税合计
           dataIndex: "moneyWithTax",
           align: "right",
           xtype: "numbercolumn",

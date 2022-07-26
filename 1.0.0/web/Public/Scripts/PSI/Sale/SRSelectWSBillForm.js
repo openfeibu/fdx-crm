@@ -217,7 +217,7 @@ Ext.define("PSI.Sale.SRSelectWSBillForm", {
         xtype: "numbercolumn",
         width: 130
       }, {
-        header: "税金",
+        header: "税金", hidden: true, //隐藏税金
         dataIndex: "tax",
         menuDisabled: true,
         sortable: false,
@@ -225,7 +225,7 @@ Ext.define("PSI.Sale.SRSelectWSBillForm", {
         xtype: "numbercolumn",
         width: 90
       }, {
-        header: "价税合计",
+        header: "价税合计", hidden: true, //价税合计
         dataIndex: "moneyWithTax",
         menuDisabled: true,
         sortable: false,
@@ -452,7 +452,7 @@ Ext.define("PSI.Sale.SRSelectWSBillForm", {
         format: "#",
         width: 60
       }, {
-        header: "税金",
+        header: "税金", hidden: true, //隐藏税金
         dataIndex: "tax",
         menuDisabled: true,
         sortable: false,
@@ -460,7 +460,7 @@ Ext.define("PSI.Sale.SRSelectWSBillForm", {
         xtype: "numbercolumn",
         width: 90
       }, {
-        header: "价税合计",
+        header: "价税合计", hidden: true, //价税合计
         dataIndex: "moneyWithTax",
         menuDisabled: true,
         sortable: false,

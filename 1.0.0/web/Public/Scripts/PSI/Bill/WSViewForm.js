@@ -236,7 +236,7 @@ Ext.define("PSI.Bill.WSViewForm", {
         format: "#",
         width: 80
       }, {
-        header: "税金",
+        header: "税金", hidden: true, //隐藏税金
         dataIndex: "tax",
         menuDisabled: true,
         sortable: false,
@@ -245,7 +245,7 @@ Ext.define("PSI.Bill.WSViewForm", {
         width: 150,
         summaryType: "sum"
       }, {
-        header: "价税合计",
+        header: "价税合计", hidden: true, //价税合计
         dataIndex: "moneyWithTax",
         menuDisabled: true,
         sortable: false,

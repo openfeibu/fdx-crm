@@ -370,7 +370,7 @@ PCL.define("PSI.Goods.MainForm", {
           }
         }
       }, {
-        header: "物料类型",
+        header: "物料类型", hidden: true, //隐藏物料类型
         dataIndex: "mType",
         menuDisabled: true,
         sortable: false,
@@ -422,7 +422,7 @@ PCL.define("PSI.Goods.MainForm", {
         xtype: "numbercolumn",
         hidden: me.getPViewPurchasePrice() == "0",
       }, {
-        header: "税率",
+        header: "税率(%)", hidden: true, //隐藏税率
         dataIndex: "taxRate",
         menuDisabled: true,
         sortable: false,
@@ -1196,12 +1196,12 @@ PCL.define("PSI.Goods.MainForm", {
             return value == 0 ? "" : value;
           }
         }, {
-          text: "默认税率",
+          text: "默认税率(%)", hidden: true, //隐藏税率
           dataIndex: "taxRate",
           align: "center",
           width: 80
         }, {
-          text: "物料类型",
+          text: "物料类型", hidden: true, //隐藏物料类型
           dataIndex: "mType",
           width: 150
         }]
