@@ -590,7 +590,7 @@ PCL.define("PSI.DMO.DMOMainForm", {
           xtype: "numbercolumn",
           width: 90
         }, {
-          header: "税率(%)",
+          header: "税率(%)", hidden: true, //隐藏税率
           dataIndex: "taxRate",
           align: "right",
           xtype: "numbercolumn",

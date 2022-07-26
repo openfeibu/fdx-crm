@@ -612,7 +612,7 @@ PCL.define("PSI.Purchase.PWEditForm", {
           },
           hidden: !me.getViewPrice()
         }, {
-          header: "税率(%)",
+          header: "税率(%)", hidden: true, //隐藏税率
           dataIndex: "taxRate",
           align: "right",
           format: "0",

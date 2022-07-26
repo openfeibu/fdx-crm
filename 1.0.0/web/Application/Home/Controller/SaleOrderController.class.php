@@ -214,7 +214,27 @@ class SaleOrderController extends PSIBaseController
       $this->ajaxReturn($ps->commitSOBill($params));
     }
   }
-
+	/**
+	 * 拒绝销售订单
+	 */
+	public function rejectSOBill()
+	{
+		if (IS_POST) {
+			$us = new UserService();
+			
+			if (!$us->hasPermission(FIdConst::SALE_ORDER_CONFIRM)) {
+				die("没有权限");
+			}
+			
+			$params = [
+				"id" => I("post.id"),
+				"reject_content" => I("post.reject_content")
+			];
+			
+			$ps = new SOBillService();
+			$this->ajaxReturn($ps->rejectSOBill($params));
+		}
+	}
   /**
    * 取消销售订单审核
    */

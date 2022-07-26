@@ -49,6 +49,8 @@ PCL.define("PSI.AFX.MessageBox.ConfirmContentForm", {
         fieldLabel: "理由",
         margin: "0 0 0 10",
         width: 400,
+        blankText: "没有输入理由",
+        beforeLabelTextTpl: PSI.Const.REQUIRED,
       }],
       buttons: [{
         id: "PSI_AFX_MessageBox_ConfirmForm_buttonOK",
@@ -71,6 +73,8 @@ PCL.define("PSI.AFX.MessageBox.ConfirmContentForm", {
     });
 
     me.callParent(arguments);
+
+    me.confirmContent = PCL.getCmp("confirmContent");
   },
 
   /**
@@ -86,12 +90,20 @@ PCL.define("PSI.AFX.MessageBox.ConfirmContentForm", {
   _onOK() {
     const me = this;
 
-    me.close();
-
     const fn = me.getFn();
-    if (fn) {
-      fn();
+    var content = me.confirmContent.getValue();
+    if(!content.length)
+    {
+       PSI.MsgBox.showInfo("没有输入理由", function () {
+       });
+      me.confirmContent.focus();
+      return false;
     }
+    if (fn) {
+      fn(content);
+      me.close();
+    }
+
   },
 
   /**

@@ -76,7 +76,7 @@ class SOBillDAO extends PSIBaseExDAO
               c.name as customer_name, s.contact, s.tel, s.fax, s.deal_address,
               s.deal_date, s.receiving_type, s.bill_memo, s.date_created,
               o.full_name as org_name, u1.name as biz_user_name, u2.name as input_user_name,
-              s.confirm_user_id, s.confirm_date
+              s.confirm_user_id, s.confirm_date, s.reject_content, s.freight
             from t_so_bill s, t_customer c, t_org o, t_user u1, t_user u2
             where (s.customer_id = c.id) and (s.org_id = o.id)
               and (s.biz_user_id = u1.id) and (s.input_user_id = u2.id) ";
@@ -149,7 +149,9 @@ class SOBillDAO extends PSIBaseExDAO
       $result[$i]["orgName"] = $v["org_name"];
       $result[$i]["inputUserName"] = $v["input_user_name"];
       $result[$i]["dateCreated"] = $v["date_created"];
-
+	    $result[$i]["rejectContent"] = $v["reject_content"];
+	    $result[$i]["freight"] = $v["freight"];
+	    
       $confirmUserId = $v["confirm_user_id"];
       if ($confirmUserId) {
         $sql = "select name from t_user where id = '%s' ";
@@ -332,14 +334,17 @@ class SOBillDAO extends PSIBaseExDAO
     $fax = $bill["fax"];
     $dealAddress = $bill["dealAddress"];
     $billMemo = $bill["billMemo"];
-
+	  $expressId = $bill["expressId"];
+	  $freight = $bill["freight"] ?: 0;
     $items = $bill["items"];
 
     $companyId = $bill["companyId"];
     if ($this->companyIdNotExists($companyId)) {
       return $this->bad("所属公司不存在");
     }
-
+	  if (!$expressId) {
+		  return $this->bad("未选择物流，无法保存数据");
+	  }
     $dataOrg = $bill["dataOrg"];
     if ($this->dataOrgNotExists($dataOrg)) {
       return $this->badParam("dataOrg");
@@ -364,10 +369,10 @@ class SOBillDAO extends PSIBaseExDAO
     // 主表
     $sql = "insert into t_so_bill(id, ref, bill_status, deal_date, biz_dt, org_id, biz_user_id,
               goods_money, tax, money_with_tax, input_user_id, customer_id, contact, tel, fax,
-              deal_address, bill_memo, receiving_type, date_created, data_org, company_id)
+              deal_address, bill_memo, receiving_type, date_created, data_org, company_id, express_id,freight)
             values ('%s', '%s', 0, '%s', '%s', '%s', '%s',
               0, 0, 0, '%s', '%s', '%s', '%s', '%s',
-              '%s', '%s', %d, now(), '%s', '%s')";
+              '%s', '%s', %d, now(), '%s', '%s','%s', '%f')";
     $rc = $db->execute(
       $sql,
       $id,
@@ -385,7 +390,9 @@ class SOBillDAO extends PSIBaseExDAO
       $billMemo,
       $receivingType,
       $dataOrg,
-      $companyId
+      $companyId,
+	    $expressId,
+	    $freight
     );
     if ($rc === false) {
       return $this->sqlError(__METHOD__, __LINE__);
@@ -454,11 +461,13 @@ class SOBillDAO extends PSIBaseExDAO
     if (!$sumMoneyWithTax) {
       $sumMoneyWithTax = 0;
     }
-
+	
+	  $total_money = $sumMoneyWithTax + $freight;
+	  
     $sql = "update t_so_bill
-            set goods_money = %f, tax = %f, money_with_tax = %f
+            set goods_money = %f, tax = %f, money_with_tax = %f, total_money = %f 
             where id = '%s' ";
-    $rc = $db->execute($sql, $sumGoodsMoney, $sumTax, $sumMoneyWithTax, $id);
+    $rc = $db->execute($sql, $sumGoodsMoney, $sumTax, $sumMoneyWithTax, $total_money, $id);
     if ($rc === false) {
       return $this->sqlError(__METHOD__, __LINE__);
     }
@@ -553,14 +562,19 @@ class SOBillDAO extends PSIBaseExDAO
     $fax = $bill["fax"];
     $dealAddress = $bill["dealAddress"];
     $billMemo = $bill["billMemo"];
-
+	
+	  $expressId = $bill["expressId"];
+	  $freight = $bill["freight"] ?: 0;
+	  
     $items = $bill["items"];
 
     $loginUserId = $bill["loginUserId"];
     if ($this->loginUserIdNotExists($loginUserId)) {
       return $this->badParam("loginUserId");
     }
-
+	  if (!$expressId) {
+		  return $this->bad("未选择物流，无法保存数据");
+	  }
     $oldBill = $this->getSOBillById($id);
 
     if (!$oldBill) {
@@ -646,13 +660,14 @@ class SOBillDAO extends PSIBaseExDAO
     if (!$sumMoneyWithTax) {
       $sumMoneyWithTax = 0;
     }
-
+	  $total_money = $sumMoneyWithTax + $freight;
+	  
     $sql = "update t_so_bill
             set goods_money = %f, tax = %f, money_with_tax = %f,
               deal_date = '%s', customer_id = '%s',
               deal_address = '%s', contact = '%s', tel = '%s', fax = '%s',
               org_id = '%s', biz_user_id = '%s', receiving_type = %d,
-              bill_memo = '%s', input_user_id = '%s', date_created = now()
+              bill_memo = '%s', input_user_id = '%s', date_created = now(), express_id = '%s', freight = '%f', total_money = '%f'
             where id = '%s' ";
     $rc = $db->execute(
       $sql,
@@ -670,6 +685,9 @@ class SOBillDAO extends PSIBaseExDAO
       $receivingType,
       $billMemo,
       $loginUserId,
+	    $expressId,
+	    $freight,
+	    $total_money,
       $id
     );
     if ($rc === false) {
@@ -955,7 +973,8 @@ class SOBillDAO extends PSIBaseExDAO
     $sql = "update t_so_bill
             set bill_status = 1000,
               confirm_user_id = '%s',
-              confirm_date = now()
+              confirm_date = now(),
+              reject_content = null
             where id = '%s' ";
     $rc = $db->execute($sql, $loginUserId, $id);
     if ($rc === false) {
@@ -966,7 +985,51 @@ class SOBillDAO extends PSIBaseExDAO
 
     return null;
   }
-
+	
+	/**
+	 * 拒绝销售订单
+	 *
+	 * @param array $params
+	 * @return null|array
+	 */
+	public function rejectSOBill(&$params)
+	{
+		$db = $this->db;
+		
+		$loginUserId = $params["loginUserId"];
+		if ($this->loginUserIdNotExists($loginUserId)) {
+			return $this->badParam("loginUserId");
+		}
+		
+		$id = $params["id"];
+		$reject_content = $params["reject_content"];
+		
+		$bill = $this->getSOBillById($id);
+		
+		if (!$bill) {
+			return $this->bad("要拒绝的销售订单不存在");
+		}
+		$ref = $bill["ref"];
+		$billStatus = $bill["billStatus"];
+		if ($billStatus != 0) {
+			return $this->bad("销售订单(单号：$ref)已经被审核，不能再次审核");
+		}
+		
+		$sql = "update t_so_bill
+            set bill_status = -1000,
+              confirm_user_id = '%s',
+              confirm_date = now(),
+              reject_content = '%s'
+            where id = '%s' ";
+		$rc = $db->execute($sql, $loginUserId, $reject_content, $id);
+		if ($rc === false) {
+			return $this->sqlError(__METHOD__, __LINE__);
+		}
+		
+		$params["ref"] = $ref;
+		
+		return null;
+	}
   /**
    * 取消销售订单审核
    */
@@ -998,7 +1061,7 @@ class SOBillDAO extends PSIBaseExDAO
     }
 
     $sql = "update t_so_bill
-            set bill_status = 0, confirm_user_id = null, confirm_date = null
+            set bill_status = 0, confirm_user_id = null, confirm_date = null, reject_content = null
             where id = '%s' ";
     $rc = $db->execute($sql, $id);
     if ($rc === false) {
@@ -1023,7 +1086,7 @@ class SOBillDAO extends PSIBaseExDAO
               c.name as customer_name, s.contact, s.tel, s.fax, s.deal_address,
               s.deal_date, s.receiving_type, s.bill_memo, s.date_created,
               o.full_name as org_name, u1.name as biz_user_name, u2.name as input_user_name,
-              s.confirm_user_id, s.confirm_date, s.company_id
+              s.confirm_user_id, s.confirm_date, s.company_id, s.freight, s.total_money
             from t_so_bill s, t_customer c, t_org o, t_user u1, t_user u2
             where (s.customer_id = c.id) and (s.org_id = o.id)
               and (s.biz_user_id = u1.id) and (s.input_user_id = u2.id) 
@@ -1049,7 +1112,9 @@ class SOBillDAO extends PSIBaseExDAO
     $bill["tax"] = $data[0]["tax"];
     $bill["moneyWithTax"] = $data[0]["money_with_tax"];
     $bill["dealAddress"] = $data[0]["deal_address"];
-
+	  $bill["freight"] = $data[0]["freight"];
+	  $bill["totalMoney"] = $data[0]["total_money"];
+	  
     // 明细表
     $sql = "select s.id, g.code, g.name, g.spec, convert(s.goods_count, $fmt) as goods_count, 
               s.goods_price, s.goods_money,

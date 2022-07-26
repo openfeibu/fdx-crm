@@ -309,7 +309,7 @@ PCL.define("PSI.Report.SaleDetailForm", {
           xtype: "numbercolumn",
           width: 150
         }, {
-          header: "税率(%)",
+          header: "税率(%)", hidden: true, //隐藏税率
           dataIndex: "taxRate",
           align: "right",
           xtype: "numbercolumn",

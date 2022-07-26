@@ -87,7 +87,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
         id: "editForm",
         layout: {
           type: "table",
-          columns: 4
+          columns: 5
         },
         height: 120,
         bodyPadding: 10,
@@ -128,7 +128,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
         }, {
           id: "editCustomer",
           colspan: 2,
-          width: 430,
+          width: 280,
           labelWidth: 60,
           labelAlign: "right",
           labelSeparator: "",
@@ -256,6 +256,44 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
             }
           }
         }, {
+          id: "editExpress",
+          xtype: "psi_expressfield",
+          fid: "ct20220531145123",
+          fieldLabel: "物流",
+          labelWidth: 60,
+          labelAlign: "right",
+          labelSeparator: "",
+          allowBlank: false,
+          blankText: "没有输入物流",
+          beforeLabelTextTpl: PSI.Const.REQUIRED,
+          width: 200,
+          listeners: {
+            specialkey: {
+              fn: me.onEditExpressSpecialKey,
+              scope: me
+            },
+            change:function(){
+              Ext.getCmp("editFreight").setValue();
+              var freight = Ext.getCmp("editExpress").getFreightValue();
+              Ext.getCmp("editFreight").setValue(freight);
+            }
+          }
+        }, {
+          id: "editFreight",
+          labelWidth: 60,
+          labelAlign: "right",
+          labelSeparator: "",
+          fieldLabel: "运费",
+          xtype: "textfield",
+          listeners: {
+            specialkey: {
+              fn: me.onEditFreightSpecialKey,
+              scope: me
+            }
+          },
+          colspan: 3,
+          width: 200
+        }, {
           id: "editBillMemo",
           labelWidth: 60,
           labelAlign: "right",
@@ -288,7 +326,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
 
     me.__editorList = ["editDealDate", "editCustomer", "editDealAddress",
       "editContact", "editTel", "editFax", "editOrg", "editBizUser",
-      "editReceivingType", "editBillMemo"];
+      "editReceivingType", "editExpress", "editFreight", "editBillMemo"];
   },
 
   onWindowBeforeUnload: function (e) {
@@ -368,6 +406,12 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
           if (data.receivingType) {
             PCL.getCmp("editReceivingType").setValue(data.receivingType);
           }
+          if (data.expressId) {
+            var editExpress = PCL.getCmp("editExpress");
+            editExpress.setIdValue(data.expressId);
+            editExpress.setValue(data.expressName);
+          }
+          PCL.getCmp("editFreight").setValue(data.freight);
 
           var store = me.getGoodsGrid().getStore();
           store.removeAll();
@@ -593,7 +637,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
           hideTrigger: true
         }
       }, {
-        header: "税率(%)",
+        header: "税率(%)", hidden: true, //隐藏税率
         dataIndex: "taxRate",
         menuDisabled: true,
         sortable: false,
@@ -801,6 +845,9 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
       bizUserId: PCL.getCmp("editBizUser").getIdValue(),
       receivingType: PCL.getCmp("editReceivingType").getValue(),
       billMemo: PCL.getCmp("editBillMemo").getValue(),
+      expressId: PCL.getCmp("editExpress").getIdValue(),
+      freight: PCL.getCmp("editFreight").getValue(),
+
       scbillRef: me.getScbillRef(),
       items: []
     };
@@ -834,6 +881,8 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
     PCL.getCmp("buttonCancel").setText("关闭");
     PCL.getCmp("editDealDate").setReadOnly(true);
     PCL.getCmp("editCustomer").setReadOnly(true);
+    PCL.getCmp("editExpress").setReadOnly(true);
+    PCL.getCmp("editFreight").setReadOnly(true);
     PCL.getCmp("editDealAddress").setReadOnly(true);
     PCL.getCmp("editContact").setReadOnly(true);
     PCL.getCmp("editTel").setReadOnly(true);

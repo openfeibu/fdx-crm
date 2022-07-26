@@ -902,9 +902,9 @@ class WSBillDAO extends PSIBaseExDAO
       if ($sobillRef) {
         // 由销售订单生成销售出库单
         $sql = "select s.id, s.customer_id, c.name as customer_name, s.deal_date,
-                  s.receiving_type, s.bill_memo, s.deal_address
-                from t_so_bill s, t_customer c
-                where s.ref = '%s' and s.customer_id = c.id ";
+                  s.receiving_type, s.bill_memo, s.deal_address, s.express_id, s.freight, e.name as express_name
+                from t_so_bill s, t_customer c, t_feibu0001_ct_express e
+                where s.ref = '%s' and s.customer_id = c.id and s.express_id = e.id ";
         $data = $db->query($sql, $sobillRef);
         if ($data) {
           $v = $data[0];
@@ -914,7 +914,10 @@ class WSBillDAO extends PSIBaseExDAO
           $result["receivingType"] = "{$v['receiving_type']}"; // 数字转成字符串
           $result["memo"] = $v["bill_memo"];
           $result["dealAddress"] = $v["deal_address"];
-
+	        $result["expressId"] = $v["express_id"];
+	        $result["freight"] = $v["freight"];
+	        $result["expressName"] = $v["express_name"];
+	        
           $customerDAO = new CustomerDAO($db);
           $warehosue = $customerDAO->getSalesWarehouse($v["customer_id"]);
           if ($warehosue) {

@@ -116,7 +116,7 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
       id: "tbseparator2"
     }, {
       text: "生成采购订单",
-      hidden: me.getPermission().genPOBill == "0",
+      hidden: true,//me.getPermission().genPOBill == "0"
       scope: me,
       handler: me.onGenPOBill,
       id: "buttonGenPOBill"
@@ -373,9 +373,9 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
       fields: ["id", "ref", "customerName", "contact", "tel",
         "fax", "inputUserName", "bizUserName",
         "billStatus", "goodsMoney", "dateCreated",
-        "receivingType", "tax", "moneyWithTax", "dealDate",
+        "receivingType", "tax", "moneyWithTax", "freight", "dealDate",
         "dealAddress", "orgName", "confirmUserName",
-        "confirmDate", "billMemo", "genPWBill"]
+        "confirmDate", "billMemo", "genPWBill","rejectContent"]
     });
     var store = PCL.create("PCL.data.Store", {
       autoLoad: false,
@@ -419,11 +419,11 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
         menuDisabled: true,
         sortable: false,
         width: 100,
-        renderer: function (value) {
+        renderer(value, metaData, record) {
           if (value == 0) {
-            return "<span style='color:red'>待审核</span>";
+            return "<span style='color:orange'>待审核</span>";
           } else if (value == -1000) {
-            return "已拒绝";
+            return "<span style='color:red'>已拒绝："+record.get("rejectContent")+"</span>";
           } else if (value == 1000) {
             return "已通过";
           }  else if (value == 2000) {
@@ -505,6 +505,14 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
       }, {
         header: "价税合计",
         dataIndex: "moneyWithTax",
+        menuDisabled: true,
+        sortable: false,
+        align: "right",
+        xtype: "numbercolumn",
+        width: 90
+      }, {
+        header: "运费",
+        dataIndex: "freight",
         menuDisabled: true,
         sortable: false,
         align: "right",
@@ -683,7 +691,7 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
         xtype: "numbercolumn",
         width: 90
       }, {
-        header: "税率(%)",
+        header: "税率(%)", hidden: true, //隐藏税率
         dataIndex: "taxRate",
         menuDisabled: true,
         sortable: false,
@@ -893,9 +901,12 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
     }
 
     PCL.getCmp("buttonDelete").setDisabled(commited);
-    PCL.getCmp("buttonCommit").setDisabled(commited);
-    PCL.getCmp("buttonCancelConfirm").setDisabled(!commited || bill.get("genPWBill"));
-    PCL.getCmp("buttonRejectCommit").setDisabled(commited);
+    PCL.getCmp("buttonCommit").setDisabled(commited || (bill.get("billStatus") < 0));
+    PCL.getCmp("buttonCancelConfirm").setDisabled(
+!((bill.get("billStatus")==-1000 || bill.get("billStatus")==1000) && bill.get("genPWBill") == 0)
+    );//false:开启：(bill.get("billStatus")==-1000 || bill.get("billStatus")==1000) && bill.get("genPWBill") = 0
+
+    PCL.getCmp("buttonRejectCommit").setDisabled(commited || (bill.get("billStatus") < 0));
     PCL.getCmp("buttonGenWSBill").setDisabled(!commited);
     PCL.getCmp("buttonGenPOBill").setDisabled(!commited);
 
@@ -1034,13 +1045,14 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
       + "</span> 的销售订单?";
     var id = bill.get("id");
 
-    var funcConfirm = function () {
+    var funcConfirm = function (content) {
       var el = PCL.getBody();
       el.mask("正在提交中...");
       var r = {
-        url: me.URL("Home/SaleOrder/commitSOBill"),
+        url: me.URL("Home/SaleOrder/rejectSOBill"),
         params: {
-          id: id
+          id: id,
+          reject_content: content
         },
         callback: function (options, success, response) {
           el.unmask();
@@ -1049,7 +1061,7 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
             var data = me.decodeJSON(response.responseText);
             if (data.success) {
               me.refreshMainGrid(id);
-              me.tip("成功完成审核操作");
+              me.tip("成功完成拒绝操作");
             } else {
               me.showInfo(data.msg);
             }
@@ -1282,7 +1294,8 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
     var funShowForm = function () {
       var form = PCL.create("PSI.Sale.WSEditForm", {
         genBill: true,
-        sobillRef: bill.get("ref")
+        sobillRef: bill.get("ref"),
+        okDirect: me.URL("Home/Sale/wsIndex"),
       });
       form.show();
     };

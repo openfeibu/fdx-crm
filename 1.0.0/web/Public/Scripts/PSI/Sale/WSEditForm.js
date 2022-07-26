@@ -9,7 +9,8 @@ Ext.define("PSI.Sale.WSEditForm", {
   extend: "PSI.AFX.BaseDialogForm",
   config: {
     genBill: false,
-    sobillRef: null
+    sobillRef: null,
+    okDirect: null,
   },
 
   mixins: ["PSI.Mix.GoodsPrice"],
@@ -400,12 +401,13 @@ Ext.define("PSI.Sale.WSEditForm", {
             }
 
             if (data.expressId) {
-              var editExpress = Ext
-                  .getCmp("editExpress");
+              console.log(data.expressId);
+              var editExpress = Ext.getCmp("editExpress");
               editExpress.setIdValue(data.expressId);
               editExpress.setValue(data.expressName);
             }
-
+            Ext.getCmp("editFreight")
+              .setValue(data.freight);
           } else {
 
             if (data.ref) {
@@ -494,6 +496,11 @@ Ext.define("PSI.Sale.WSEditForm", {
               pf.refreshMainGrid(data.id);
             }
             me.tip("成功保存数据");
+            if(me.getOkDirect())
+            {
+              window.location.replace(me.getOkDirect());
+            }
+
           } else {
             if (data.checkInv == "1") {
               // 检查到库存不足，提醒用户
@@ -755,7 +762,7 @@ Ext.define("PSI.Sale.WSEditForm", {
           hideTrigger: true
         }
       }, {
-        header: "税率(%)",
+        header: "税率(%)", hidden: true, //隐藏税率
         dataIndex: "taxRate",
         align: "right",
         format: "0",

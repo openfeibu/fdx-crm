@@ -528,7 +528,7 @@ PCL.define("PSI.Supplier.MainForm", {
           header: "传真",
           dataIndex: "fax"
         }, {
-          header: "税率(%)",
+          header: "税率(%)", hidden: true, //隐藏税率
           align: "right",
           dataIndex: "taxRate"
         }, {

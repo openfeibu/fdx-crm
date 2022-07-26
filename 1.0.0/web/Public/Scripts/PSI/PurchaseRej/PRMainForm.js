@@ -716,7 +716,7 @@ PCL.define("PSI.PurchaseRej.PRMainForm", {
         width: 110,
         xtype: "numbercolumn"
       }, {
-        header: "税率(%)",
+        header: "税率(%)", hidden: true, //隐藏税率
         dataIndex: "taxRate",
         menuDisabled: true,
         sortable: false,
