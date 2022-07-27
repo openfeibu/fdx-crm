@@ -302,7 +302,7 @@ PCL.define("PSI.DMW.DMWEditForm", {
               me.columnGoodsCode.setEditor({
                 xtype: "psi_goodsfield",
                 parentCmp: me,
-                showAddButton: me.getShowAddGoodsButton() == "1"
+                //showAddButton: me.getShowAddGoodsButton() == "1"
               });
               me.columnGoodsPrice.setEditor({
                 xtype: "numberfield",

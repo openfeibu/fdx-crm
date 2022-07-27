@@ -488,7 +488,7 @@ PCL.define("PSI.PurchaseOrder.POEditForm", {
         editor: {
           xtype: "psi_goods_with_purchaseprice_field",
           parentCmp: me,
-          showAddButton: me.getShowAddGoodsButton() == "1",
+          //showAddButton: me.getShowAddGoodsButton() == "1",
           supplierIdFunc: me.__supplierIdFunc,
           supplierIdScope: me
         }

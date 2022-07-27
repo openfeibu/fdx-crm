@@ -353,6 +353,7 @@ PCL.define("PSI.Supplier.SupplierEditForm", {
           name: "initPayables",
           xtype: "numberfield",
           hideTrigger: true,
+          disabled: entity == null ? false : (entity.get("isPayables") ? true : false),
           value: entity == null ? null : entity
             .get("initPayables"),
           listeners: {
@@ -368,6 +369,7 @@ PCL.define("PSI.Supplier.SupplierEditForm", {
           name: "initPayablesDT",
           xtype: "datefield",
           format: "Y-m-d",
+          disabled: entity == null ? false : (entity.get("isPayables") ? true : false),
           value: entity == null ? null : entity
             .get("initPayablesDT"),
           listeners: {
@@ -587,6 +589,11 @@ PCL.define("PSI.Supplier.SupplierEditForm", {
               .setValue(parseInt(data.recordStatus));
             me.editGoodsRange
               .setValue(parseInt(data.goodsRange));
+            //me.entity.set("isPayables",data.isPayables);
+            //console.log(me.getEntity().get("isPayables"));
+            me.editInitPayables.setDisabled(data.isPayables ? true: false);
+            me.editInitPayablesDT.setDisabled(data.isPayables ? true: false);
+
           }
 
           el.unmask();

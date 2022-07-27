@@ -595,13 +595,9 @@ class SupplierDAO extends PSIBaseExDAO
     if ($this->companyIdNotExists($companyId)) {
       return $this->badParam("companyId");
     }
-
-    $sql = "select count(*) as cnt
-            from t_payables_detail
-            where ca_id = '%s' and ca_type = 'supplier' and ref_type <> '应付账款期初建账'
-              and company_id = '%s' ";
-    $data = $db->query($sql, $id, $companyId);
-    $cnt = $data[0]["cnt"];
+	  
+	  $cnt = $this->isPayables($id, $companyId);
+	  
     if ($cnt > 0) {
       // 已经有往来业务发生，就不能修改应付账了
       return null;
@@ -718,7 +714,18 @@ class SupplierDAO extends PSIBaseExDAO
     // 操作成功
     return null;
   }
-
+  
+	public function isPayables($ca_id,$companyId)
+	{
+		$db = $this->db;
+		$sql = "select count(*) as cnt
+            from t_payables_detail
+            where ca_id = '%s' and ca_type = 'supplier' and ref_type <> '应付账款期初建账'
+              and company_id = '%s' ";
+		$data = $db->query($sql, $ca_id, $companyId);
+		$cnt = $data[0]["cnt"];
+		return $cnt;
+	}
   /**
    * 编辑供应商档案
    *
@@ -1009,7 +1016,7 @@ class SupplierDAO extends PSIBaseExDAO
               contact02, qq02, mobile02, tel02, address, address_shipping,
               init_payables, init_payables_dt,
               bank_name, bank_account, tax_number, fax, note, tax_rate,
-              record_status, goods_range
+              record_status, goods_range, company_id
             from t_supplier
             where id = '%s' ";
     $data = $db->query($sql, $id);
@@ -1046,6 +1053,9 @@ class SupplierDAO extends PSIBaseExDAO
 
       $result["recordStatus"] = $data[0]["record_status"];
       $result["goodsRange"] = $data[0]["goods_range"];
+	    $result["companyId"] = $data[0]["company_id"];
+	
+	    $result["isPayables"] = $this->isPayables($id, $result["companyId"]);
     }
 
     return $result;

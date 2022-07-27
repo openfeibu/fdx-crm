@@ -555,7 +555,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
         draggable: false,
         editor: {
           xtype: "psi_goods_with_saleprice_field",
-          showAddButton: me.getShowAddGoodsButton() == "1",
+          //showAddButton: me.getShowAddGoodsButton() == "1",
           parentCmp: me,
           editCustomerName: "editCustomer",
           sumInv: "1",

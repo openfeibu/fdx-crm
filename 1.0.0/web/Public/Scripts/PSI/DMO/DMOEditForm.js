@@ -478,7 +478,7 @@ PCL.define("PSI.DMO.DMOEditForm", {
         editor: {
           xtype: "psi_goodsfield",
           parentCmp: me,
-          showAddButton: me.getShowAddGoodsButton() == "1"
+          //showAddButton: me.getShowAddGoodsButton() == "1"
         }
       }, {
         menuDisabled: true,
