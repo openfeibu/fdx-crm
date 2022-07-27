@@ -253,7 +253,7 @@ PCL.define("PSI.App", {
     });
 
     const el = PCL.getBody();
-    el.mask("系统正在加载中...");
+    //el.mask("正在加载中...");
 
     PCL.Ajax.request({
       url: me.URL("Home/MainMenu/mainMenuItems"),
@@ -270,7 +270,8 @@ PCL.define("PSI.App", {
 		  }
         }
 
-        el.unmask();
+        // el.unmask();
+		$(".loader-b").hide();
       },
       scope: me
     });
@@ -429,20 +430,20 @@ PCL.define("PSI.App", {
 		   if(v.id == 01 || v.id == 09){
 			   return false;
 		   }
-			html+= `<div class="home-nav" click='menuItemClick'>
+			html+= `<div class="home-nav">
 						<div class="home-nav-t">`+v.caption+`</div>`;
 			if(v.children.length != 0){
 				html+=`<ul>`;
 					
 				v.children.forEach((v2) => {
 					if(v2.children.length === 0){
-						html+=`<li fid="`+v2.fid+`" click='menuItemClick'><i class="`+v2.icon+`"></i>`;
+						html+=`<li fid="`+v2.fid+`" ><i class="`+v2.icon+`"></i>`;
 						html+= v2.caption;
 						
 						html+=`</li>`
 					}else{
 						v2.children.forEach((v3) => {
-							html+=`<li fid="`+v3.fid+`" click='menuItemClick'><i class="`+v3.icon+`"></i>`;
+							html+=`<li fid="`+v3.fid+`" ><i class="`+v3.icon+`"></i>`;
 							html+= v3.caption;	
 							html+=`</li>`
 						  });
@@ -455,7 +456,7 @@ PCL.define("PSI.App", {
 		})
 		html+=`</div></div>`
 		$(".x-panel-body ").html(html);
-		$(".home-nav li").on("click",function(){
+		$("body").on("click",".home-nav li",function(){
 			const fid = $(this).attr("fid");
 			if (fid == "-9995") {
 				window.open(me.URL("Home/Help/index"));
