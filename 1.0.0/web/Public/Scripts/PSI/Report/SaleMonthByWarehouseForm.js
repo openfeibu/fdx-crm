@@ -241,7 +241,7 @@ PCL.define("PSI.Report.SaleMonthByWarehouseForm", {
         menuDisabled: true,
         sortable: true,
         align: "right"
-      }, */{
+      }, {
         header: "每平方米销售额",
         dataIndex: "saleAreaRate",
         menuDisabled: true,

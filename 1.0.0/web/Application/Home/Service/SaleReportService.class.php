@@ -2488,20 +2488,20 @@ class SaleReportService extends PSIBaseExService
     $sheet->getColumnDimension('L')->setWidth(15);
     $sheet->setCellValue("L2", "销售金额");
 
-    $sheet->getColumnDimension('M')->setWidth(15);
-    $sheet->setCellValue("M2", "税率(%)");
+//    $sheet->getColumnDimension('M')->setWidth(15);
+//    $sheet->setCellValue("M2", "税率(%)");
+//
+//    $sheet->getColumnDimension('N')->setWidth(15);
+//    $sheet->setCellValue("N2", "税金");
+//
+//    $sheet->getColumnDimension('O')->setWidth(15);
+//    $sheet->setCellValue("O2", "价税合计");
+//
+//    $sheet->getColumnDimension('P')->setWidth(15);
+//    $sheet->setCellValue("P2", "含税价");
 
-    $sheet->getColumnDimension('N')->setWidth(15);
-    $sheet->setCellValue("N2", "税金");
-
-    $sheet->getColumnDimension('O')->setWidth(15);
-    $sheet->setCellValue("O2", "价税合计");
-
-    $sheet->getColumnDimension('P')->setWidth(15);
-    $sheet->setCellValue("P2", "含税价");
-
-    $sheet->getColumnDimension('Q')->setWidth(30);
-    $sheet->setCellValue("Q2", "备注");
+    $sheet->getColumnDimension('M')->setWidth(30);
+    $sheet->setCellValue("M2", "备注");
 
     foreach ($items as $i => $v) {
       $row = $i + 3;
@@ -2517,11 +2517,11 @@ class SaleReportService extends PSIBaseExService
       $sheet->setCellValue("J" . $row, $v["unitName"]);
       $sheet->setCellValue("K" . $row, $v["goodsPrice"]);
       $sheet->setCellValue("L" . $row, $v["goodsMoney"]);
-      $sheet->setCellValue("M" . $row, $v["taxRate"]);
-      $sheet->setCellValue("N" . $row, $v["tax"]);
-      $sheet->setCellValue("O" . $row, $v["moneyWithTax"]);
-      $sheet->setCellValue("P" . $row, $v["goodsPriceWithTax"]);
-      $sheet->setCellValue("Q" . $row, $v["memo"]);
+//      $sheet->setCellValue("M" . $row, $v["taxRate"]);
+//      $sheet->setCellValue("N" . $row, $v["tax"]);
+//      $sheet->setCellValue("O" . $row, $v["moneyWithTax"]);
+//      $sheet->setCellValue("P" . $row, $v["goodsPriceWithTax"]);
+      $sheet->setCellValue("M" . $row, $v["memo"]);
     }
 
     // 画表格边框
@@ -2533,7 +2533,7 @@ class SaleReportService extends PSIBaseExService
       ]
     ];
     $lastRow = count($items) + 2;
-    $sheet->getStyle('A2:Q' . $lastRow)->applyFromArray($styleArray);
+    $sheet->getStyle('A2:M' . $lastRow)->applyFromArray($styleArray);
 
     // 把焦点放置在A1
     $sheet->setSelectedCells("A1");
@@ -2609,8 +2609,7 @@ class SaleReportService extends PSIBaseExService
             <td>商品编码</td><td>商品名称</td>
 						<td>规格型号</td><td>出库数量</td><td>单位</td>
             <td>销售单价</td><td>销售金额</td>
-            <td>税率(%)</td><td>税金</td>
-            <td>价税合计</td><td>含税价</td><td>备注</td>
+            <td>备注</td>
 					</tr>
 				';
     foreach ($items as $v) {
@@ -2627,10 +2626,10 @@ class SaleReportService extends PSIBaseExService
       $html .= '<td>' . $v["unitName"] . '</td>';
       $html .= '<td align="right">' . $v["goodsPrice"] . '</td>';
       $html .= '<td align="right">' . $v["goodsMoney"] . '</td>';
-      $html .= '<td align="right">' . $v["taxRate"] . '</td>';
-      $html .= '<td align="right">' . $v["tax"] . '</td>';
-      $html .= '<td align="right">' . $v["moneyWithTax"] . '</td>';
-      $html .= '<td align="right">' . $v["goodsPriceWithTax"] . '</td>';
+//      $html .= '<td align="right">' . $v["taxRate"] . '</td>';
+//      $html .= '<td align="right">' . $v["tax"] . '</td>';
+//      $html .= '<td align="right">' . $v["moneyWithTax"] . '</td>';
+//      $html .= '<td align="right">' . $v["goodsPriceWithTax"] . '</td>';
       $html .= '<td>' . $v["memo"] . '</td>';
       $html .= '</tr>';
     }
