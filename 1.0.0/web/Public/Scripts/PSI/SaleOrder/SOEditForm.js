@@ -205,6 +205,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
           labelAlign: "right",
           labelSeparator: "",
           fieldLabel: "组织机构",
+          hidden: true,
           xtype: "psi_orgwithdataorgfield",
           colspan: 2,
           width: 430,
@@ -291,7 +292,6 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
               scope: me
             }
           },
-          colspan: 3,
           width: 200
         }, {
           id: "editBillMemo",

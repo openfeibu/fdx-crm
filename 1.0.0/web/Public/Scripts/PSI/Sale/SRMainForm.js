@@ -92,6 +92,18 @@ Ext.define("PSI.Sale.SRMainForm", {
       scope: me,
       handler: me.onCommit
     }, {
+      text: "拒绝",
+      hidden: me.getPermission().commit == "0",
+      scope: me,
+      handler: me.onRejectCommit,
+      id: "buttonRejectCommit"
+    }, {
+      text: "取消审核",
+      hidden: me.getPermission().commit == "0",
+      scope: me,
+      handler: me.onCancelConfirm,
+      id: "buttonCancelConfirm"
+    },  {
       hidden: me.getPermission().commit == "0",
       xtype: "tbseparator"
     }, {
@@ -312,7 +324,7 @@ Ext.define("PSI.Sale.SRMainForm", {
     }
     var bill = item[0];
 
-    if (bill.get("billStatus") == "已入库") {
+    if (bill.get("billStatus") == "1000") {
       PSI.MsgBox.showInfo("当前销售退货入库单已经提交入库，不能删除");
       return;
     }
@@ -361,7 +373,7 @@ Ext.define("PSI.Sale.SRMainForm", {
     }
     var bill = item[0];
 
-    if (bill.get("billStatus") == "已入库") {
+    if (bill.get("billStatus") == "1000") {
       PSI.MsgBox.showInfo("当前销售退货入库单已经提交入库，不能再次提交");
       return;
     }
@@ -399,7 +411,105 @@ Ext.define("PSI.Sale.SRMainForm", {
       });
     });
   },
+  /**
+   * 拒绝
+   */
+  onRejectCommit: function () {
+    var me = this;
+    var item = me.getMainGrid().getSelectionModel().getSelection();
+    if (item == null || item.length != 1) {
+      PSI.MsgBox.showInfo("没有选择要提交的销售退货入库单");
+      return;
+    }
+    var bill = item[0];
 
+    if (bill.get("billStatus") == "1000") {
+      PSI.MsgBox.showInfo("当前销售退货入库单已经提交入库，不能拒绝");
+      return;
+    }
+
+
+    var info = "请确认是否拒绝单号: <span style='color:red'>" + bill.get("ref")
+      + "</span> 的销售订单?";
+    var id = bill.get("id");
+
+    var funcConfirm = function (content) {
+      var el = PCL.getBody();
+      el.mask("正在提交中...");
+      var r = {
+        url: me.URL("Home/SaleRej/rejectSRBill"),
+        params: {
+          id: id,
+          reject_content: content
+        },
+        callback: function (options, success, response) {
+          el.unmask();
+
+          if (success) {
+            var data = me.decodeJSON(response.responseText);
+            if (data.success) {
+              me.refreshMainGrid(id);
+              me.tip("成功完成拒绝操作");
+            } else {
+              me.showInfo(data.msg);
+            }
+          } else {
+            me.showInfo("网络错误");
+          }
+        }
+      };
+      me.ajax(r);
+    };
+    me.confirmContent(info, funcConfirm);
+  },
+  /**
+   * 取消审核
+   */
+  onCancelConfirm: function () {
+    var me = this;
+    var item = me.getMainGrid().getSelectionModel().getSelection();
+    if (item == null || item.length != 1) {
+      PSI.MsgBox.showInfo("没有选择要提交的销售退货入库单");
+      return;
+    }
+    var bill = item[0];
+
+    if (bill.get("billStatus") == "1000") {
+      PSI.MsgBox.showInfo("当前销售退货入库单已经提交入库，不能取消审核");
+      return;
+    }
+
+    var info = "请确认是否取消审核单号为 <span style='color:red'>" + bill.get("ref")
+      + "</span> 的销售订单?";
+    var id = bill.get("id");
+    var funcConfirm = function () {
+      var el = PCL.getBody();
+      el.mask("正在提交中...");
+      var r = {
+        url: me.URL("Home/SaleOrder/cancelConfirmSRBill"),
+        params: {
+          id: id
+        },
+        callback: function (options, success, response) {
+          el.unmask();
+
+          if (success) {
+            var data = me.decodeJSON(response.responseText);
+            if (data.success) {
+              me.refreshMainGrid(id);
+              me.tip("成功完成取消审核操作");
+            } else {
+              me.showInfo(data.msg);
+            }
+          } else {
+            me.showInfo("网络错误");
+          }
+        }
+      };
+      me.ajax(r);
+    };
+    me.confirm(info, funcConfirm);
+  },
   /**
    * 分页
    */
@@ -504,11 +614,16 @@ Ext.define("PSI.Sale.SRMainForm", {
         menuDisabled: true,
         sortable: false,
         width: 60,
-        renderer: function (value) {
-          return value == "待入库"
-            ? "<span style='color:red'>"
-            + value + "</span>"
-            : value;
+        renderer: function (value, metaData, record) {
+          if (value == 0) {
+            return "待入库";
+          } else if (value == -1000) {
+            return "<span style='color:red'>已拒绝："+record.get("rejectContent")+"</span>";
+          } else if (value == 1000) {
+            return "<span style='color:green'>已入库</span>";
+          }  else {
+            return "";
+          }
         }
       }, {
         header: "单号",
@@ -771,11 +886,13 @@ Ext.define("PSI.Sale.SRMainForm", {
       Ext.getCmp("buttonEdit").setDisabled(true);
       Ext.getCmp("buttonDelete").setDisabled(true);
       Ext.getCmp("buttonCommit").setDisabled(true);
+      PCL.getCmp("buttonRejectCommit").setDisabled(true);
+      PCL.getCmp("buttonCancelConfirm").setDisabled(true);
       return;
     }
     var bill = item[0];
 
-    var commited = bill.get("billStatus") == "已入库";
+    var commited = bill.get("billStatus") == "1000";
 
     var buttonEdit = Ext.getCmp("buttonEdit");
     buttonEdit.setDisabled(false);

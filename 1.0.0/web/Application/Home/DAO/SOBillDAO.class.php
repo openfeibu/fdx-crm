@@ -584,7 +584,7 @@ class SOBillDAO extends PSIBaseExDAO
     $dataOrg = $oldBill["dataOrg"];
     $companyId = $oldBill["companyId"];
     $billStatus = $oldBill["billStatus"];
-    if ($billStatus != 0) {
+    if ($billStatus >= 1000) {
       return $this->bad("当前销售订单已经审核，不能再编辑");
     }
 

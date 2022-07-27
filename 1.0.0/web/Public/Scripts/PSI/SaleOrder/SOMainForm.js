@@ -877,6 +877,7 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
       PCL.getCmp("buttonDelete").setDisabled(true);
       PCL.getCmp("buttonCommit").setDisabled(true);
       PCL.getCmp("buttonRejectCommit").setDisabled(true);
+      PCL.getCmp("buttonCancelConfirm").setDisabled(true);
       PCL.getCmp("buttonDelete").setDisabled(true);
       PCL.getCmp("buttonGenWSBill").setDisabled(true);
       PCL.getCmp("buttonGenPOBill").setDisabled(true);

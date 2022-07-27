@@ -146,7 +146,7 @@ class SRBillDAO extends PSIBaseExDAO
         "warehouseName" => $v["warehouse_name"],
         "inputUserName" => $v["input_user_name"],
         "bizUserName" => $v["biz_user_name"],
-        "billStatus" => $v["bill_status"] == 0 ? "待入库" : "已入库",
+        "billStatus" => $v["bill_status"],
         "amount" => $v["rejection_sale_money"],
         "dateCreated" => $v["date_created"],
         "paymentType" => $v["payment_type"],
@@ -726,7 +726,7 @@ class SRBillDAO extends PSIBaseExDAO
       return $this->bad("要编辑的销售退货入库单不存在");
     }
     $billStatus = $oldBill["billStatus"];
-    if ($billStatus != 0) {
+    if ($billStatus == 1000) {
       return $this->bad("销售退货入库单已经提交，不能再编辑");
     }
     $ref = $oldBill["ref"];
