@@ -447,9 +447,9 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
         menuDisabled: true,
         sortable: false
       }, {
-        header: "出库单?",
+        header: "是否存在出库单",
         dataIndex: "genPWBill",
-        width: 70,
+        width: 110,
         align: "center",
         menuDisabled: true,
         sortable: false

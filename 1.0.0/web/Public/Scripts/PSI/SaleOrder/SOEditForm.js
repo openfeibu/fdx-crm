@@ -422,7 +422,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
             store.add({});
           }
 
-          if (data.billStatus && data.billStatus != 0) {
+          if (data.billStatus && data.billStatus >= 1000) {
             me.setBillReadonly();
           }
         }

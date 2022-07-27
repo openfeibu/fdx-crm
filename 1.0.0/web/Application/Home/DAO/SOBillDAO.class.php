@@ -780,11 +780,12 @@ class SOBillDAO extends PSIBaseExDAO
       $sql = "select s.ref, s.deal_date, s.deal_address, s.customer_id,
                 c.name as customer_name, s.contact, s.tel, s.fax,
                 s.org_id, o.full_name, s.biz_user_id, u.name as biz_user_name,
-                s.receiving_type, s.bill_memo, s.bill_status
-              from t_so_bill s, t_customer c, t_user u, t_org o
+                s.receiving_type, s.bill_memo, s.bill_status, s.express_id, s.freight, e.name as express_name
+              from t_so_bill s, t_customer c, t_user u, t_org o, t_feibu0001_ct_express e
               where s.id = '%s' and s.customer_Id = c.id
                 and s.biz_user_id = u.id
-                and s.org_id = o.id";
+                and s.org_id = o.id and s.express_id = e.id";
+                
       $data = $db->query($sql, $id);
       if ($data) {
         $v = $data[0];
@@ -803,7 +804,9 @@ class SOBillDAO extends PSIBaseExDAO
         $result["receivingType"] = "{$v['receiving_type']}"; // 数字转成字符串
         $result["billMemo"] = $v["bill_memo"];
         $result["billStatus"] = $v["bill_status"];
-
+	      $result["freight"] = $v["freight"];
+	      $result["expressId"] = $v["express_id"];
+	      $result["expressName"] = $v["express_name"];
         // 明细表
         $sql = "select s.id, s.goods_id, g.code, g.name, g.spec, 
                   convert(s.goods_count, " . $fmt . ") as goods_count, s.goods_price, s.goods_money,
