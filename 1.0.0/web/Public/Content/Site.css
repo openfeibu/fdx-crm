@@ -230,7 +230,7 @@ html{
 }
 
 .x-border-layout-ct {
-  background-color: #ebeff6;
+  
 }
 
 .x-window-default {
@@ -291,7 +291,8 @@ html{
 }
 
 .x-panel-body-default {
-  border-color: #c3cbcc
+  border-color: #c3cbcc;
+  background: #fff;
 }
 
 .x-btn-default-small-over {
@@ -830,7 +831,7 @@ background-color:#999 !important;
 
 .x-grid-record-orange .x-grid-td{ background: orange; }
 
-.home-content{width:100%;height:100%;overflow-y:auto;background:#ebeff6;}
+.home-content{width:100%;height:100%;overflow-y:auto;background:#ebeff6 url(../Images/login-bg2.png) no-repeat center/cover !important}
 .home-content-p{padding:20px;max-width:1400px;margin:20px auto;}
 .home-nav-t{font-size:20px;padding:10px;}
 .home-nav{background: #fff;
