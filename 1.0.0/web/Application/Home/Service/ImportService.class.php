@@ -116,7 +116,7 @@ class ImportService extends PSIBaseService
       $indexPurchasePrice = 'G' . $currentRow;
       $indexBarcode = 'H' . $currentRow;
       $indexMemo = 'I' . $currentRow;
-      $indexMType = 'J' . $currentRow;
+      //$indexMType = 'J' . $currentRow;
       // 读取到的数据，保存到数组$arr中
       $category = $currentSheet->getCell($indexCategory)->getValue();
       $code = $currentSheet->getCell($indexCode)->getValue();
@@ -127,8 +127,8 @@ class ImportService extends PSIBaseService
       $purchasePrice = $currentSheet->getCell($indexPurchasePrice)->getValue();
       $barcode = $currentSheet->getCell($indexBarcode)->getValue();
       $memo = $currentSheet->getCell($indexMemo)->getValue();
-      $mTypeName = $currentSheet->getCell($indexMType)->getValue();
-      $mType = $this->mtypeNameToCode($mTypeName);
+      //$mTypeName = $currentSheet->getCell($indexMType)->getValue();
+      //$mType = $this->mtypeNameToCode($mTypeName);
 
       // 如果为空则直接读取下一条记录
       if (!$category || !$code || !$name || !$unit)
@@ -214,7 +214,7 @@ class ImportService extends PSIBaseService
         $dataOrg,
         $memo,
         $specPY,
-        $mType,
+        '40000'
       );
     } // end of for
 
