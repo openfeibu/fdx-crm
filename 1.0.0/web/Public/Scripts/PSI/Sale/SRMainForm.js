@@ -430,7 +430,7 @@ Ext.define("PSI.Sale.SRMainForm", {
 
 
     var info = "请确认是否拒绝单号: <span style='color:red'>" + bill.get("ref")
-      + "</span> 的销售订单?";
+      + "</span> 的销售退货入库单?";
     var id = bill.get("id");
 
     var funcConfirm = function (content) {
@@ -480,13 +480,13 @@ Ext.define("PSI.Sale.SRMainForm", {
     }
 
     var info = "请确认是否取消审核单号为 <span style='color:red'>" + bill.get("ref")
-      + "</span> 的销售订单?";
+      + "</span> 的销售退货入库单?";
     var id = bill.get("id");
     var funcConfirm = function () {
       var el = PCL.getBody();
       el.mask("正在提交中...");
       var r = {
-        url: me.URL("Home/SaleOrder/cancelConfirmSRBill"),
+        url: me.URL("Home/SaleRej/cancelConfirmSRBill"),
         params: {
           id: id
         },
@@ -570,7 +570,8 @@ Ext.define("PSI.Sale.SRMainForm", {
       fields: ["id", "ref", "bizDate", "customerName",
         "warehouseName", "inputUserName", "bizUserName",
         "billStatus", "amount", "dateCreated",
-        "paymentType", "billMemo", "tax", "moneyWithTax"]
+        "paymentType", "billMemo", "tax", "moneyWithTax", "confirmUserName",
+        "confirmDate","rejectContent"]
     });
     var store = Ext.create("Ext.data.Store", {
       autoLoad: false,
@@ -613,7 +614,7 @@ Ext.define("PSI.Sale.SRMainForm", {
         dataIndex: "billStatus",
         menuDisabled: true,
         sortable: false,
-        width: 60,
+        width: 120,
         renderer: function (value, metaData, record) {
           if (value == 0) {
             return "待入库";
@@ -892,7 +893,7 @@ Ext.define("PSI.Sale.SRMainForm", {
     }
     var bill = item[0];
 
-    var commited = bill.get("billStatus") == "1000";
+    var commited = bill.get("billStatus") >= "1000";
 
     var buttonEdit = Ext.getCmp("buttonEdit");
     buttonEdit.setDisabled(false);
@@ -903,7 +904,10 @@ Ext.define("PSI.Sale.SRMainForm", {
     }
 
     Ext.getCmp("buttonDelete").setDisabled(commited);
-    Ext.getCmp("buttonCommit").setDisabled(commited);
+    Ext.getCmp("buttonCommit").setDisabled(bill.get("billStatus") !=0);
+    PCL.getCmp("buttonRejectCommit").setDisabled(commited || (bill.get("billStatus") < 0));
+    PCL.getCmp("buttonCancelConfirm").setDisabled(
+      !((bill.get("billStatus")==-1000) ));
 
     me.freshDetailGrid();
   },

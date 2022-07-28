@@ -291,7 +291,7 @@ Ext.define("PSI.Sale.SREditForm", {
             store.add(data.items);
           }
 
-          if (data.billStatus && data.billStatus != 0) {
+          if (data.billStatus && data.billStatus >= 0) {
             me.setBillReadonly();
           }
         } else {

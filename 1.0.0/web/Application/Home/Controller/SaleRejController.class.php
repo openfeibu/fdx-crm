@@ -257,8 +257,49 @@ class SaleRejController extends PSIBaseController
       $this->ajaxReturn($rs->commitSRBill($params));
     }
   }
-
-  /**
+	/**
+	 * 拒绝销售退货
+	 */
+	public function rejectSRBill()
+	{
+		if (IS_POST) {
+			$us = new UserService();
+			
+			if (!$us->hasPermission(FIdConst::SALE_REJECTION_COMMIT)) {
+				die("没有权限");
+			}
+			
+			$params = [
+				"id" => I("post.id"),
+				"reject_content" => I("post.reject_content")
+			];
+			
+			$ps = new SRBillService();
+			$this->ajaxReturn($ps->rejectSRBill($params));
+		}
+	}
+	/**
+	 * 取消销售退货审核
+	 */
+	public function cancelConfirmSRBill()
+	{
+		if (IS_POST) {
+			$us = new UserService();
+			
+			if (!$us->hasPermission(FIdConst::SALE_REJECTION_COMMIT)) {
+				die("没有权限");
+			}
+			
+			$params = [
+				"id" => I("post.id")
+			];
+			
+			$ps = new SRBillService();
+			$this->ajaxReturn($ps->cancelConfirmSRBill($params));
+		}
+	}
+	
+	/**
    * 销售退货入库单生成pdf文件
    */
   public function srBillPdf()

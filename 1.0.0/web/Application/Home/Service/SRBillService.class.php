@@ -220,8 +220,74 @@ class SRBillService extends PSIBaseExService
 
     return $this->ok($id);
   }
-
-  /**
+	/**
+	 * 拒绝销售退货
+	 */
+	public function rejectSRBill($params)
+	{
+		if ($this->isNotOnline()) {
+			return $this->notOnlineError();
+		}
+		
+		$id = $params["id"];
+		$reject_content = $params["reject_content"];
+		
+		$db = $this->db();
+		
+		$db->startTrans();
+		
+		$dao = new SRBillDAO($db);
+		
+		$params["loginUserId"] = $this->getLoginUserId();
+		
+		$rc = $dao->rejectSRBill($params);
+		if ($rc) {
+			$db->rollback();
+			return $rc;
+		}
+		
+		// 记录业务日志
+		$ref = $params["ref"];
+		$log = "拒绝销售退货，单号：{$ref}";
+		$bs = new BizlogService($db);
+		$bs->insertBizlog($log, $this->LOG_CATEGORY);
+		
+		$db->commit();
+		
+		return $this->ok($id);
+	}
+	/**
+	 * 取消销售退货审核
+	 */
+	public function cancelConfirmSRBill($params)
+	{
+		if ($this->isNotOnline()) {
+			return $this->notOnlineError();
+		}
+		
+		$id = $params["id"];
+		$db = $this->db();
+		
+		$db->startTrans();
+		
+		$dao = new SRBillDAO($db);
+		$rc = $dao->cancelConfirmSRBill($params);
+		if ($rc) {
+			$db->rollback();
+			return $rc;
+		}
+		
+		// 记录业务日志
+		$ref = $params["ref"];
+		$log = "取消审核销售退货，单号：{$ref}";
+		$bs = new BizlogService($db);
+		$bs->insertBizlog($log, $this->LOG_CATEGORY);
+		
+		$db->commit();
+		
+		return $this->ok($id);
+	}
+	/**
    * 销售退货入库单生成pdf文件
    */
   public function pdf($params)

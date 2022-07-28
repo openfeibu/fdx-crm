@@ -74,7 +74,7 @@ class SRBillDAO extends PSIBaseExDAO
     $sql = "select w.id, w.ref, w.bizdt, c.name as customer_name, u.name as biz_user_name,
               user.name as input_user_name, h.name as warehouse_name, w.rejection_sale_money,
               w.bill_status, w.date_created, w.payment_type, w.bill_memo,
-              w.tax, w.rejection_sale_money_with_tax
+              w.tax, w.rejection_sale_money_with_tax, w.confirm_user_id, w.confirm_date, w.reject_content
             from t_sr_bill w, t_customer c, t_user u, t_user user, t_warehouse h
               where (w.customer_id = c.id) and (w.biz_user_id = u.id)
               and (w.input_user_id = user.id) and (w.warehouse_id = h.id) ";
@@ -137,8 +137,8 @@ class SRBillDAO extends PSIBaseExDAO
     $data = $db->query($sql, $queryParams);
     $result = [];
 
-    foreach ($data as $v) {
-      $result[] = [
+    foreach ($data as $key => $v) {
+      $result[$key] = [
         "id" => $v["id"],
         "ref" => $v["ref"],
         "bizDate" => $this->toYMD($v["bizdt"]),
@@ -152,8 +152,18 @@ class SRBillDAO extends PSIBaseExDAO
         "paymentType" => $v["payment_type"],
         "billMemo" => $v["bill_memo"],
         "tax" => $v["tax"],
-        "moneyWithTax" => $v["rejection_sale_money_with_tax"]
+        "moneyWithTax" => $v["rejection_sale_money_with_tax"],
+	      "rejectContent" => $v["reject_content"],
       ];
+	    $confirmUserId = $v["confirm_user_id"];
+	    if ($confirmUserId) {
+		    $sql = "select name from t_user where id = '%s' ";
+		    $d = $db->query($sql, $confirmUserId);
+		    if ($d) {
+			    $result[$key]["confirmUserName"] = $d[0]["name"];
+			    $result[$key]["confirmDate"] = $v["confirm_date"];
+		    }
+	    }
     }
 
     $sql = "select count(*) as cnt
@@ -1735,9 +1745,12 @@ class SRBillDAO extends PSIBaseExDAO
         }
 
         $sql = "update t_so_bill
-                set bill_status = %d
+                set bill_status = %d,
+                confirm_user_id = '%s',
+              confirm_date = now(),
+              reject_content = null
                 where id = '%s' ";
-        $rc = $db->execute($sql, $billStatus, $soBillId);
+        $rc = $db->execute($sql, $billStatus, $loginUserId, $soBillId);
         if ($rc === false) {
           return $this->sqlError(__METHOD__, __LINE__);
         }
@@ -1749,7 +1762,86 @@ class SRBillDAO extends PSIBaseExDAO
     // 操作成功
     return null;
   }
-
+	/**
+	 * 拒绝销售退货入库单
+	 *
+	 * @param array $params
+	 * @return null|array
+	 */
+	public function rejectSRBill(&$params)
+	{
+		$db = $this->db;
+		
+		$loginUserId = $params["loginUserId"];
+		if ($this->loginUserIdNotExists($loginUserId)) {
+			return $this->badParam("loginUserId");
+		}
+		
+		$id = $params["id"];
+		$reject_content = $params["reject_content"];
+		
+		$bill = $this->getSRBillById($id);
+		
+		if (!$bill) {
+			return $this->bad("要拒绝的销售退货入库单不存在");
+		}
+		$ref = $bill["ref"];
+		$billStatus = $bill["billStatus"];
+		if ($billStatus != 0) {
+			return $this->bad("销售退货入库单(单号：$ref)已经被审核，不能再次审核");
+		}
+		
+		$sql = "update t_sr_bill
+            set bill_status = -1000,
+              confirm_user_id = '%s',
+              confirm_date = now(),
+              reject_content = '%s'
+            where id = '%s' ";
+		$rc = $db->execute($sql, $loginUserId, $reject_content, $id);
+		if ($rc === false) {
+			return $this->sqlError(__METHOD__, __LINE__);
+		}
+		
+		$params["ref"] = $ref;
+		
+		return null;
+	}
+	/**
+	 * 取消销售退货入库单审核
+	 */
+	public function cancelConfirmSRBill(&$params)
+	{
+		$db = $this->db;
+		
+		$id = $params["id"];
+		
+		$bill = $this->getSRBillById($id);
+		
+		if (!$bill) {
+			return $this->bad("要取消审核的销售退货入库单不存在");
+		}
+		$ref = $bill["ref"];
+		$billStatus = $bill["billStatus"];
+		if ($billStatus == 0) {
+			return $this->bad("销售退货入库单(单号:{$ref})还没有审核，无需取消审核操作");
+		}
+		if ($billStatus == 1000) {
+			return $this->bad("销售退货入库单(单号:{$ref})已经入库，不能取消审核");
+		}
+		
+		$sql = "update t_sr_bill
+            set bill_status = 0, confirm_user_id = null, confirm_date = null, reject_content = null
+            where id = '%s' ";
+		$rc = $db->execute($sql, $id);
+		if ($rc === false) {
+			return $this->sqlError(__METHOD__, __LINE__);
+		}
+		
+		$params["ref"] = $ref;
+		
+		// 操作成功
+		return null;
+	}
   /**
    * 查询数据，用于销售退货入库单生成pdf文件
    *
