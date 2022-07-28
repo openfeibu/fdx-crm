@@ -54,7 +54,7 @@ class DMOController extends PSIBaseController
 
       $this->display();
     } else {
-      $this->gotoLoginPage("/Home/DM/dmobillIndex");
+      $this->gotoLoginPage("/Home/DMO/dmobillIndex");
     }
   }
 

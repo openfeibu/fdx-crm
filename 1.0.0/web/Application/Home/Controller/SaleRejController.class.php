@@ -49,7 +49,7 @@ class SaleRejController extends PSIBaseController
 
       $this->display();
     } else {
-      $this->gotoLoginPage("/Home/Sale/srIndex");
+      $this->gotoLoginPage("/Home/SaleRej/srIndex");
     }
   }
 

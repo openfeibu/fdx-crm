@@ -42,7 +42,7 @@ class DMWController extends PSIBaseController
 
       $this->display();
     } else {
-      $this->gotoLoginPage("/Home/DM/dmwbillIndex");
+      $this->gotoLoginPage("/Home/DMW/dmwbillIndex");
     }
   }
 

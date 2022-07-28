@@ -68,7 +68,7 @@ class PurchaseOrderController extends PSIBaseController
 
       $this->display();
     } else {
-      $this->gotoLoginPage("/Home/Purchase/pobillIndex");
+      $this->gotoLoginPage("/Home/PurchaseOrder/pobillIndex");
     }
   }
 
