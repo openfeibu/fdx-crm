@@ -280,7 +280,7 @@ PCL.define("PSI.Goods.MainForm", {
       fields: ["id", "code", "name", "spec", "unitId",
         "unitName", "categoryId", "salePrice",
         "purchasePrice", "barCode", "memo", "dataOrg",
-        "brandFullName", "recordStatus", "taxRate", "mType"]
+        "brandFullName", "recordStatus", "taxRate", "mType","inventoryCount"]
     });
 
     var store = PCL.create("PCL.data.Store", {
@@ -394,6 +394,15 @@ PCL.define("PSI.Goods.MainForm", {
         menuDisabled: true,
         sortable: false,
         width: 200
+      }, {
+        header: "当前库存",
+        dataIndex: "inventoryCount",
+        menuDisabled: true,
+        sortable: false,
+        width: 100,
+        xtype: "numbercolumn",
+        summaryType: "sum",
+        format: "0"
       }, {
         header: "计量单位",
         dataIndex: "unitName",

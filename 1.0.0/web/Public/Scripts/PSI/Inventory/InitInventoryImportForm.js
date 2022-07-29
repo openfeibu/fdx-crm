@@ -108,7 +108,7 @@ PCL.define("PSI.InitInventory.InitInventoryImportForm", {
         PSI.MsgBox.showInfo("数据导入成功");
 
         me.close();
-        me.getParentForm().freshGoodsGrid();
+        me.getParentForm().freshWarehouseGrid();
       },
       failure: function (form, action) {
         el && el.unmask();

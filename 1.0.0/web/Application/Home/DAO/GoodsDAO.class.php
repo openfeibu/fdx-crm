@@ -102,7 +102,17 @@ class GoodsDAO extends PSIBaseExDAO
     foreach ($data as $v) {
       $brandId = $v["brand_id"];
       $brandFullName = $brandId ? $this->getBrandFullNameById($db, $brandId) : null;
-
+	
+	    $sql = "select sum(balance_count) as balance_count
+              from t_inventory
+              where goods_id = '%s' ";
+	    $inventoryCountData = $db->query($sql, $v["id"]);
+	    if (!$inventoryCountData) {
+		    $inventoryCount = 0;
+	    } else {
+		    $inventoryCount = $inventoryCountData[0]["balance_count"];
+	    }
+	    
       $result[] = [
         "id" => $v["id"],
         "code" => $v["code"],
@@ -119,7 +129,9 @@ class GoodsDAO extends PSIBaseExDAO
         "recordStatus" => $v["record_status"],
         "taxRate" => $this->toTaxRate($v["tax_rate"]),
         "mType" => $this->goodsMTypeCodeToName($v["m_type"]),
+	      "inventoryCount" => $inventoryCount,
       ];
+	    
     }
 
     $sql = "select count(*) as cnt from t_goods g where (g.category_id = '%s') ";
@@ -1463,7 +1475,7 @@ class GoodsDAO extends PSIBaseExDAO
               g.tax_rate, c.full_name as category_name
             from t_goods g, t_goods_unit u, t_goods_category c
             where (g.unit_id = u.id) and g.category_id = c.id
-            order by g.code ";
+             ";
     $queryParam = [];
     $ds = new DataOrgDAO($db);
     $rs = $ds->buildSQL(FIdConst::GOODS, "g", $loginUserId);
@@ -1471,7 +1483,8 @@ class GoodsDAO extends PSIBaseExDAO
       $sql .= " and " . $rs[0];
       $queryParam = array_merge($queryParam, $rs[1]);
     }
-
+		$sql .= " order by g.code";
+	  
     $data = $db->query($sql, $queryParam);
 
     foreach ($data as $v) {

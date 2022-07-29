@@ -283,7 +283,7 @@ class ImportService extends PSIBaseService
 		$db = M();
 		/**
 		 * 单元格定义
-		 * A 商品分类编码
+		 * A 商品分类名称
 		 * B 商品编码
 		 * C 商品名称
 		 * D 规格型号
@@ -298,20 +298,20 @@ class ImportService extends PSIBaseService
 		$success_row = 0;
 		for ($currentRow = 2; $currentRow <= $allRow; $currentRow++) {
 			// 数据坐标
-			$indexCategory = 'A' . $currentRow;
+			//$indexCategoryName = 'A' . $currentRow;
 			$indexCode = 'B' . $currentRow;
 			$indexName = 'C' . $currentRow;
 			$indexSpec = 'D' . $currentRow;
-			$indexUnit = 'E' . $currentRow;
+			//$indexUnit = 'E' . $currentRow;
 			$indexGoodsCount = 'F' . $currentRow;
 			$indexGoodsMoney = 'G' . $currentRow;
 
 			// 读取到的数据，保存到数组$arr中
-			$category = $currentSheet->getCell($indexCategory)->getValue();
+			//$category = $currentSheet->getCell($indexCategory)->getValue();
 			$code = $currentSheet->getCell($indexCode)->getValue();
 			$name = $currentSheet->getCell($indexName)->getValue();
 			$spec = $currentSheet->getCell($indexSpec)->getValue();
-			$unit = $currentSheet->getCell($indexUnit)->getValue();
+			//$unit = $currentSheet->getCell($indexUnit)->getValue();
 			$goodsCount = $currentSheet->getCell($indexGoodsCount)->getValue();
 			$goodsMoney = $currentSheet->getCell($indexGoodsMoney)->getValue();
 			
