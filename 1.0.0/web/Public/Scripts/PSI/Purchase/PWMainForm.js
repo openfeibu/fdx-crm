@@ -519,7 +519,7 @@ PCL.define("PSI.Purchase.PWMainForm", {
           dataIndex: "goodsCount",
           align: "right"
         }, {
-          header: "退货数量",
+          header: "退货数量", hidden: true,
           width: 80,
           dataIndex: "rejGoodsCount",
           align: "right"

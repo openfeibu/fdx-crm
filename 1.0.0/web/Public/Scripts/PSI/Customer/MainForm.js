@@ -89,37 +89,37 @@ PCL.define("PSI.Customer.MainForm", {
 
     return [{
       text: "新建客户分类",
-      disabled: me.getPAddCategory() == "0",
+      hidden: me.getPAddCategory() == "0",
       handler: me.onAddCategory,
       scope: me
     }, {
       text: "编辑客户分类",
-      disabled: me.getPEditCategory() == "0",
+      hidden: me.getPEditCategory() == "0",
       handler: me.onEditCategory,
       scope: me
     }, {
       text: "删除客户分类",
-      disabled: me.getPDeleteCategory() == "0",
+      hidden: me.getPDeleteCategory() == "0",
       handler: me.onDeleteCategory,
       scope: me
-    }, "-", {
+    }, {
       text: "新建客户",
-      disabled: me.getPAddCustomer() == "0",
+      hidden: me.getPAddCustomer() == "0",
       handler: me.onAddCustomer,
       scope: me
     }, {
       text: "导入客户",
-      disabled: me.getPImportCustomer() == "0",
+      hidden: me.getPImportCustomer() == "0",
       handler: me.onImportCustomer,
       scope: me
     }, {
       text: "编辑客户",
-      disabled: me.getPEditCustomer() == "0",
+      hidden: me.getPEditCustomer() == "0",
       handler: me.onEditCustomer,
       scope: me
     }, {
       text: "删除客户",
-      disabled: me.getPDeleteCustomer() == "0",
+      hidden: me.getPDeleteCustomer() == "0",
       handler: me.onDeleteCustomer,
       scope: me
     }, {

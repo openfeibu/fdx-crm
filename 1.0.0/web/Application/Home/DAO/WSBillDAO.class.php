@@ -524,18 +524,22 @@ class WSBillDAO extends PSIBaseExDAO
 
     if ($sobillRef) {
       // 从销售订单生成销售出库单
-      $sql = "select id, company_id from t_so_bill where ref = '%s' ";
+      $sql = "select id, company_id, input_user_id, data_org from t_so_bill where ref = '%s' ";
       $data = $db->query($sql, $sobillRef);
       if (!$data) {
         return $this->sqlError(__METHOD__, __LINE__);
       }
       $sobillId = $data[0]["id"];
       $companyId = $data[0]["company_id"];
-
+	    $inputUserId = $data[0]["input_user_id"];
+	    $dataOrg = $data[0]["data_org"];
+	    
       $sql = "update t_ws_bill
-              set company_id = '%s'
+              set company_id = '%s',
+              input_user_id = '%s',
+              data_org = '%s'
               where id = '%s' ";
-      $rc = $db->execute($sql, $companyId, $id);
+      $rc = $db->execute($sql, $companyId, $inputUserId, $dataOrg, $id);
       if ($rc === false) {
         return $this->sqlError(__METHOD__, __LINE__);
       }

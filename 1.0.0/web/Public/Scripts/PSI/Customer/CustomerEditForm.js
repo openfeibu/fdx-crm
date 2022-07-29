@@ -532,6 +532,9 @@ PCL.define("PSI.Customer.CustomerEditForm", {
 
             me.editRecordStatus.setValue(parseInt(data.recordStatus));
 
+            me.editInitReceivables.setDisabled(data.isReceivables ? true: false);
+            me.editInitReceivablesDT.setDisabled(data.isReceivables ? true: false);
+
           } else {
             me.editCode.setValue(data.code);
             // 新建客户资料

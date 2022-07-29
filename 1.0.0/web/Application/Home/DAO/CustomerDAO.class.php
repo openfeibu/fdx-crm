@@ -466,12 +466,7 @@ class CustomerDAO extends PSIBaseExDAO
     $dataOrg = $params["dataOrg"];
     $companyId = $params["companyId"];
 
-    $sql = "select count(*) as cnt
-            from t_receivables_detail
-            where ca_id = '%s' and ca_type = 'customer' and ref_type <> '应收账款期初建账'
-              and company_id = '%s' ";
-    $data = $db->query($sql, $id, $companyId);
-    $cnt = $data[0]["cnt"];
+   $cnt = $this->isReceivables($id, $companyId);
     if ($cnt > 0) {
       // 已经有应收业务发生，就不再更改期初数据
       return null;
@@ -591,7 +586,18 @@ class CustomerDAO extends PSIBaseExDAO
     // 操作成功
     return null;
   }
-
+	
+  public function isReceivables($ca_id,$companyId)
+  {
+	  $db = $this->db;
+	  $sql = "select count(*) as cnt
+            from t_receivables_detail
+            where ca_id = '%s' and ca_type = 'customer' and ref_type <> '应收账款期初建账'
+              and company_id = '%s' ";
+	  $data = $db->query($sql, $ca_id, $companyId);
+	  $cnt = $data[0]["cnt"];
+	  return $cnt;
+  }
   /**
    * 编辑客户资料
    *
@@ -1057,7 +1063,7 @@ class CustomerDAO extends PSIBaseExDAO
               contact02, qq02, mobile02, tel02, address, address_receipt,
               init_receivables, init_receivables_dt,
               bank_name, bank_account, tax_number, fax, note, sales_warehouse_id,
-              record_status,receiving_type
+              record_status,receiving_type, company_id
             from t_customer
             where id = '%s' ";
     $data = $db->query($sql, $id);
@@ -1087,7 +1093,8 @@ class CustomerDAO extends PSIBaseExDAO
       $result["note"] = $data[0]["note"];
       $result["recordStatus"] = $data[0]["record_status"];
       $result["receivingType"] = "{$data[0]['receiving_type']}";
-
+	    $result["companyId"] = "{$data[0]['company_id']}";
+	    
       $result["warehouseId"] = null;
       $result["warehouseName"] = null;
       $warehouseId = $data[0]["sales_warehouse_id"];
@@ -1099,6 +1106,7 @@ class CustomerDAO extends PSIBaseExDAO
           $result["warehouseName"] = $warehouse["name"];
         }
       }
+	    $result["isReceivables"] = $this->isReceivables($id, $result["companyId"]);
     }else{
 	    $result["code"] = $this->autoCode(['autoCodeLength' => 10,'tableName' => 't_customer']);
     }
