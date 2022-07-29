@@ -91,7 +91,8 @@ PCL.define("PSI.Customer.MainForm", {
       text: "新建客户分类",
       hidden: me.getPAddCategory() == "0",
       handler: me.onAddCategory,
-      scope: me
+      scope: me,
+      cls:'test'
     }, {
       text: "编辑客户分类",
       hidden: me.getPEditCategory() == "0",
