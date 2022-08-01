@@ -41,26 +41,26 @@ PCL.define("PSI.Home.MainForm", {
           const data = PCL.JSON.decode(response.responseText);
           
           console.log(data)
-		  var html ='';
-			data.forEach(function(v,k){
-				html+= `<div class="home-nav" click='menuItemClick'>
-							<div class="home-nav-t">`+v.caption+`</div>`;
-				if(v.children.length != 0){
-					html+=`<ul>`;
-					v.children.forEach((v3) => {
-						html+=`<li fid=`+v3.fid+` click='menuItemClick'><i class="`+v3.icon+`"></i>`;
-						html+= v3.caption;
-						html+=`</li>`
-						
-					  });
-					
-					
-					html+=`</ul>`
-				}
-				html+=`</div>`
-				
-			})
-			$(".x-panel-body ").html(html)
+		      var html ='';
+          data.forEach(function(v,k){
+            html+= `<div class="home-nav" click='menuItemClick'>
+                  <div class="home-nav-t">`+v.caption+`</div>`;
+            if(v.children.length != 0){
+              html+=`<ul>`;
+              v.children.forEach((v3) => {
+                html+=`<li fid=`+v3.fid+` click='menuItemClick'><i class="`+v3.icon+`"></i>`;
+                html+= v3.caption;
+                html+=`</li>`
+
+                });
+
+
+              html+=`</ul>`
+            }
+            html+=`</div>`
+
+          })
+			    $(".x-panel-body ").html(html)
 		  
         }
 
