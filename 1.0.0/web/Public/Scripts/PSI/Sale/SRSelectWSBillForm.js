@@ -468,7 +468,7 @@ Ext.define("PSI.Sale.SRSelectWSBillForm", {
         xtype: "numbercolumn",
         width: 90
       }, {
-        header: "含税价",
+        header: "含税价", hidden: true, //隐藏含税价
         dataIndex: "goodsPriceWithTax",
         menuDisabled: true,
         sortable: false,

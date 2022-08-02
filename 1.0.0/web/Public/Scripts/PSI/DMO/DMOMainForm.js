@@ -609,7 +609,7 @@ PCL.define("PSI.DMO.DMOMainForm", {
           xtype: "numbercolumn",
           width: 90
         }, {
-          header: "含税价",
+          header: "含税价", hidden: true, //隐藏含税价
           dataIndex: "goodsPriceWithTax",
           align: "right",
           xtype: "numbercolumn",
