@@ -48,7 +48,7 @@ PCL.define("PSI.Permission.SelectDataOrgForm", {
       }, {
         text: "确定",
         formBind: true,
-        iconCls: "PSI-button-ok",
+        //iconCls: "PSI-button-ok",
         handler: me._onOK,
         scope: me
       }, {

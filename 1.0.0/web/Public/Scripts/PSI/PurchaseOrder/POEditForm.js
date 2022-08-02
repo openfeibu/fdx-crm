@@ -41,7 +41,7 @@ PCL.define("PSI.PurchaseOrder.POEditForm", {
       tbar: [{
         text: "保存",
         id: "buttonSave",
-        iconCls: "PSI-button-ok",
+        //iconCls: "PSI-button-ok",
         handler: me.onOK,
         scope: me
       }, "-", {

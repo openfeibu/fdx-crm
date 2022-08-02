@@ -28,7 +28,7 @@ Ext.define("PSI.WSP.WSPEditForm", {
       layout: "border",
       tbar: [{
         text: "保存",
-        iconCls: "PSI-button-ok",
+        //iconCls: "PSI-button-ok",
         handler: me.onOK,
         scope: me,
         id: "PSI_WSP_WSPEditForm_buttonSave"

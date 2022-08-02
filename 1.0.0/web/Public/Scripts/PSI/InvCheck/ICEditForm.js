@@ -29,7 +29,7 @@ PCL.define("PSI.InvCheck.ICEditForm", {
       defaultFocus: "editWarehouse",
       tbar: [{
         text: "保存",
-        iconCls: "PSI-button-ok",
+        //iconCls: "PSI-button-ok",
         handler: me.onOK,
         scope: me,
         id: "buttonSave"

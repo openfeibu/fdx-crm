@@ -29,7 +29,7 @@ PCL.define("PSI.Factory.CategoryEditForm", {
     buttons.push({
       text: "保存",
       formBind: true,
-      iconCls: "PSI-button-ok",
+      //iconCls: "PSI-button-ok",
       handler: function () {
         me.onOK(false);
       },

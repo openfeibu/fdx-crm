@@ -41,7 +41,7 @@ PCL.define("PSI.SLN0002.Bank.EditForm", {
     buttons.push({
       text: "保存",
       formBind: true,
-      iconCls: "PSI-button-ok",
+      //iconCls: "PSI-button-ok",
       handler() {
         me._onOK(false);
       },

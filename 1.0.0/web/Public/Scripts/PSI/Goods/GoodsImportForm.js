@@ -24,7 +24,7 @@ PCL.define("PSI.Goods.GoodsImportForm", {
     buttons.push({
       text: "导入物料",
       formBind: true,
-      iconCls: "PSI-button-ok",
+      //iconCls: "PSI-button-ok",
       handler: function () {
         me.onOK();
       },

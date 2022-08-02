@@ -26,7 +26,7 @@ PCL.define("PSI.Supplier.GRGoodsEditForm", {
     var btn = {
       text: "保存",
       formBind: true,
-      iconCls: "PSI-button-ok",
+      //iconCls: "PSI-button-ok",
       handler: function () {
         me.onOK(false);
       },

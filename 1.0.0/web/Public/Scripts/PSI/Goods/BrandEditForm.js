@@ -117,7 +117,7 @@ PCL.define("PSI.Goods.BrandEditForm", {
         buttons: [{
           text: "确定",
           formBind: true,
-          iconCls: "PSI-button-ok",
+          //iconCls: "PSI-button-ok",
           handler: me.onOK,
           scope: me
         }, {

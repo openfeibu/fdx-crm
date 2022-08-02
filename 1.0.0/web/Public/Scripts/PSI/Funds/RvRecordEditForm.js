@@ -150,7 +150,7 @@ PCL.define("PSI.Funds.RvRecordEditForm", {
         }],
         buttons: [{
           text: "保存",
-          iconCls: "PSI-button-ok",
+          //iconCls: "PSI-button-ok",
           formBind: true,
           handler: me.onOK,
           scope: me

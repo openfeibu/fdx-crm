@@ -21,7 +21,7 @@ PCL.define("PSI.BizConfig.EditForm", {
     const buttons = [{
       text: "保存",
       formBind: true,
-      iconCls: "PSI-button-ok",
+      //iconCls: "PSI-button-ok",
       handler() {
         me._onOK();
       },

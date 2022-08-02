@@ -163,7 +163,7 @@ PCL.define("PSI.Inventory.InitInventoryEditForm", {
                 xtype: "button",
                 height: 36,
                 text: "保存当前物料的建账信息",
-                iconCls: "PSI-button-ok",
+                //iconCls: "PSI-button-ok",
                 flex: 2,
                 handler: me.onSave,
                 scope: me

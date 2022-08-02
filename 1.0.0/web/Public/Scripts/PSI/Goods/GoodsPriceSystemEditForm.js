@@ -71,7 +71,7 @@ PCL.define("PSI.Goods.GoodsPriceSystemEditForm", {
       }],
       buttons: [{
         text: "保存",
-        iconCls: "PSI-button-ok",
+        //iconCls: "PSI-button-ok",
         handler: me.onOK,
         scope: me,
         id: "buttonSave"
@@ -212,7 +212,7 @@ PCL.define("PSI.Goods.GoodsPriceSystemEditForm", {
       }, " ", {
         xtype: "button",
         text: "根据销售基准价自动计算其他价格",
-        iconCls: "PSI-button-ok",
+        //iconCls: "PSI-button-ok",
         handler: me.onCalPrice,
         scope: me
       }],

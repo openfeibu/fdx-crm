@@ -271,7 +271,10 @@ PCL.define("PSI.App", {
         }
 
         // el.unmask();
-		$(".loader-b").hide();
+		 if(me.getShowContent()){
+			  $(".loader-b").hide();
+		  }
+		
       },
       scope: me
     });

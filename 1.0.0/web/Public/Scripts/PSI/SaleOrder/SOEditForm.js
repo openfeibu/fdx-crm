@@ -42,7 +42,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
       tbar: [{
         text: "保存",
         id: "buttonSave",
-        iconCls: "PSI-button-ok",
+        //iconCls: "PSI-button-ok",
         handler: me.onOK,
         scope: me
       }, "-", {
@@ -66,7 +66,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
           me.focus();
           window.open(me.URL("Home/Help/index?t=commBill"));
         }
-      }, "-",*/ {
+      }, "-", {
         fieldLabel: "快捷访问",
         labelSeparator: "",
         margin: "5 5 5 0",
@@ -75,7 +75,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
         labelWidth: 50,
         emptyText: "双击此处弹出选择框",
         xtype: "psi_mainmenushortcutfield"
-      }],
+      }*/],
       items: [{
         region: "center",
         layout: "fit",
@@ -87,9 +87,9 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
         id: "editForm",
         layout: {
           type: "table",
-          columns: 5
+          columns: 4
         },
-        height: 120,
+        height: 100,
         bodyPadding: 10,
         border: 0,
         items: [{
@@ -101,6 +101,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
         }, {
           id: "editRef",
           labelWidth: 60,
+		  width: 300,
           labelAlign: "right",
           labelSeparator: "",
           fieldLabel: "单号",
@@ -109,6 +110,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
         }, {
           id: "editDealDate",
           fieldLabel: "交货日期",
+		  width: 300,
           labelWidth: 60,
           labelAlign: "right",
           labelSeparator: "",
@@ -127,8 +129,8 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
           }
         }, {
           id: "editCustomer",
-          colspan: 2,
-          width: 280,
+          colspan: 1,
+          width: 300,
           labelWidth: 60,
           labelAlign: "right",
           labelSeparator: "",
@@ -151,8 +153,8 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
           labelAlign: "right",
           labelSeparator: "",
           fieldLabel: "交货地址",
-          colspan: 2,
-          width: 430,
+          colspan: 1,
+          width: 300,
           xtype: "textfield",
           listeners: {
             specialkey: {
@@ -163,6 +165,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
         }, {
           id: "editContact",
           labelWidth: 60,
+		  width: 300,
           labelAlign: "right",
           labelSeparator: "",
           fieldLabel: "联系人",
@@ -176,6 +179,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
         }, {
           id: "editTel",
           labelWidth: 60,
+		  width: 300,
           labelAlign: "right",
           labelSeparator: "",
           fieldLabel: "电话",
@@ -189,6 +193,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
         }, {
           id: "editFax",
           labelWidth: 60,
+		  width: 300,
           labelAlign: "right",
           labelSeparator: "",
           fieldLabel: "传真",
@@ -202,6 +207,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
         }, {
           id: "editOrg",
           labelWidth: 60,
+		  width: 300,
           labelAlign: "right",
           labelSeparator: "",
           fieldLabel: "组织机构",
@@ -221,6 +227,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
         }, {
           id: "editBizUser",
           labelWidth: 60,
+		  width: 300,
           labelAlign: "right",
           labelSeparator: "",
           fieldLabel: "业务员",
@@ -237,6 +244,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
         }, {
           id: "editReceivingType",
           labelWidth: 60,
+		  width: 300,
           labelAlign: "right",
           labelSeparator: "",
           fieldLabel: "收款方式",
@@ -262,12 +270,13 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
           fid: "ct20220531145123",
           fieldLabel: "物流",
           labelWidth: 60,
+		  width: 300,
           labelAlign: "right",
           labelSeparator: "",
           allowBlank: false,
           blankText: "没有输入物流",
           beforeLabelTextTpl: PSI.Const.REQUIRED,
-          width: 200,
+  
           listeners: {
             specialkey: {
               fn: me.onEditExpressSpecialKey,
@@ -282,6 +291,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
         }, {
           id: "editFreight",
           labelWidth: 60,
+		  width: 300,
           labelAlign: "right",
           labelSeparator: "",
           fieldLabel: "运费",
@@ -292,16 +302,17 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
               scope: me
             }
           },
-          width: 200
+        
         }, {
           id: "editBillMemo",
           labelWidth: 60,
+		  width: 300,
           labelAlign: "right",
           labelSeparator: "",
           fieldLabel: "备注",
           xtype: "textfield",
-          colspan: 3,
-          width: 645,
+          colspan: 1,
+       
           listeners: {
             specialkey: {
               fn: me.onLastEditSpecialKey,

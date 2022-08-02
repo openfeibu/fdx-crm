@@ -266,7 +266,7 @@ PCL.define("PSI.Permission.EditForm", {
       tbar: [{
         text: "保存",
         formBind: true,
-        iconCls: "PSI-button-ok",
+        //iconCls: "PSI-button-ok",
         handler() {
           const me = this;
           me.confirm("请确认是否保存数据?", () => {

@@ -33,7 +33,7 @@ Ext.define("PSI.Sale.SREditForm", {
         disabled: me.entity != null
       }, "-", {
         text: "保存",
-        iconCls: "PSI-button-ok",
+        //iconCls: "PSI-button-ok",
         handler: me.onOK,
         scope: me,
         id: "buttonSave"

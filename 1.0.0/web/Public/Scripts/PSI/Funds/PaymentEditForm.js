@@ -149,7 +149,7 @@ Ext.define("PSI.Funds.PaymentEditForm", {
         }],
         buttons: [{
           text: "保存",
-          iconCls: "PSI-button-ok",
+          //iconCls: "PSI-button-ok",
           formBind: true,
           handler: me.onOK,
           scope: me

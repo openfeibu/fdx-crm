@@ -15,7 +15,7 @@ PCL.define("PSI.Customer.CustomerMergeForm", {
     buttons.push({
       text: "提交",
       formBind: true,
-      iconCls: "PSI-button-ok",
+      //iconCls: "PSI-button-ok",
       handler: function () {
         me.onOK();
       },

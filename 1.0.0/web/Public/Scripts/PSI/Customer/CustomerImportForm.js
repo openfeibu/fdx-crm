@@ -16,7 +16,7 @@ PCL.define("PSI.Customer.CustomerImportForm", {
     buttons.push({
       text: "导入客户",
       formBind: true,
-      iconCls: "PSI-button-ok",
+      //iconCls: "PSI-button-ok",
       handler: function () {
         me.onOK();
       },

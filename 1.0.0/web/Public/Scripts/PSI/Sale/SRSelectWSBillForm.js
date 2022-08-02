@@ -115,7 +115,7 @@ Ext.define("PSI.Sale.SRSelectWSBillForm", {
       },
       buttons: [{
         text: "选择",
-        iconCls: "PSI-button-ok",
+        //iconCls: "PSI-button-ok",
         formBind: true,
         handler: me.onOK,
         scope: me
