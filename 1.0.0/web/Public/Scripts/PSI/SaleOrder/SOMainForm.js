@@ -372,8 +372,8 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
       extend: "PCL.data.Model",
       fields: ["id", "ref", "customerName", "contact", "tel",
         "fax", "inputUserName", "bizUserName",
-        "billStatus", "goodsMoney", "dateCreated",
-        "receivingType", "tax", "moneyWithTax", "freight", "dealDate",
+        "billStatus", { name: "goodsMoney", type: "float" }, "dateCreated",
+        "receivingType", "tax", "moneyWithTax", { name: "freight", type: "float" }, "dealDate",
         "dealAddress", "orgName", "confirmUserName",
         "confirmDate", "billMemo", "genPWBill","rejectContent"]
     });
@@ -408,11 +408,18 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
       viewConfig: {
         enableTextSelection: true
       },
+      features: [{
+        ftype: "summary",
+        dock: "bottom"
+      }],
       border: 1,
       columnLines: true,
       columns: [{
         xtype: "rownumberer",
-        width: 50
+        width: 50,
+        summaryRenderer: function () {
+          return "合计";
+        }
       }, {
         header: "状态",
         dataIndex: "billStatus",
@@ -493,7 +500,8 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
         sortable: false,
         align: "right",
         xtype: "numbercolumn",
-        width: 90
+        width: 90,
+        summaryType: "sum"
       }, {
         header: "税金", hidden: true, //隐藏税金
         dataIndex: "tax",
@@ -517,7 +525,8 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
         sortable: false,
         align: "right",
         xtype: "numbercolumn",
-        width: 90
+        width: 90,
+        summaryType: "sum"
       }, {
         header: "收款方式",
         dataIndex: "receivingType",

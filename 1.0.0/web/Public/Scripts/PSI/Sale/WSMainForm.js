@@ -324,9 +324,9 @@ Ext.define("PSI.Sale.WSMainForm", {
       extend: "Ext.data.Model",
       fields: ["id", "ref", "bizDate", "customerName",
         "warehouseName", "inputUserName", "bizUserName",
-        "billStatus", "amount", "dateCreated",
+        "billStatus", { name: "amount", type: "float" }, "dateCreated",
         "receivingType", "memo", "dealAddress", "tax",
-        "moneyWithTax","freight","totalMoney"]
+        "moneyWithTax",{ name: "freight", type: "float" },{ name: "totalMoney", type: "float" }]
     });
     var store = Ext.create("Ext.data.Store", {
       autoLoad: false,
@@ -359,11 +359,18 @@ Ext.define("PSI.Sale.WSMainForm", {
       viewConfig: {
         enableTextSelection: true
       },
+      features: [{
+        ftype: "summary",
+        dock: "bottom"
+      }],
       border: 1,
       columnLines: true,
       columns: [{
         xtype: "rownumberer",
-        width: 40
+        width: 40,
+        summaryRenderer: function () {
+          return "合计";
+        }
       }, {
         header: "状态",
         dataIndex: "billStatus",
@@ -430,7 +437,8 @@ Ext.define("PSI.Sale.WSMainForm", {
         sortable: false,
         align: "right",
         xtype: "numbercolumn",
-        width: 90
+        width: 90,
+        summaryType: "sum"
       }, {
         header: "税金", hidden: true, //隐藏税金
         dataIndex: "tax",
@@ -454,7 +462,8 @@ Ext.define("PSI.Sale.WSMainForm", {
         sortable: false,
         align: "right",
         xtype: "numbercolumn",
-        width: 90
+        width: 90,
+        summaryType: "sum"
       }, {
         header: "总计",
         dataIndex: "totalMoney",
@@ -462,7 +471,8 @@ Ext.define("PSI.Sale.WSMainForm", {
         sortable: false,
         align: "right",
         xtype: "numbercolumn",
-        width: 90
+        width: 90,
+        summaryType: "sum"
       }, {
         header: "出库仓库",
         dataIndex: "warehouseName",
