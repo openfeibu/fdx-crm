@@ -67,6 +67,8 @@ class SaleController extends PSIBaseController
     if (IS_POST) {
       $us = new UserService();
       $id = I("post.id");
+	    $sobillRef = I("post.sobillRef");
+	    
       if ($id) {
         // 编辑
         if (!$us->hasPermission(FIdConst::WAREHOUSING_SALE_EDIT)) {
@@ -74,9 +76,17 @@ class SaleController extends PSIBaseController
         }
       } else {
         // 新建
-        if (!$us->hasPermission(FIdConst::WAREHOUSING_SALE_ADD)) {
-          die("没有权限");
-        }
+	      if($sobillRef)
+	      {
+		      if (!$us->hasPermission(FIdConst::SALE_ORDER_GEN_WSBILL)) {
+			      die("没有权限");
+		      }
+	      }else{
+		      if (!$us->hasPermission(FIdConst::WAREHOUSING_SALE_ADD)) {
+			      die("没有权限");
+		      }
+	      }
+        
       }
 
       $params = [
