@@ -272,7 +272,7 @@ PCL.define("PSI.Purchase.PWMainForm", {
       extend: "PCL.data.Model",
       fields: ["id", "ref", "bizDate", "supplierName",
         "warehouseName", "inputUserName", "bizUserName",
-        "billStatus", "billStatusCode", "amount", "dateCreated",
+        "billStatus", "billStatusCode", { name: "amount", type: "float" }, "dateCreated",
         "paymentType", "billMemo", "expandByBOM",
         "wspBillRef", "tax", "moneyWithTax"]
     });
@@ -307,6 +307,10 @@ PCL.define("PSI.Purchase.PWMainForm", {
       viewConfig: {
         enableTextSelection: true
       },
+      features: [{
+        ftype: "summary",
+        dock: "bottom"
+      }],
       border: 1,
       columnLines: true,
       columns: {
@@ -317,7 +321,10 @@ PCL.define("PSI.Purchase.PWMainForm", {
         items: [{
           xtype: "rownumberer",
           text: "#",
-          width: 50
+          width: 50,
+          summaryRenderer: function () {
+            return "合计";
+          }
         }, {
           header: "状态",
           dataIndex: "billStatus",
@@ -355,7 +362,8 @@ PCL.define("PSI.Purchase.PWMainForm", {
           align: "right",
           xtype: "numbercolumn",
           width: 90,
-          hidden: me.getPermission().viewPrice == "0"
+          hidden: me.getPermission().viewPrice == "0",
+          summaryType: "sum"
         }, {
           header: "税金", hidden: true, //隐藏税金
           dataIndex: "tax",

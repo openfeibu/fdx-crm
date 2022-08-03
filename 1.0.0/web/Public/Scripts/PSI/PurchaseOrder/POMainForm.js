@@ -360,7 +360,7 @@ PCL.define("PSI.PurchaseOrder.POMainForm", {
       extend: "PCL.data.Model",
       fields: ["id", "ref", "supplierName", "contact", "tel",
         "fax", "inputUserName", "bizUserName",
-        "billStatus", "goodsMoney", "dateCreated",
+        "billStatus",  { name: "goodsMoney", type: "float" }, "dateCreated",
         "paymentType", "tax", "moneyWithTax", "dealDate",
         "dealAddress", "orgName", "confirmUserName",
         "confirmDate", "billMemo", "genPWBill"]
@@ -396,6 +396,10 @@ PCL.define("PSI.PurchaseOrder.POMainForm", {
       viewConfig: {
         enableTextSelection: true
       },
+      features: [{
+        ftype: "summary",
+        dock: "bottom"
+      }],
       border: 1,
       columnLines: true,
       columns: {
@@ -406,7 +410,10 @@ PCL.define("PSI.PurchaseOrder.POMainForm", {
         items: [{
           xtype: "rownumberer",
           text: "#",
-          width: 50
+          width: 50,
+          summaryRenderer: function () {
+            return "合计";
+          }
         }, {
           header: "状态",
           dataIndex: "billStatus",
@@ -467,7 +474,8 @@ PCL.define("PSI.PurchaseOrder.POMainForm", {
           dataIndex: "goodsMoney",
           align: "right",
           xtype: "numbercolumn",
-          width: 90
+          width: 90,
+          summaryType: "sum"
         }, {
           header: "税金", hidden: true, //隐藏税金
           dataIndex: "tax",

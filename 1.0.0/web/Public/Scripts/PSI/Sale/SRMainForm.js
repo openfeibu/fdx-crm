@@ -569,7 +569,7 @@ Ext.define("PSI.Sale.SRMainForm", {
       extend: "Ext.data.Model",
       fields: ["id", "ref", "bizDate", "customerName",
         "warehouseName", "inputUserName", "bizUserName",
-        "billStatus", "amount", "dateCreated",
+        "billStatus", { name: "amount", type: "float" }, "dateCreated",
         "paymentType", "billMemo", "tax", "moneyWithTax", "confirmUserName",
         "confirmDate","rejectContent"]
     });
@@ -604,11 +604,18 @@ Ext.define("PSI.Sale.SRMainForm", {
       viewConfig: {
         enableTextSelection: true
       },
+      features: [{
+        ftype: "summary",
+        dock: "bottom"
+      }],
       border: 1,
       columnLines: true,
       columns: [{
         xtype: "rownumberer",
-        width: 50
+        width: 50,
+        summaryRenderer: function () {
+          return "合计";
+        }
       }, {
         header: "状态",
         dataIndex: "billStatus",
@@ -652,7 +659,8 @@ Ext.define("PSI.Sale.SRMainForm", {
         sortable: false,
         align: "right",
         xtype: "numbercolumn",
-        width: 130
+        width: 130,
+        summaryType: "sum"
       }, {
         header: "税金(红字)", hidden: true, //隐藏税金
         dataIndex: "tax",

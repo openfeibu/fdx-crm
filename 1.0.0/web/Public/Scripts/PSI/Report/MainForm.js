@@ -179,7 +179,7 @@ PCL.define("PSI.Report.MainForm", {
 		align: "center",
         sortable: false
       }, {
-        header: "销售额(不含税)",
+        header: "销售额", //销售额(不含税)
         dataIndex: "saleMoney",
         width: '30%',
         menuDisabled: true,
