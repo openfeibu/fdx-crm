@@ -84,7 +84,7 @@ PCL.define("PSI.InitInventory.InitInventoryImportForm", {
           anchor: '100%',
           buttonText: '选择建账数据文件'
         }, {
-          html: `<a href="../../Uploads/Inventory/init_inventory_template.xlsx"><h4>下载建账数据导入模板</h4></a>`,
+          html: `<a href="../../Uploads/Inventory/init_inventory_template.xlsx"><h4 style="line-height:0px">下载建账数据导入模板</h4></a>`,
           border: 0
         }],
         buttons: buttons

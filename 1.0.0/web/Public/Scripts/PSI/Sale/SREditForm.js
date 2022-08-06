@@ -58,7 +58,7 @@ Ext.define("PSI.Sale.SREditForm", {
           me.focus();
           window.open(me.URL("Home/Help/index?t=commBill"));
         }
-      }, "-",*/ {
+      }, "-",*/ /*{
         fieldLabel: "快捷访问",
         labelSeparator: "",
         margin: "5 5 5 0",
@@ -67,7 +67,7 @@ Ext.define("PSI.Sale.SREditForm", {
         labelWidth: 50,
         emptyText: "双击此处弹出选择框",
         xtype: "psi_mainmenushortcutfield"
-      }],
+      }*/],
       defaultFocus: "editWarehouse",
       items: [{
         region: "center",

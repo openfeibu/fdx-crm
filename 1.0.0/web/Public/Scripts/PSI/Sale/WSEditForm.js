@@ -86,7 +86,7 @@ Ext.define("PSI.Sale.WSEditForm", {
           me.focus();
           window.open(me.URL("Home/Help/index?t=commBill"));
         }
-      }, "-",*/ {
+      }, "-",*/ /*{
         fieldLabel: "快捷访问",
         labelSeparator: "",
         margin: "5 5 5 0",
@@ -95,7 +95,7 @@ Ext.define("PSI.Sale.WSEditForm", {
         labelWidth: 50,
         emptyText: "双击此处弹出选择框",
         xtype: "psi_mainmenushortcutfield"
-      }],
+      }*/],
       items: [{
         region: "center",
         border: 0,
@@ -122,7 +122,7 @@ Ext.define("PSI.Sale.WSEditForm", {
           labelWidth: 60,
           labelAlign: "right",
           labelSeparator: "",
-          width: 175,
+           width: 300,
           xtype: "displayfield",
           value: me.toFieldNoteText("保存后自动生成")
         }, {
@@ -136,6 +136,7 @@ Ext.define("PSI.Sale.WSEditForm", {
           xtype: "datefield",
           format: "Y-m-d",
           value: new Date(),
+		  width: 250,
           name: "bizDT",
           listeners: {
             specialkey: {
@@ -152,6 +153,7 @@ Ext.define("PSI.Sale.WSEditForm", {
           labelSeparator: "",
           allowBlank: false,
           blankText: "没有输入业务员",
+		  width: 300,
           beforeLabelTextTpl: PSI.Const.REQUIRED,
           listeners: {
             specialkey: {
@@ -170,7 +172,7 @@ Ext.define("PSI.Sale.WSEditForm", {
           allowBlank: false,
           blankText: "没有输入出库仓库",
           beforeLabelTextTpl: PSI.Const.REQUIRED,
-          width: 430,
+          width: 300,
           listeners: {
             specialkey: {
               fn: me.onEditWarehouseSpecialKey,
@@ -186,8 +188,8 @@ Ext.define("PSI.Sale.WSEditForm", {
           labelWidth: 60,
           labelAlign: "right",
           labelSeparator: "",
-          colspan: 2,
-          width: 430,
+          colspan: 1,
+        width: 300,
           blankText: "没有输入客户",
           beforeLabelTextTpl: PSI.Const.REQUIRED,
           listeners: {
@@ -208,7 +210,7 @@ Ext.define("PSI.Sale.WSEditForm", {
           allowBlank: false,
           blankText: "没有输入物流",
           beforeLabelTextTpl: PSI.Const.REQUIRED,
-          width: 200,
+            width: 250,
           listeners: {
             specialkey: {
               fn: me.onEditExpressSpecialKey,
@@ -233,11 +235,12 @@ Ext.define("PSI.Sale.WSEditForm", {
               scope: me
             }
           },
-          colspan: 3,
-          width: 200
+          colspan: 1,
+          width: 300,
         }, {
           id: "editReceivingType",
           labelWidth: 60,
+		  width: 300,
           labelAlign: "right",
           labelSeparator: "",
           fieldLabel: "收款方式",
@@ -271,7 +274,7 @@ Ext.define("PSI.Sale.WSEditForm", {
               scope: me
             }
           },
-          width: 430
+           width: 300,
         }, {
           id: "editBillMemo",
           labelWidth: 60,

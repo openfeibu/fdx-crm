@@ -269,6 +269,10 @@ html{
   background-image: none;
   background-color: #f0eff5;
   border-color: #c3cbcc;
+  border: none;
+    padding: 2px 10px
+
+
 }
 
 .PSI .x-toolbar-default {
@@ -307,7 +311,7 @@ html{
 }
 
 .x-toolbar-separator-horizontal {
-  border-left-color: #2c9ba0;
+  border-left-color: #4576ce;
   border-right-color: #dcdada
 }
 
@@ -385,7 +389,7 @@ html{
 }
 
 .x-btn-default-toolbar-small .x-btn-inner {
-  color: #196d6d;
+  color: #333;
 }
 
 .x-btn-default-toolbar-small-over {
@@ -398,7 +402,7 @@ html{
 }
 
 .x-menu-item-text {
-  color: #196d6d;
+  color: #333;
 }
 
 .x-menu-item-active {
@@ -428,7 +432,7 @@ html{
 
 .x-form-display-field {
   font-size: 13px;
-  color: #196d6d;
+  color: #333;
   /* font-family: "Monospaced Number", "Chinese Quote", -apple-system,
 		BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC",
 		"Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica,
@@ -818,12 +822,12 @@ background-color:#999 !important;
 .fb-bg.PSI-App-MainMenu .x-menu-item-text{color:#333 !important;}
 
 .x-menu-item-link{line-height:30px;}
-.x-menu-item-icon{    top: 8px;
+.x-menu-item-icon{    top: 2px;
     left: 5px;
     color: #4576ce;
     font-weight: bold;
     background-size: 100% auto;}
-
+.PSI-button-pdf,.PSI-button-print-preview,.PSI-button-print{top:8px;}
 .x-grid-record-gray .x-grid-td{ background: #948d8e; }
 
 .x-grid-record-red .x-grid-td{ background: red; }
@@ -872,8 +876,8 @@ background-color:#999 !important;
 #PSI_AFX_MessageBox_ConfirmForm_buttonCancel-btnInnerEl{color:#999 !important}
 span.PSI-button-ok{background-image:none !important}
 
-
-
+#buttonSave-btnInnerEl{color:#4576ce}
+#buttonCancel-btnInnerEl{color:#666}
 .loader {
   position: relative;
   width: 75px;
@@ -936,7 +940,6 @@ span.PSI-button-ok{background-image:none !important}
     border-radius: 50%;
     animation: ball 4s infinite;
   }
-
 
 @keyframes ball {
   0% {

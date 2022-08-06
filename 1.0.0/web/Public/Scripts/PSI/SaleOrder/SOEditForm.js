@@ -66,7 +66,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
           me.focus();
           window.open(me.URL("Home/Help/index?t=commBill"));
         }
-      }, "-", {
+      }, "-", /*{
         fieldLabel: "快捷访问",
         labelSeparator: "",
         margin: "5 5 5 0",

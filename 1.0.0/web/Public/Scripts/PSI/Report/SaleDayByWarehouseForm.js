@@ -68,7 +68,7 @@ PCL.define("PSI.Report.SaleDayByWarehouseForm", {
         scope: me
       }, " ", {
         text: "查询",
-        iconCls: "PSI-button-refresh",
+        //iconCls: "PSI-button-refresh",,
         handler: me.onQuery,
         scope: me
       }, {

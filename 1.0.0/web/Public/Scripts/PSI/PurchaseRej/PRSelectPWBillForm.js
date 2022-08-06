@@ -86,7 +86,7 @@ PCL.define("PSI.PurchaseRej.PRSelectPWBillForm", {
             text: "查询",
             width: 100,
             margin: "0 0 0 40",
-            iconCls: "PSI-button-refresh",
+            //iconCls: "PSI-button-refresh",,
             handler: me.onQuery,
             scope: me
           }, {

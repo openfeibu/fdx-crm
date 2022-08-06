@@ -56,7 +56,7 @@ PCL.define("PSI.PurchaseRej.PREditForm", {
           me.focus();
           window.open(me.URL("Home/Help/index?t=commBill"));
         }
-      }, "-",*/ {
+      }, "-",*/ /*{
         fieldLabel: "快捷访问",
         labelSeparator: "",
         margin: "5 5 5 0",
@@ -65,7 +65,7 @@ PCL.define("PSI.PurchaseRej.PREditForm", {
         labelWidth: 50,
         emptyText: "双击此处弹出选择框",
         xtype: "psi_mainmenushortcutfield"
-      }],
+      }*/],
       layout: "border",
       defaultFocus: "editWarehouse",
       items: [{

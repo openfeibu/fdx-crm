@@ -55,7 +55,7 @@ Ext.define("PSI.Funds.PreReceivingMainForm", {
         showModal: true
       }, {
         text: "查询",
-        iconCls: "PSI-button-refresh",
+        //iconCls: "PSI-button-refresh",,
         handler: me.onQuery,
         scope: me
       }, {
@@ -282,7 +282,7 @@ Ext.define("PSI.Funds.PreReceivingMainForm", {
         value: new Date()
       }, {
         text: "查询",
-        iconCls: "PSI-button-refresh",
+        //iconCls: "PSI-button-refresh",,
         handler: me.onQueryDetail,
         scope: me
       }, "-", {

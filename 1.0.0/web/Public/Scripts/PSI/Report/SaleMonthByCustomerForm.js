@@ -85,7 +85,7 @@ PCL.define("PSI.Report.SaleMonthByCustomerForm", {
         width: 90
       }, " ", {
         text: "查询",
-        iconCls: "PSI-button-refresh",
+        //iconCls: "PSI-button-refresh",,
         handler: me.onQuery,
         scope: me
       }, {

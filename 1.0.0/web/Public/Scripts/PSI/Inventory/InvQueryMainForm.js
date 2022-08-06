@@ -149,7 +149,7 @@ PCL.define("PSI.Inventory.InvQueryMainForm", {
       xtype: "container",
       items: [{
         text: "查询",
-        iconCls: "PSI-button-refresh",
+        //iconCls: "PSI-button-refresh",,
         handler: me._onQueryGoods,
         scope: me,
         width: 100,
@@ -621,7 +621,7 @@ PCL.define("PSI.Inventory.InvQueryMainForm", {
         value: new Date()
       }, " ", {
         text: "查询",
-        iconCls: "PSI-button-refresh",
+        //iconCls: "PSI-button-refresh",,
         handler: me._onQuery,
         scope: me
       }, "->", {
