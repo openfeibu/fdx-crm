@@ -454,9 +454,16 @@ PCL.define("PSI.App", {
 				  });
 				html+=`</ul>`
 			}
+			
 			html+=`</div>`
 			
 		})
+		 html += `<div class="home-nav2"> 
+		             <div class="home-nav-t">软件下载</div>
+					 <ul><li ><a target='_blank' href="/web/uploads/lodop/CLodop_Setup_for_Win32NT.exe"><i class="iconfont icon-qupiao"></i>打印插件</a></li></ul>
+					 </div>
+					 </div>`
+					 console.log(html)
 		html+=`</div></div>`
 		$(".x-panel-body ").html(html);
 		$("body").on("click",".home-nav li",function(){

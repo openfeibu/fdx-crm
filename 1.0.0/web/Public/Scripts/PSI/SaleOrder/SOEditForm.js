@@ -765,7 +765,9 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
   // 参见PSI.Goods.GoodsWithSalePriceField的onOK方法
   __setGoodsInfo: function (data) {
     var me = this;
+	console.log(data)
     var item = me.getGoodsGrid().getSelectionModel().getSelection();
+	console.log(item)
     if (item == null || item.length != 1) {
       return;
     }
@@ -778,8 +780,9 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
     goods.set("goodsSpec", data.spec);
     goods.set("goodsPrice", data.salePrice);
     goods.set("taxRate", data.taxRate);
-
+	console.log( me.calcMoney)
     me.calcMoney(goods);
+	
   },
 
   cellEditingBeforeEdit: function (editor, e) {

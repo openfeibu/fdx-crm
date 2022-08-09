@@ -60,6 +60,7 @@ PCL.define("PSI.Home.MainForm", {
             html+=`</div>`
 
           })
+		 
 			    $(".x-panel-body ").html(html)
 		  
         }
