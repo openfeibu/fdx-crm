@@ -841,22 +841,24 @@ background-color:#999 !important;
 .home-content{width:100%;height:100%;overflow-y:auto;background:#ebeff6 url(../Images/login-bg2.png) no-repeat center/cover !important}
 .home-content-p{padding:20px;max-width:1400px;margin:20px auto;}
 .home-nav-t{font-size:20px;padding:10px;}
-.home-nav{background: #fff;
+.home-nav,.home-nav2{background: #fff;
     border-radius: 10px;
     padding: 10px;margin-bottom:20px;
 	border-left: 5px solid #4576ce;
 	}
 
 
-.home-nav ul{padding:10px;}
+.home-nav ul,.home-nav2 ul{padding:10px;}
 
 
 
 
-.home-nav ul li{width:23%;margin:0 0.8% 5px 0.8%;height:100px;display:inline-block;text-align:Center;background:#fff;line-height:100px;font-size:18px;border-radius:5px;vertical-align:middle;cursor:pointer;transition:all 0.2s;border:1px solid #d2e2ff}
-.home-nav ul li i{margin-right:5px;font-size:40px;color:#3975d5;line-height:100px;display:inline-block;vertical-align:middle}
-.home-nav ul li:hover{background:#3975d5;color:#fff}
-.home-nav ul li:hover i{color:#fff}
+.home-nav ul li,.home-nav2 ul li{width:23%;margin:0 0.8% 5px 0.8%;height:100px;display:inline-block;text-align:Center;background:#fff;line-height:100px;font-size:18px;border-radius:5px;vertical-align:middle;cursor:pointer;transition:all 0.2s;border:1px solid #d2e2ff}
+.home-nav ul li i,.home-nav2 ul li i{margin-right:5px;font-size:40px;color:#3975d5;line-height:100px;display:inline-block;vertical-align:middle}
+.home-nav ul li:hover,.home-nav2 ul li:hover{background:#3975d5;color:#fff}
+.home-nav ul li:hover i,.home-nav2 ul li:hover i{color:#fff}
+.home-nav2 ul li a{color:#000;text-decoration:none;}
+.home-nav2 ul li:hover a{color:#fff}
 .PSI-portal-sale {
  
     background-size: 100% 100%;
@@ -1080,7 +1082,7 @@ span.PSI-button-ok{background-image:none !important}
 
 
 @media (max-width: 750px) {
-	.home-nav ul li{width:100%;margin:0 0 5px 0;}
+	.home-nav ul li,.home-nav2 ul li{width:100%;margin:0 0 5px 0;}
 	
 }
 
