@@ -88,7 +88,7 @@ class GoodsService extends PSIBaseExService
 
       $params["dataOrg"] = $this->getLoginUserDataOrg();
       $params["companyId"] = $this->getCompanyId();
-
+	    $params["recordStatus"] = 1;
       $rc = $dao->addUnit($params);
       if ($rc) {
         $db->rollback();

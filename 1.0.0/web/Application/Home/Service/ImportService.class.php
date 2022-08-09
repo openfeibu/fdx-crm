@@ -149,6 +149,7 @@ class ImportService extends PSIBaseService
           );
           $newUnit = $gs->editUnit($newUnitParams);
           $unitId = $newUnit["id"];
+
         } else {
           $unitId = $data[0]["id"];
         }

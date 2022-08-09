@@ -143,8 +143,12 @@ class GoodsUnitDAO extends PSIBaseExDAO
     $name = trim($params["name"]);
     $code = strtoupper(trim($params["code"]));
     $recordStatus = $params["recordStatus"];
-
+		if(!$code)
+		{
+			$params["code"] = $code = $this->autoCode(['autoCodeLength' => 4,'tableName' => 't_goods_unit']);
+		}
     $result = $this->checkParams($params);
+
     if ($result) {
       return $result;
     }
