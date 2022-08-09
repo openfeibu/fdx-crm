@@ -195,7 +195,7 @@ PCL.define("PSI.Report.PurchaseDetailForm", {
     PCL.define(modelName, {
       extend: "PCL.data.Model",
       fields: ["supplierName", "poBillRef", "pwBillRef", "bizDate", "warehouseName", "goodsCode",
-        "goodsName", "goodsSpec", "unitName", "goodsCount", "goodsMoney",
+        "goodsName", "goodsSpec", "unitName", { name: "goodsCount", type: "float"} , { name: "goodsMoney", type: "float"},
         "goodsPrice", "memo", "taxRate", "tax",
         "moneyWithTax", "goodsPriceWithTax"]
     });
@@ -225,6 +225,10 @@ PCL.define("PSI.Report.PurchaseDetailForm", {
       viewConfig: {
         enableTextSelection: true
       },
+      features: [{
+        ftype: "summary",
+        dock: "bottom"
+      }],
       border: 0,
       columnLines: true,
       columns: {
@@ -234,7 +238,10 @@ PCL.define("PSI.Report.PurchaseDetailForm", {
         },
         items: [{
           xtype: "rownumberer",
-          width: 50
+          width: 50,
+          summaryRenderer: function () {
+            return "合计";
+          }
         }, {
           header: "采购单号",
           dataIndex: "poBillRef",
@@ -291,7 +298,8 @@ PCL.define("PSI.Report.PurchaseDetailForm", {
           header: "入库数量",
           width: 120,
           dataIndex: "goodsCount",
-          align: "right"
+          align: "right",
+          summaryType: "sum"
         }, {
           header: "单位",
           dataIndex: "unitName",
@@ -307,7 +315,8 @@ PCL.define("PSI.Report.PurchaseDetailForm", {
           dataIndex: "goodsMoney",
           align: "right",
           xtype: "numbercolumn",
-          width: 150
+          width: 150,
+          summaryType: "sum"
         }, {
           header: "税率(%)", hidden: true, //隐藏税率
           dataIndex: "taxRate",
