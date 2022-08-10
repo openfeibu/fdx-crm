@@ -215,7 +215,7 @@ class ImportService extends PSIBaseService
         $dataOrg,
         $memo,
         $specPY,
-        '40000'
+        '4000'
       );
     } // end of for
 
