@@ -4,130 +4,167 @@
 * @license GPL v3
 */}
 <html>
-
+<style>
+  body{padding:0 30px;font-size: 16px;}
+  .product-table td{font-size: 14px;line-height: 20px;}
+  .info{margin-top: 10px;margin-left: 10px;}
+  .info-item{line-height: 26px;font-size: 14px;}
+  .info-item .l{display: inline-block;*display:inline-block;*zoom:1;vertical-align: middle;}
+  .info-item .r{display: inline-block;*display:inline-block;*zoom:1;vertical-align: middle;}
+  .info-item p{margin: 0;}
+  .info-item .l span{margin-right: 80px;}
+</style>
 <body>
   <table border=0 cellSpacing=0 cellPadding=0 width="100%">
     <tr>
-      <td colspan="6" align="center">销售订单</td>
+      <td colspan="6" align="center" style='font-size: 40px;line-height: 100px;'>假发供应仓库（龙头店）出库单</td>
     </tr>
     <tr>
-      <td width="12%"><span style='font-size: 13'>单号</span></td>
-      <td width="15%"><span style='font-size: 13'>{$data["ref"]}</span></td>
-      <td width="12%"><span style='font-size: 13'>业务日期</span></td>
-      <td width="15%"><span style='font-size: 13'>{$data["dealDate"]}</span></td>
-      <td width="12%"><span style='font-size: 13'>打印时间</span></td>
-      <td><span style='font-size: 13'>{$data["printDT"]}</span></td>
+      <td width="15%" style="text-align: right;"><span style="margin-right: 10px">业务日期：</span></td>
+      <td width="35%"><span >{$data["dealDate"]}</span></td>
+      <td width="25%" style="text-align: right;"><span style="margin-right: 10px">单号：</span></td>
+      <td width="25%"><span >{$data["ref"]}</span></td>
     </tr>
     <tr>
-      <td><span style='font-size: 13'>客户</span></td>
-      <td colspan="3"><span style='font-size: 13'>{$data["customerName"]}</span></td>
-      <td><span style='font-size: 13'>联系电话</span></td>
-      <td colspan="3"><span style='font-size: 22'>{$data["tel"]}</span></td>
+      <td width="15%" style="text-align: right;"><span style="margin-right: 10px">客户：</span></td>
+      <td width="35%"><span >{$data["customerName"]}</span></td>
+      <td width="25%" style="text-align: right;"><span style="margin-right: 10px">打印时间：</span></td>
+      <td width="25%"><span >{$data["printDT"]}</span></td>
+    </tr>
+<!--    
+    <tr>
+      <td><span >销售金额</span></td>
+      <td><span >{$data["saleMoney"]}</span></td>
+      <td><span >运费</span></td>
+      <td><span >{$data["freight"]}</span></td>
+      <td><span >合计</span></td>
+      <td><span >{$data["totalMoney"]}</span></td>
+    </tr> -->
+    <!-- <tr>
+      <td><span >交货地址</span></td>
+      <td colspan="5"><span >{$data["dealAddress"]}</span></td>
     </tr>
     <tr>
-      <td><span style='font-size: 13'>销售金额</span></td>
-      <td><span style='font-size: 13'>{$data["saleMoney"]}</span></td>
-      <td><span style='font-size: 13'>运费</span></td>
-      <td><span style='font-size: 13'>{$data["freight"]}</span></td>
-      <td><span style='font-size: 13'>合计</span></td>
-      <td><span style='font-size: 13'>{$data["totalMoney"]}</span></td>
-    </tr>
-    <tr>
-      <td><span style='font-size: 13'>交货地址</span></td>
-      <td colspan="5"><span style='font-size: 13'>{$data["dealAddress"]}</span></td>
-    </tr>
-    <tr>
-      <td><span style='font-size: 13'>订单备注</span></td>
-      <td colspan="5"><span style='font-size: 13'>{$data["billMemo"]}</span></td>
-    </tr>
+      <td><span >订单备注</span></td>
+      <td colspan="5"><span >{$data["billMemo"]}</span></td>
+    </tr> -->
   </table>
-  <br />
-  <table border=1 cellSpacing=0 cellPadding=1 width="100%" style="border-collapse: collapse" bordercolor="#333333">
+ 
+  <table class="product-table" border=2 cellSpacing=0 cellPadding=1 width="100%" style="border-collapse: collapse;font-size:14px;margin-top: 5px;" bordercolor="#333333">
     <tr>
       <td>
-        <div align="center" style='font-size: 13'>序号</div>
+        <div align="center" >序号</div>
       </td>
       <!--<td>-->
-        <!--<div align="center" style='font-size: 13'>商品编码</div>-->
+        <!--<div align="center" >商品编码</div>-->
       <!--</td>-->
       <td>
-        <div align="center" style='font-size: 13'>商品名称</div>
+        <div align="center" >商品名称</div>
+      </td>
+      <!-- <td>
+        <div align="center" >规格型号</div>
+      </td> -->
+      <td>
+        <div align="center" >数量</div>
+      </td>
+      <!-- <td>
+        <div align="center" >单位</div>
+      </td> -->
+      <td>
+        <div align="center" >单价</div>
       </td>
       <td>
-        <div align="center" style='font-size: 13'>规格型号</div>
+        <div align="center" >金额</div>
       </td>
       <td>
-        <div align="center" style='font-size: 13'>数量</div>
-      </td>
-      <td>
-        <div align="center" style='font-size: 13'>单位</div>
-      </td>
-      <td>
-        <div align="center" style='font-size: 13'>销售单价</div>
-      </td>
-      <td>
-        <div align="center" style='font-size: 13'>销售金额</div>
+        <div align="center" >备注</div>
       </td>
       <!--<td>
-        <div align="center" style='font-size: 13'>税率</div>
+        <div align="center" >税率</div>
       </td>
       <td>
-        <div align="center" style='font-size: 13'>价税合计</div>
+        <div align="center" >价税合计</div>
       </td>-->
     </tr>
     <foreach name="data['items']" item="v" key="i">
       <tr>
         <td>
-          <div align="center" style='font-size: 13'>{$i+1}</div>
-        </td>
-        <!--<td>-->
-          <!--<div style='font-size: 13'>{$v["goodsCode"]}</div>-->
-        <!--</td>-->
-        <td>
-          <div align="center" style='font-size: 13'>{$v["goodsName"]}</div>
+          <div align="center" >{$i+1}</div>
         </td>
         <td>
-          <div align="center" style='font-size: 13'>{$v["goodsSpec"]}</div>
+          <div align="left" >{$v["goodsName"]} {$v["goodsSpec"]}</div>
         </td>
         <td>
-          <div align="center" style='font-size: 13'>{$v["goodsCount"]}</div>
+          <div align="center" >1</div>
         </td>
         <td>
-          <div align="center" style='font-size: 13'>{$v["unitName"]}</div>
+          <div align="center" >{$v["goodsPrice"]}</div>
         </td>
         <td>
-          <div align="right" style='font-size: 13'>{$v["goodsPrice"]}</div>
+          <div align="center" >{$v["goodsMoney"]}</div>
         </td>
         <td>
-          <div align="right" style='font-size: 13'>{$v["goodsMoney"]}</div>
+          <div align="center" >{$v["goodsMoney"]}</div>
         </td>
-        <!--<td>
-          <div align="right" style='font-size: 13'>{$v["taxRate"]}%</div>
-        </td>
-        <td>
-          <div align="right" style='font-size: 13'>{$v["goodsMoneyWithTax"]}</div>
-        </td>-->
       </tr>
     </foreach>
+    <tr>
+      <td>
+        <div align="center" ></div>
+      </td>
+      <td>
+        <div align="left" >运费</div>
+      </td>
+      <td>
+        <div align="center" >1</div>
+      </td>
+      <td>
+        <div align="center" >{$data["freight"]}</div>
+      </td>
+      <td>
+        <div align="center" >{$data["freight"]}</div>
+      </td>
+      <td>
+        <div align="center" ></div>
+      </td>
+    </tr>
     <tr>
       <td>
         <div align="center">合计</div>
       </td>
       <!--<td></td>-->
+      <td>大写金额</td>
+      <td align="center">总数</td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      
       <td>
-        <div align="right">￥{$data["goodsMoney"]}</div>
+        <div align="center">{$data["totalMoney"]}</div>
       </td>
+      <td></td>
       <!--<td></td>
       <td>
         <div align="right">￥{$data["moneyWithTax"]}</div>
       </td>-->
     </tr>
   </table>
+  <div class="info">
+     <div class="info-item">
+        <div class="l"><span>联系人：王山威</span> <span>电话/微信：15521212999</span></div>
+        <div class="r">客户签名：</div>
+     </div>
+     <div class="info-item">
+      <div class="l">联系地址：</div>
+      <div class="r">广州市越秀区广园西路222号龙头市场富一层M0011室</div>
+    </div>
+    <div class="info-item">
+      <div class="l">付款方式：</div>
+      <div class="r">
+        <p>中信银行（广州白云支行）/ 6217730906366420 户名：尚帅</p>
+        <p>民生银行（广州金沙洲支行）/ 6226190305296216 户名：尚帅</p>
+        <p>招商银行 / 6214862025419666 户名：尚帅</p>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>
