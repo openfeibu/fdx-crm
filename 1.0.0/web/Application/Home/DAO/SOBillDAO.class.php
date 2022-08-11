@@ -1189,10 +1189,10 @@ class SOBillDAO extends PSIBaseExDAO
     $bill["tel"] = $data[0]["tel"];
     $bill["billMemo"] = $data[0]["bill_memo"];
     $bill["goodsMoney"] = $data[0]["goods_money"];
-	  $bill["capGoodsMoney"] = $utilService->moneyToCap($data[0]["goods_money"]);
     $bill["moneyWithTax"] = $data[0]["money_with_tax"];
 	  $bill["freight"] = $data[0]["freight"];
 	  $bill["totalMoney"] = $data[0]["total_money"];
+	  $bill["capTotalMoney"] = $utilService->moneyToCap($data[0]["total_money"]);
 	  
     $bill["printDT"] = date("Y-m-d H:i:s");
 
@@ -1215,7 +1215,6 @@ class SOBillDAO extends PSIBaseExDAO
       $items[$i]["goodsCount"] = $v["goods_count"];
       $items[$i]["goodsPrice"] = $v["goods_price"];
       $items[$i]["goodsMoney"] = $v["goods_money"];
-	    //$items[$i]["capGoodsMoney"] = $utilService->moneyToCap($v["goodsMoney"]);
       $items[$i]["taxRate"] = intval($v["tax_rate"]);
       $items[$i]["goodsMoneyWithTax"] = $v["money_with_tax"];
 	    

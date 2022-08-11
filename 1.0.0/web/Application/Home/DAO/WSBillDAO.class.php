@@ -3,6 +3,7 @@
 namespace Home\DAO;
 
 use Home\Common\FIdConst;
+use Home\Service\UtilService;
 
 /**
  * 销售出库单 DAO
@@ -2080,11 +2081,10 @@ class WSBillDAO extends PSIBaseExDAO
   public function getWSBillDataForLodopPrint($params)
   {
     $db = $this->db;
-
     $id = $params["id"];
 
     $sql = "select w.ref, w.bizdt, c.name as customer_name,
-              u.name as biz_user_name,
+              u.name as biz_user_name, u.tel as biz_user_tel,
               h.name as warehouse_name,
               w.sale_money, w.memo, w.deal_address, w.company_id,
               w.money_with_tax, w.freight, w.total_money
@@ -2102,7 +2102,7 @@ class WSBillDAO extends PSIBaseExDAO
     $bcDAO = new BizConfigDAO($db);
     $dataScale = $bcDAO->getGoodsCountDecNumber($companyId);
     $fmt = "decimal(19, " . $dataScale . ")";
-
+	  $utilService = new UtilService();
     $bill = [];
 
     $bill["ref"] = $data[0]["ref"];
@@ -2110,24 +2110,27 @@ class WSBillDAO extends PSIBaseExDAO
     $bill["customerName"] = $data[0]["customer_name"];
     $bill["warehouseName"] = $data[0]["warehouse_name"];
     $bill["bizUserName"] = $data[0]["biz_user_name"];
+	  $bill["bizUserTel"] = $data[0]["biz_user_tel"];
     $bill["saleMoney"] = $data[0]["sale_money"];
     $bill["billMemo"] = $data[0]["memo"];
     $bill["dealAddress"] = $data[0]["deal_address"];
     $bill["moneyWithTax"] = $data[0]["money_with_tax"];
 	  $bill["freight"] = $data[0]["freight"];
 	  $bill["totalMoney"] = $data[0]["total_money"];
+	  $bill["capTotalMoney"] = $utilService->moneyToCap($data[0]["total_money"]);
 	  
     $bill["printDT"] = date("Y-m-d H:i:s");
 
     // 明细表
     $sql = "select g.code, g.name, g.spec, u.name as unit_name,
               convert(d.goods_count, $fmt) as goods_count,
-              d.goods_price, d.goods_money, d.sn_note, d.tax_rate, d.money_with_tax
+              d.goods_price, d.goods_money, d.sn_note, d.tax_rate, d.money_with_tax, d.memo
             from t_ws_bill_detail d, t_goods g, t_goods_unit u
             where d.wsbill_id = '%s' and d.goods_id = g.id and g.unit_id = u.id
             order by d.show_order";
     $data = $db->query($sql, $id);
     $items = [];
+	  $bill["goodsCount"] = 0;
     foreach ($data as $v) {
       $items[] = [
         "goodsCode" => $v["code"],
@@ -2139,8 +2142,11 @@ class WSBillDAO extends PSIBaseExDAO
         "goodsMoney" => $v["goods_money"],
         "sn" => $v["sn_note"],
         "taxRate" => intval($v["tax_rate"]),
-        "moneyWithTax" => $v["money_with_tax"]
+        "moneyWithTax" => $v["money_with_tax"],
+	      "memo" => $v["memo"],
+	    
       ];
+	    $bill["goodsCount"] += $v["goods_count"];
     }
     $bill["items"] = $items;
 
