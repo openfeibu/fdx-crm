@@ -22,6 +22,8 @@
       }
     });
 
-    app.add(PCL.create("PSI.Report.PurchaseDetailForm"));
+    app.add(PCL.create("PSI.Report.PurchaseDetailForm", {
+        viewPrice: "{$pViewPrice}",
+    }));
   });
 </script>

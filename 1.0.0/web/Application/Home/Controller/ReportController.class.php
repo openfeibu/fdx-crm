@@ -39,7 +39,7 @@ class ReportController extends PSIBaseController
 			$this->assign("pSaleBrief", $us->hasPermission(FIdConst::PORTAL_SALE_BRIEF) ? 1 : 0);
 			$this->assign("pSaleCntBrief", $us->hasPermission(FIdConst::PORTAL_SALE_CNT_BRIEF) ? 1 : 0);
 			$this->assign("pSaleTop", $us->hasPermission(FIdConst::PORTAL_SALE_TOP) ? 1 : 0);
-			
+			$this->assign("pProfit", $us->hasPermission(FIdConst::GLOBAL_PROFIT) ? 1 : 0);
 			$this->display();
 		}else {
 			$this->gotoLoginPage("/Home/Report/overview");
@@ -1593,7 +1593,12 @@ class ReportController extends PSIBaseController
 
     if ($us->hasPermission(FIdConst::PURCHASE_DETAIL_REPORT)) {
       $this->initVar();
-
+			// 字段权限：单价可见
+	    
+	    $this->assign(
+		    "pViewPrice",
+		    $us->hasPermission(FIdConst::PURCHASE_WAREHOUSE_CAN_VIEW_PRICE) ? "1" : "0"
+	    );
       $this->assign("title", "采购入库明细表");
 
       $this->display();
