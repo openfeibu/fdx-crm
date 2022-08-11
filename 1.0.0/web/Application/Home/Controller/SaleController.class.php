@@ -108,11 +108,20 @@ class SaleController extends PSIBaseController
       $us = new UserService();
 
       $adding = I("post.adding");
+	    $isGenBill = I("post.isGenBill");
       if ($adding == "1") {
-        // 新建
-        if (!$us->hasPermission(FIdConst::WAREHOUSING_SALE_ADD)) {
-          die("没有权限");
-        }
+      	if($isGenBill == "true")
+	      {
+		      if (!$us->hasPermission(FIdConst::SALE_ORDER_GEN_WSBILL)) {
+			      die("没有权限");
+		      }
+	      }else{
+		      // 新建
+		      if (!$us->hasPermission(FIdConst::WAREHOUSING_SALE_ADD)) {
+			      die("没有权限");
+		      }
+	      }
+        
       } else {
         // 编辑
         if (!$us->hasPermission(FIdConst::WAREHOUSING_SALE_EDIT)) {
