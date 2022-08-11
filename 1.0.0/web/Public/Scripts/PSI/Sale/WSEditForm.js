@@ -485,7 +485,8 @@ Ext.define("PSI.Sale.WSEditForm", {
       params: {
         adding: me.adding ? "1" : "0",
         jsonStr: me.getSaveData(),
-        checkInv: 1
+        checkInv: 1,
+        isGenBill: me.getGenBill(),
       },
       callback: function (options, success, response) {
         Ext.getBody().unmask();

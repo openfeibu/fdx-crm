@@ -181,9 +181,8 @@ PCL.define("PSI.Customer.CustomerEditForm", {
         }, {
           id: "PSI_Customer_CustomerEditForm_editMobile01",
           fieldLabel: "手机",
-          allowBlank: false,
+          allowBlank: true,
           blankText: "没有输入客户名称",
-          beforeLabelTextTpl: PSI.Const.REQUIRED,
           name: "mobile01",
           value: entity == null ? null : entity
             .get("mobile01"),
