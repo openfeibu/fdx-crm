@@ -69,7 +69,6 @@ PCL.define("PSI.Goods.GoodsWithSalePriceField", {
     var lookupGrid = PCL.create("PCL.grid.Panel", {
       cls: "PSI-Lookup",
       columnLines: true,
-      selType: "checkboxmodel",
       border: 1,
       store: store,
       viewConfig: {
