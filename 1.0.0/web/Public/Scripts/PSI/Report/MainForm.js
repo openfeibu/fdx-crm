@@ -16,7 +16,8 @@ PCL.define("PSI.Report.MainForm", {
     pSaleBrief: "",
     pSaleCntBrief: "",
     pSaleTop: "",
-    productionName: "PSI"
+    PProfit: "",
+    productionName: "PSI",
   },
 
   border: 0,
@@ -193,14 +194,16 @@ PCL.define("PSI.Report.MainForm", {
         menuDisabled: true,
         sortable: false,
         align: "right",
-        xtype: "numbercolumn"
+        xtype: "numbercolumn",
+        hidden: !me.getPProfit()
       }, {
         header: "毛利率",
         dataIndex: "rate",
         width: '20%',
         menuDisabled: true,
         sortable: false,
-        align: "right"
+        align: "right",
+        hidden: !me.getPProfit()
       }],
       store: PCL.create("PCL.data.Store", {
         model: modelName,

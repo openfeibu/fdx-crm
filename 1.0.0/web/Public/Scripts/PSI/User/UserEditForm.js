@@ -177,7 +177,7 @@ Ext.define("PSI.User.UserEditForm", {
           }
         }, {
           id: "editTel",
-          fieldLabel: "联系电话",
+          fieldLabel: "电话/微信",
           width: width2,
           name: "tel",
           listeners: {

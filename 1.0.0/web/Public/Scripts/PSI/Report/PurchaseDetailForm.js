@@ -7,10 +7,12 @@
  */
 PCL.define("PSI.Report.PurchaseDetailForm", {
   extend: "PSI.AFX.BaseMainExForm",
+  config: {
+    viewPrice: "",
+  },
 
   initComponent: function () {
     var me = this;
-
     var store = me.getMainGrid().getStore();
 
     PCL.apply(me, {
@@ -309,14 +311,16 @@ PCL.define("PSI.Report.PurchaseDetailForm", {
           dataIndex: "goodsPrice",
           align: "right",
           xtype: "numbercolumn",
-          width: 150
+          width: 150,
+          hidden: me.getViewPrice() != '1', true : false,
         }, {
           header: "采购金额",
           dataIndex: "goodsMoney",
           align: "right",
           xtype: "numbercolumn",
           width: 150,
-          summaryType: "sum"
+          summaryType: "sum",
+          hidden: me.getViewPrice() != '1', true : false,
         }, {
           header: "税率(%)", hidden: true, //隐藏税率
           dataIndex: "taxRate",

@@ -404,7 +404,7 @@ PCL.define("PSI.User.MainForm", {
           dataIndex: "idCardNumber",
           width: 200
         }, {
-          header: "联系电话",
+          header: "电话/微信",
           dataIndex: "tel",
         }, {
           header: "备用联系电话",
