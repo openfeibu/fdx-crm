@@ -109,7 +109,7 @@ class PayablesDAO extends PSIBaseExDAO
 
     if ($caType == "supplier") {
       $queryParams = [];
-      $sql = "select p.id, p.pay_money, p.act_money, p.balance_money, s.id as ca_id, s.code, s.name
+      $sql = "select p.id, p.pay_money, p.total_pay_money, p.act_money, p.balance_money, s.id as ca_id, s.code, s.name
               from t_payables p, t_supplier s
               where p.ca_id = s.id and p.ca_type = 'supplier' ";
       if ($supplierId) {
@@ -137,6 +137,7 @@ class PayablesDAO extends PSIBaseExDAO
         $result[$i]["code"] = $v["code"];
         $result[$i]["name"] = $v["name"];
         $result[$i]["payMoney"] = $v["pay_money"];
+	      $result[$i]["totalPayMoney"] = $v["total_pay_money"];
         $result[$i]["actMoney"] = $v["act_money"];
         $result[$i]["balanceMoney"] = $v["balance_money"];
       }
@@ -166,7 +167,7 @@ class PayablesDAO extends PSIBaseExDAO
       ];
     } else if ($caType == "factory") {
       $queryParams = [];
-      $sql = "select p.id, p.pay_money, p.act_money, p.balance_money, s.id as ca_id, s.code, s.name
+      $sql = "select p.id, p.pay_money, p.total_pay_money, p.act_money, p.balance_money, s.id as ca_id, s.code, s.name
               from t_payables p, t_factory s
               where p.ca_id = s.id and p.ca_type = 'factory' ";
       if ($factoryId) {
@@ -194,6 +195,7 @@ class PayablesDAO extends PSIBaseExDAO
         $result[$i]["code"] = $v["code"];
         $result[$i]["name"] = $v["name"];
         $result[$i]["payMoney"] = $v["pay_money"];
+	      $result[$i]["totalPayMoney"] = $v["total_pay_money"];
         $result[$i]["actMoney"] = $v["act_money"];
         $result[$i]["balanceMoney"] = $v["balance_money"];
       }
@@ -224,7 +226,7 @@ class PayablesDAO extends PSIBaseExDAO
     } else {
       // 客户
       $queryParams = [];
-      $sql = "select p.id, p.pay_money, p.act_money, p.balance_money, s.id as ca_id, s.code, s.name
+      $sql = "select p.id, p.pay_money, p.total_pay_money,  p.act_money, p.balance_money, s.id as ca_id, s.code, s.name
               from t_payables p, t_customer s
               where p.ca_id = s.id and p.ca_type = 'customer' ";
       if ($customerId) {
@@ -252,6 +254,7 @@ class PayablesDAO extends PSIBaseExDAO
         $result[$i]["code"] = $v["code"];
         $result[$i]["name"] = $v["name"];
         $result[$i]["payMoney"] = $v["pay_money"];
+	      $result[$i]["totalPayMoney"] = $v["total_pay_money"];
         $result[$i]["actMoney"] = $v["act_money"];
         $result[$i]["balanceMoney"] = $v["balance_money"];
       }
@@ -297,7 +300,7 @@ class PayablesDAO extends PSIBaseExDAO
     $start = $params["start"];
     $limit = $params["limit"];
 
-    $sql = "select id, ref_type, ref_number, pay_money, act_money, balance_money, date_created, biz_date
+    $sql = "select id, ref_type, ref_number, pay_money, total_pay_money, act_money, balance_money, date_created, biz_date
             from t_payables_detail
             where ca_type = '%s' and ca_id = '%s'
             order by biz_date desc, date_created desc
@@ -311,6 +314,7 @@ class PayablesDAO extends PSIBaseExDAO
       $result[$i]["bizDT"] = date("Y-m-d", strtotime($v["biz_date"]));
       $result[$i]["dateCreated"] = $v["date_created"];
       $result[$i]["payMoney"] = $v["pay_money"];
+	    $result[$i]["totalPayMoney"] = $v["total_pay_money"];
       $result[$i]["actMoney"] = $v["act_money"];
       $result[$i]["balanceMoney"] = $v["balance_money"];
     }

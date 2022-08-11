@@ -1723,13 +1723,14 @@ class PWBillDAO extends PSIBaseExDAO
     if ($paymentType == 0) {
       // 记应付账款
       // 应付明细账
-      $sql = "insert into t_payables_detail (id, pay_money, act_money, balance_money,
+      $sql = "insert into t_payables_detail (id, pay_money, total_pay_money, act_money, balance_money,
                 ca_id, ca_type, date_created, ref_number, ref_type, biz_date, company_id)
-              values ('%s', %f, 0, %f, '%s', 'supplier', now(), '%s', '采购入库', '%s', '%s')";
+              values ('%s', %f, %f, 0, %f, '%s', 'supplier', now(), '%s', '采购入库', '%s', '%s')";
       $rc = $db->execute(
         $sql,
         $this->newId(),
         $billPayables,
+	      $billPayables,
         $billPayables,
         $supplierId,
         $ref,
@@ -1741,7 +1742,7 @@ class PWBillDAO extends PSIBaseExDAO
       }
 
       // 应付总账
-      $sql = "select id, pay_money, act_money
+      $sql = "select id, pay_money, total_pay_money, act_money
               from t_payables
               where ca_id = '%s' and ca_type = 'supplier' and company_id = '%s' ";
       $data = $db->query($sql, $supplierId, $companyId);
@@ -1749,27 +1750,31 @@ class PWBillDAO extends PSIBaseExDAO
         $pId = $data[0]["id"];
         $payMoney = floatval($data[0]["pay_money"]);
         $payMoney += $billPayables;
-
+	
+	      $totalPayMoney = floatval($data[0]["total_pay_money"]);
+	      $totalPayMoney += $billPayables;
+	      
         $actMoney = floatval($data[0]["act_money"]);
         $balanMoney = $payMoney - $actMoney;
-
+	      
         $sql = "update t_payables
-                set pay_money = %f, balance_money = %f
+                set pay_money = %f, total_pay_money = %f, balance_money = %f
                 where id = '%s' ";
-        $rc = $db->execute($sql, $payMoney, $balanMoney, $pId);
+        $rc = $db->execute($sql, $payMoney, $totalPayMoney, $balanMoney, $pId);
         if ($rc === false) {
           return $this->sqlError(__METHOD__, __LINE__);
         }
       } else {
         $payMoney = $billPayables;
 
-        $sql = "insert into t_payables (id, pay_money, act_money, balance_money,
+        $sql = "insert into t_payables (id, pay_money, total_pay_money, act_money, balance_money,
                   ca_id, ca_type, company_id)
-                values ('%s', %f, 0, %f, '%s', 'supplier', '%s')";
+                values ('%s', %f, %f, 0, %f, '%s', 'supplier', '%s')";
         $rc = $db->execute(
           $sql,
           $this->newId(),
           $payMoney,
+	        $payMoney,
           $payMoney,
           $supplierId,
           $companyId
