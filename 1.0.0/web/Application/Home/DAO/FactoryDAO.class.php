@@ -669,7 +669,7 @@ class FactoryDAO extends PSIBaseExDAO
       if ($data) {
         $payId = $data[0]["id"];
         $sql = "update t_payables_detail
-                set pay_money = %f ,  balance_money = %f , biz_date = '%s', date_created = now(), act_money = 0
+                set pay_money = %f , total_pay_money = %f , balance_money = %f , biz_date = '%s', date_created = now(), act_money = 0
                 where id = '%s' ";
         $rc = $db->execute($sql, $initPayables, $initPayables, $initPayablesDT, $payId);
         if ($rc === false) {
@@ -677,13 +677,14 @@ class FactoryDAO extends PSIBaseExDAO
         }
       } else {
         $payId = $this->newId();
-        $sql = "insert into t_payables_detail (id, pay_money, act_money, balance_money, ca_id,
+        $sql = "insert into t_payables_detail (id, pay_money, total_pay_money, act_money, balance_money, ca_id,
                   ca_type, ref_type, ref_number, biz_date, date_created, data_org, company_id)
-                values ('%s', %f, 0, %f, '%s', 'factory', '应付账款期初建账', '%s', '%s', now(), '%s', '%s') ";
+                values ('%s', %f, %f, 0, %f, '%s', 'factory', '应付账款期初建账', '%s', '%s', now(), '%s', '%s') ";
         $rc = $db->execute(
           $sql,
           $payId,
           $initPayables,
+	        $initPayables,
           $initPayables,
           $id,
           $id,
@@ -704,21 +705,22 @@ class FactoryDAO extends PSIBaseExDAO
       if ($data) {
         $pId = $data[0]["id"];
         $sql = "update t_payables
-                set pay_money = %f ,  balance_money = %f , act_money = 0
+                set pay_money = %f , total_pay_money = %f ,  balance_money = %f , act_money = 0
                 where id = '%s' ";
-        $rc = $db->execute($sql, $initPayables, $initPayables, $pId);
+        $rc = $db->execute($sql, $initPayables, $initPayables, $initPayables, $pId);
         if ($rc === false) {
           return $this->sqlError(__METHOD__, __LINE__);
         }
       } else {
         $pId = $this->newId();
-        $sql = "insert into t_payables (id, pay_money, act_money, balance_money, ca_id,
+        $sql = "insert into t_payables (id, pay_money, total_pay_money, act_money, balance_money, ca_id,
                   ca_type, data_org, company_id)
-                values ('%s', %f, 0, %f, '%s', 'factory', '%s', '%s') ";
+                values ('%s', %f, %f, 0, %f, '%s', 'factory', '%s', '%s') ";
         $rc = $db->execute(
           $sql,
           $pId,
           $initPayables,
+	        $initPayables,
           $initPayables,
           $id,
           $dataOrg,
