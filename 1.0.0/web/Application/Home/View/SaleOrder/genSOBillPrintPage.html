@@ -95,7 +95,7 @@
           <div align="left" >{$v["goodsName"]} {$v["goodsSpec"]}</div>
         </td>
         <td>
-          <div align="center" >1</div>
+          <div align="center" >{$v["goodsCount"]}</div>
         </td>
         <td>
           <div align="center" >{$v["goodsPrice"]}</div>
@@ -134,7 +134,7 @@
       </td>
       <!--<td></td>-->
       <td>{$data['capGoodsMoney']}</td>
-      <td align="center">总数</td>
+      <td align="center">{$data['goodsCount']}</td>
       <td></td>
       
       <td>
@@ -149,7 +149,7 @@
   </table>
   <div class="info">
      <div class="info-item">
-        <div class="l"><span>联系人：王山威</span> <span>电话/微信：15521212999</span></div>
+        <div class="l"><span>联系人：{$data["bizUserName"]}</span> <span>电话/微信：{$data["bizUserTel"]}</span></div>
         <div class="r">客户签名：</div>
      </div>
      <div class="info-item">

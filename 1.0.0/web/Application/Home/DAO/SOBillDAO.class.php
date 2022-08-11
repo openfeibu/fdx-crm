@@ -3,6 +3,7 @@
 namespace Home\DAO;
 
 use Home\Common\FIdConst;
+use Home\Service\UtilService;
 
 /**
  * 销售订单 DAO
@@ -1160,7 +1161,7 @@ class SOBillDAO extends PSIBaseExDAO
     $sql = "select s.ref, s.bill_status, s.goods_money, s.tax, s.money_with_tax,
               c.name as customer_name, s.contact, s.tel, s.fax, s.deal_address,
               s.deal_date, s.receiving_type, s.bill_memo, s.date_created,
-              o.full_name as org_name, u1.name as biz_user_name, u2.name as input_user_name,
+              o.full_name as org_name, u1.name as biz_user_name, u1.tel as biz_user_tel, u2.name as input_user_name,
               s.confirm_user_id, s.confirm_date, s.company_id, s.deal_date, s.freight, s.total_money
             from t_so_bill s, t_customer c, t_org o, t_user u1, t_user u2
             where (s.customer_id = c.id) and (s.org_id = o.id)
@@ -1175,18 +1176,20 @@ class SOBillDAO extends PSIBaseExDAO
     $bcDAO = new BizConfigDAO($db);
     $dataScale = $bcDAO->getGoodsCountDecNumber($companyId);
     $fmt = "decimal(19, " . $dataScale . ")";
-
+	  $utilService = new UtilService();
     $bill = [];
     $bill["ref"] = $data[0]["ref"];
     $bill["bizDT"] = $this->toYMD($data[0]["bizdt"]);
     $bill["customerName"] = $data[0]["customer_name"];
     $bill["bizUserName"] = $data[0]["biz_user_name"];
+	  $bill["bizUserTel"] = $data[0]["biz_user_tel"];
     $bill["saleMoney"] = $data[0]["goods_money"];
     $bill["dealAddress"] = $data[0]["deal_address"];
     $bill["dealDate"] = $this->toYMD($data[0]["deal_date"]);
     $bill["tel"] = $data[0]["tel"];
     $bill["billMemo"] = $data[0]["bill_memo"];
     $bill["goodsMoney"] = $data[0]["goods_money"];
+	  $bill["capGoodsMoney"] = $utilService->moneyToCap($data[0]["goods_money"]);
     $bill["moneyWithTax"] = $data[0]["money_with_tax"];
 	  $bill["freight"] = $data[0]["freight"];
 	  $bill["totalMoney"] = $data[0]["total_money"];
@@ -1202,6 +1205,8 @@ class SOBillDAO extends PSIBaseExDAO
             order by s.show_order";
     $data = $db->query($sql, $id);
     $items = [];
+	
+	  $bill["goodsCount"] = 0;
     foreach ($data as $i => $v) {
       $items[$i]["goodsCode"] = $v["code"];
       $items[$i]["goodsName"] = $v["name"];
@@ -1210,12 +1215,15 @@ class SOBillDAO extends PSIBaseExDAO
       $items[$i]["goodsCount"] = $v["goods_count"];
       $items[$i]["goodsPrice"] = $v["goods_price"];
       $items[$i]["goodsMoney"] = $v["goods_money"];
+	    //$items[$i]["capGoodsMoney"] = $utilService->moneyToCap($v["goodsMoney"]);
       $items[$i]["taxRate"] = intval($v["tax_rate"]);
       $items[$i]["goodsMoneyWithTax"] = $v["money_with_tax"];
+	    
       $items[$i]["memo"] = $v["memo"];
+	    $bill["goodsCount"] += $v["goods_count"];
     }
     $bill["items"] = $items;
-
+		
     return $bill;
   }
 

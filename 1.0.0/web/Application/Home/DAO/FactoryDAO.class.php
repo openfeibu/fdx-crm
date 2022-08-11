@@ -671,7 +671,7 @@ class FactoryDAO extends PSIBaseExDAO
         $sql = "update t_payables_detail
                 set pay_money = %f , total_pay_money = %f , balance_money = %f , biz_date = '%s', date_created = now(), act_money = 0
                 where id = '%s' ";
-        $rc = $db->execute($sql, $initPayables, $initPayables, $initPayablesDT, $payId);
+        $rc = $db->execute($sql, $initPayables, $initPayables, $initPayables, $initPayablesDT, $payId);
         if ($rc === false) {
           return $this->sqlError(__METHOD__, __LINE__);
         }
