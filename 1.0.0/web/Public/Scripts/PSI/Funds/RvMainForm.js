@@ -334,6 +334,12 @@ PCL.define("PSI.Funds.RvMainForm", {
         handler: me.onPDF,
         id: "buttonPDF",
         scope: me
+      },{
+        text: "单据生成Excel",
+        iconCls: "PSI-button-excel",
+        handler: me.onExcel,
+        id: "buttonExcel",
+        scope: me
       }],
       columns: [{
         header: "业务类型",
@@ -673,6 +679,34 @@ PCL.define("PSI.Funds.RvMainForm", {
       ids += items.get('id') + ',';
     })
     var url = PSI.Const.BASE_URL + "Home/Funds/rvPdf";
+    var oForm = document.createElement("form");　　　　//表单提交
+    oForm.method="post";
+    oForm.target="_blank";
+    oForm.action=url; 　　　　//action路径
+
+    var hasitemsids_input = document.createElement("input");
+    hasitemsids_input.type="hidden";
+    hasitemsids_input.name="ids";
+    hasitemsids_input.value=ids;  　　　　//待传参数
+    oForm.appendChild(hasitemsids_input);
+    document.body.appendChild(oForm);
+
+    oForm.submit();
+  },
+  onExcel: function () {
+    var me = this;
+    const grid = me.__rvDetailGrid;
+
+    const items = grid.getSelectionModel().getSelection();
+    if (items == null || items.length == 0) {
+      me.showInfo("请选择要生成Excel的单据");
+      return;
+    }
+    var ids = '';
+    items.forEach(items => {
+      ids += items.get('id') + ',';
+    })
+    var url = PSI.Const.BASE_URL + "Home/Funds/rvExcel";
     var oForm = document.createElement("form");　　　　//表单提交
     oForm.method="post";
     oForm.target="_blank";
