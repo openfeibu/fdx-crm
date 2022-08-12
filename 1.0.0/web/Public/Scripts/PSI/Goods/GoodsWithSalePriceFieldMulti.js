@@ -286,20 +286,38 @@ PCL.define("PSI.Goods.GoodsWithSalePriceFieldMulti", {
     var me = this;
     var grid = me.lookupGrid;
     var item = grid.getSelectionModel().getSelection();
-    if (item == null || item.length != 1) {
+	
+	
+    if (item == null ) {
+		
       return;
-    }
+    }else if (item.length != 1) {
+		//多选
+		var data = [];
+       item.forEach(v => {
+		 data.push(v.getData());
+		})
+	    me.wnd.close();
+		 me.focus();
 
-    var data = item[0].getData();
+	  if (me.getParentCmp() && me.getParentCmp().__setGoodsInfo) {
+		  me.getParentCmp().__setGoodsInfo(data)
+		}
+	 
+	  
+    }else{
+	//单选
+	  var data = [item[0].getData()];
+		me.wnd.close();
+		me.focus();
+		me.setValue(data.code);
+		me.focus();
+		if (me.getParentCmp() && me.getParentCmp().__setGoodsInfo) {
+		  me.getParentCmp().__setGoodsInfo(data)
+		}
+	}
 
-    me.wnd.close();
-    me.focus();
-    me.setValue(data.code);
-    me.focus();
-
-    if (me.getParentCmp() && me.getParentCmp().__setGoodsInfo) {
-      me.getParentCmp().__setGoodsInfo(data)
-    }
+  
   },
 
   onAddGoods: function () {

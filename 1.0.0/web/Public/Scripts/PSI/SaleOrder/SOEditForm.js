@@ -706,6 +706,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
           tooltip: "删除当前记录",
           handler: function (grid, row) {
             var store = grid.getStore();
+			
             store.remove(store.getAt(row));
             if (store.getCount() == 0) {
               store.add({});
@@ -766,22 +767,43 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
   __setGoodsInfo: function (data) {
     var me = this;
 	console.log(data)
-    var item = me.getGoodsGrid().getSelectionModel().getSelection();
-	console.log(item)
-    if (item == null || item.length != 1) {
+	var item = me.getGoodsGrid().getSelectionModel().getSelection();
+    var selectStore = me.getGoodsGrid().getStore();
+	if (item == null) {
       return;
-    }
-    var goods = item[0];
-
-    goods.set("goodsId", data.id);
-    goods.set("goodsCode", data.code);
-    goods.set("goodsName", data.name);
-    goods.set("unitName", data.unitName);
-    goods.set("goodsSpec", data.spec);
-    goods.set("goodsPrice", data.salePrice);
-    goods.set("taxRate", data.taxRate);
-	console.log( me.calcMoney)
-    me.calcMoney(goods);
+    }else if(data.length != 1){
+		var selectData = [];
+		data.forEach(v => {
+			 selectData.push({
+				 "goodsId":v.id,
+				 "goodsCode":v.code,
+				 "goodsName":v.name,
+				 "unitName":v.unitName,
+				 "goodsSpec":v.spec,
+				 "goodsPrice":v.salePrice,
+				 "taxRate":v.taxRate
+			 });
+		})
+		
+		if(item[0].data.goodsId.length == 0){
+			console.log(1)
+			 selectStore.remove(item)
+		}
+		selectStore.add(selectData);
+	}else{
+	
+		var goods = item[0];
+		var dataInfo = data[0]
+		goods.set("goodsId", dataInfo.id);
+		goods.set("goodsCode", dataInfo.code);
+		goods.set("goodsName", dataInfo.name);
+		goods.set("unitName", dataInfo.unitName);
+		goods.set("goodsSpec", dataInfo.spec);
+		goods.set("goodsPrice", dataInfo.salePrice);
+		goods.set("taxRate", dataInfo.taxRate);
+		me.calcMoney(goods);
+	}
+	
 	
   },
 
