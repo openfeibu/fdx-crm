@@ -7,7 +7,9 @@
  */
 PCL.define("PSI.Funds.RvMainForm", {
   extend: "PSI.AFX.BaseMainExForm",
-
+  config: {
+    pReceivingPay: "",
+  },
   initComponent: function () {
     var me = this;
 
@@ -482,7 +484,8 @@ PCL.define("PSI.Funds.RvMainForm", {
         text: "录入收款记录",
         iconCls: "PSI-button-add-record",
         handler: me.onAddRvRecord,
-        scope: me
+        scope: me,
+        hidden: me.getPReceivingPay() != '1', true : false,
       }],
       bbar: ["->", {
         xtype: "pagingtoolbar",
