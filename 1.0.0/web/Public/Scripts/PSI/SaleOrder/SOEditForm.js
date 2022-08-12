@@ -714,7 +714,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
           },
           scope: me
         }]
-      }, {
+      }/*, {
         header: "",
         id: "columnActionAdd",
         align: "center",
@@ -732,7 +732,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
           },
           scope: me
         }]
-      }, {
+      }*/, {
         header: "",
         id: "columnActionAppend",
         align: "center",
@@ -743,10 +743,10 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
         items: [{
           icon: PSI.Const.BASE_URL
             + "Public/Images/icons/add.png",
-          tooltip: "在当前记录之后新增记录",
+          tooltip: "新增记录",
           handler: function (grid, row) {
             var store = grid.getStore();
-            store.insert(row + 1, [{}]);
+            store.add([{}]);
           },
           scope: me
         }]
