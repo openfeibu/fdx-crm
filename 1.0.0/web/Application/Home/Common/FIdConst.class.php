@@ -400,7 +400,15 @@ class FIdConst
    * 应收账款管理
    */
   const RECEIVING = "2004";
-
+	
+	/**
+	 * 应收账款管理
+	 */
+	const RECEIVING_ = "2004";
+	/**
+	 * 应收账款管理 - 录入收款数据
+	 */
+	const RECEIVING_PAY = "2004-01";
   /**
    * 销售出库
    */

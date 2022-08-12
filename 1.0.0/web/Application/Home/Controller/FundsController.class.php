@@ -230,7 +230,12 @@ class FundsController extends PSIBaseController
       $this->initVar();
 
       $this->assign("title", "应收账款管理");
-
+	    
+	    $this->assign(
+		    "pReceivingPay",
+		    $us->hasPermission(FIdConst::RECEIVING_PAY) ? "1" : "0"
+	    );
+	    
       $this->display();
     } else {
       $this->gotoLoginPage("/Home/Funds/rvIndex");

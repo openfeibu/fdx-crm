@@ -22,6 +22,8 @@
       }
     });
 
-    app.add(PCL.create("PSI.Funds.RvMainForm"));
+    app.add(PCL.create("PSI.Funds.RvMainForm", {
+        pReceivingPay: "{$pReceivingPay}",
+    }));
   });
 </script>
