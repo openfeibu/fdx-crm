@@ -129,27 +129,28 @@ class ReceivablesService extends PSIBaseExService
 		  $html = '<hr/><br/>
 				<table>
 					<tr><td>单号：' . $v['refNumber'] . '('.$v['refType'].')</td><td>业务日期：' . $v["bizDT"] . '</td><td>';
-		  if(isset($v['bill']['freight']))
-		  {
-			  $html .= '运费：' . $v['bill']['freight'];
-		  }
-			$html.='</td></tr>';
+		  $html.='</td></tr>';
 		  if($v['refType'] == '销售退货入库')
 		  {
 			  $html .= '
-		   <tr><td>应退：' . abs($v['rvMoney']) . '</td><td>已退：' . abs($v['actMoney']) . '</td><td>未退金额：' . -$v['balanceMoney'] . '</td></tr>';
-			  $html .= '
+		   <tr><td>应退：' . abs($v['rvMoney']) . '</td><td>已退：' . abs($v['actMoney']) . '</td><td>账单金额：';
+			  if($v['balanceMoney'] < 0 )
+			  {
+				  $html .= '<span color="red">'.$v['balanceMoney'].'</span>';
+			  }else{
+				  $html .= '<span>'.$v['balanceMoney'].'</span>';
+			  }
+			  $html .= '</td></tr>
 				</table>
 				';
 			  $html .= '<table border="1" cellpadding="1">
-					<tr><td>商品名称</td><td>规格型号</td><td>退货数量</td><td>单位</td>
+					<tr><td>商品名称</td><td>退货数量</td><td>单位</td>
 						<td>单价</td><td>销售金额</td>
 					</tr>
 				';
 			  foreach ($v['bill']["items"] as $bill_v) {
 				  $html .= '<tr>';
-				  $html .= '<td>' . $bill_v["goodsName"] . '</td>';
-				  $html .= '<td>' . $bill_v["goodsSpec"] . '</td>';
+				  $html .= '<td>' . $bill_v["goodsName"] . $bill_v["goodsSpec"]. '</td>';
 				  $html .= '<td align="right">' . $bill_v["rejCount"] . '</td>';
 				  $html .= '<td>' . $bill_v["unitName"] . '</td>';
 				  $html .= '<td align="right">' . $bill_v["rejPrice"] . '</td>';
@@ -158,24 +159,40 @@ class ReceivablesService extends PSIBaseExService
 				  //$html .= '<td align="right">' . $bill_v["rejMoneyWithTax"] . '</td>';
 				  $html .= '</tr>';
 			  }
+			  if(isset($v['bill']['freight']))
+			  {
+				  $html .= '<tr>';
+				  $html .= '<td>运费</td>';
+				  $html .= '<td></td>';
+				  $html .= '<td></td>';
+				  $html .= '<td></td>';
+				  $html .= '<td align="right">' . $v['bill']['freight'] . '</td>';
+				  $html .= '</tr>';
+			  }
+			  
 			  $html .= "";
 			
 			  $html .= '</table>';
 		  }else{
 			  $html .= '
-		   <tr><td>应收：' . $v['rvMoney'] . '</td><td>已收：' . $v['actMoney'] . '</td><td>未收：' . $v['balanceMoney'] . '</td></tr>';
-			  $html .= '
+		   <tr><td>应收：' . $v['rvMoney'] . '</td><td>已收：' . $v['actMoney'] . '</td><td>账单金额：';
+			  if($v['balanceMoney'] < 0 )
+			  {
+				  $html .= '<span color="red">'.$v['balanceMoney'].'</span>';
+			  }else{
+				  $html .= '<span>'.$v['balanceMoney'].'</span>';
+			  }
+			  $html .= '</td></tr>
 				</table>
 				';
 			  $html .= '<table border="1" cellpadding="1">
-					<tr><td>商品名称</td><td>规格型号</td><td>数量</td><td>单位</td>
+					<tr><td>商品名称</td><td>数量</td><td>单位</td>
 						<td>单价</td><td>销售金额</td>
 					</tr>
 				';
 			  foreach ($v['bill']["items"] as $bill_v) {
 				  $html .= '<tr>';
-				  $html .= '<td>' . $bill_v["goodsName"] . '</td>';
-				  $html .= '<td>' . $bill_v["goodsSpec"] . '</td>';
+				  $html .= '<td>' . $bill_v["goodsName"] . $bill_v["goodsSpec"]. '</td>';
 				  $html .= '<td align="right">' . $bill_v["goodsCount"] . '</td>';
 				  $html .= '<td>' . $bill_v["unitName"] . '</td>';
 				  $html .= '<td align="right">' . $bill_v["goodsPrice"] . '</td>';
@@ -184,6 +201,17 @@ class ReceivablesService extends PSIBaseExService
 				  //$html .= '<td align="right">' . $bill_v["moneyWithTax"] . '</td>';
 				  $html .= '</tr>';
 			  }
+			  if(isset($v['bill']['freight']))
+			  {
+				  $html .= '<tr>';
+				  $html .= '<td>运费</td>';
+				  $html .= '<td></td>';
+				  $html .= '<td></td>';
+				  $html .= '<td></td>';
+				  $html .= '<td align="right">' . $v['bill']['freight'] . '</td>';
+				  $html .= '</tr>';
+			  }
+			  
 			  $html .= "";
 			
 			  $html .= '</table>';
@@ -201,6 +229,187 @@ class ReceivablesService extends PSIBaseExService
 	
 	  $pdf->Output(date('YmdHisu').".pdf", "I");
   }
+	public function rvExcel($ids)
+	{
+		if ($this->isNotOnline()) {
+			return;
+		}
+		$id_arr = array_filter(explode(',',$ids));
+		if (!$id_arr) {
+			return $this->bad("请选择数据");
+		}
+		
+		$dao = new ReceivablesDAO($this->db());
+		$rvDetailList = $dao->getRvDetailDataForPDF($id_arr);
+		
+		if (!$rvDetailList) {
+			return;
+		}
+		require_once __DIR__ . '/../Common/PhpSpreadsheet/vendor/autoload.php';
+		$ca = $rvDetailList['ca'];
+		$dataList = $rvDetailList['dataList'];
+		$totalBalanceMoney = $rvDetailList['totalBalanceMoney'];
+		
+		$bs = new BizConfigService();
+		$productionName = $bs->getProductionName();
+		
+		// 记录业务日志
+		$log = "应收账款业务单据生成PDF文件";
+		$bls = new BizlogService($this->db());
+		$bls->insertBizlog($log, $this->LOG_CATEGORY);
+		
+		ob_start();
+		
+		$utilService = new UtilService();
+		
+		$excel = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+		
+		$sheet = $excel->getActiveSheet();
+		if (!$sheet) {
+			$sheet = $excel->createSheet();
+		}
+		
+		$sheet->setTitle("应收款业务单据");
+		$sheet->getRowDimension('1')->setRowHeight(22);
+		$sheet->setCellValue("C1", "应收款业务单据");
+		$sheet->setCellValue("A2", $ca['caType']);
+		$sheet->setCellValue("B2", $ca['caName']);
+		$sheet->setCellValue("A3", "账单金额");
+		$sheet->setCellValue("B3", $totalBalanceMoney);
+		$sheet->getColumnDimension('A')->setWidth(20);
+		$sheet->getColumnDimension('B')->setWidth(15);
+		$sheet->getColumnDimension('C')->setWidth(12);
+		$sheet->getColumnDimension('D')->setWidth(12);
+		$sheet->getColumnDimension('E')->setWidth(12);
+		$captionIndex = 5;
+		foreach ($dataList as $v)
+		{
+			$sheet->setCellValue("A{$captionIndex}", "单号：".$v['refNumber']);
+			$sheet->setCellValue("B{$captionIndex}",  $v['refType']);
+			$sheet->setCellValue("C{$captionIndex}", "业务日期：");
+			$sheet->setCellValue("D{$captionIndex}", $v["bizDT"]);
+			
+			$captionIndex++;
+			if($v['refType'] == '销售退货入库')
+			{
+				$sheet->setCellValue("A{$captionIndex}", "应退：");
+				$sheet->setCellValue("B{$captionIndex}", abs($v['rvMoney']));
+				$sheet->setCellValue("C{$captionIndex}", "已退：");
+				$sheet->setCellValue("D{$captionIndex}", abs($v['actMoney']));
+				$sheet->setCellValue("E{$captionIndex}", "账单金额：");
+				$sheet->setCellValue("F{$captionIndex}", $v['balanceMoney']);
+				if($v['balanceMoney'] < 0)
+				{
+					$sheet->getStyle("F{$captionIndex}")->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_RED);
+				}
+				$captionIndex++;
+				$startIndex = $captionIndex;
+				$sheet->setCellValue("A{$captionIndex}", "商品名称");
+				$sheet->setCellValue("B{$captionIndex}", "数量");
+				$sheet->setCellValue("C{$captionIndex}", "单位");
+				$sheet->setCellValue("D{$captionIndex}", "单价");
+				$sheet->setCellValue("E{$captionIndex}", "金额");
+				
+				foreach ($v['bill']["items"] as $bill_v) {
+					$captionIndex++;
+					$sheet->setCellValue("A{$captionIndex}", $bill_v["goodsName"] . $bill_v["goodsSpec"]);
+					$sheet->setCellValue("B{$captionIndex}",  $bill_v["rejCount"]);
+					$sheet->setCellValue("C{$captionIndex}", $bill_v["unitName"]);
+					$sheet->setCellValue("D{$captionIndex}", $bill_v["rejPrice"] );
+					$sheet->setCellValue("E{$captionIndex}", $bill_v["rejMoney"]);
+				}
+				$itemCount = count($v['bill']["items"]);
+				if(isset($v['bill']['freight']))
+				{
+					$captionIndex++;
+					$itemCount++;
+					$sheet->setCellValue("A{$captionIndex}", "运费");
+					$sheet->setCellValue("E{$captionIndex}",  $v['bill']['freight']);
+				}
+				
+				$captionIndex += 2;
+				// 画表格边框
+				$styleArray = [
+					'borders' => [
+						'allBorders' => [
+							'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+						]
+					]
+				];
+				$idx = $startIndex;
+				$lastRow = $itemCount + $startIndex;
+				$sheet->getStyle("A{$idx}:E{$lastRow}")->applyFromArray($styleArray);
+				
+			}
+			else{
+				$sheet->setCellValue("A{$captionIndex}", "应收：");
+				$sheet->setCellValue("B{$captionIndex}", $v['rvMoney']);
+				$sheet->setCellValue("C{$captionIndex}", "已收：");
+				$sheet->setCellValue("D{$captionIndex}", $v['actMoney']);
+				$sheet->setCellValue("E{$captionIndex}", "账单金额：");
+				$sheet->setCellValue("F{$captionIndex}", $v['balanceMoney']);
+				if($v['balanceMoney'] < 0)
+				{
+					$sheet->getStyle("F{$captionIndex}")->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_RED);
+				}
+				$captionIndex++;
+				$startIndex = $captionIndex;
+				$sheet->setCellValue("A{$captionIndex}", "商品名称");
+				$sheet->setCellValue("B{$captionIndex}", "数量");
+				$sheet->setCellValue("C{$captionIndex}", "单位");
+				$sheet->setCellValue("D{$captionIndex}", "单价");
+				$sheet->setCellValue("E{$captionIndex}", "金额");
+				
+				foreach ($v['bill']["items"] as $bill_v) {
+					$captionIndex++;
+					$sheet->setCellValue("A{$captionIndex}", $bill_v["goodsName"] . $bill_v["goodsSpec"]);
+					$sheet->setCellValue("B{$captionIndex}",  $bill_v["goodsCount"]);
+					$sheet->setCellValue("C{$captionIndex}", $bill_v["unitName"]);
+					$sheet->setCellValue("D{$captionIndex}", $bill_v["goodsPrice"] );
+					$sheet->setCellValue("E{$captionIndex}", $bill_v["goodsMoney"]);
+				}
+				$itemCount = count($v['bill']["items"]);
+				if(isset($v['bill']['freight']))
+				{
+					$captionIndex++;
+					$itemCount++;
+					$sheet->setCellValue("A{$captionIndex}", "运费");
+					$sheet->setCellValue("E{$captionIndex}",  $v['bill']['freight']);
+				}
+				
+				$captionIndex += 2;
+				// 画表格边框
+				$styleArray = [
+					'borders' => [
+						'allBorders' => [
+							'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+						]
+					]
+				];
+				$idx = $startIndex;
+				$lastRow = $itemCount + $startIndex;
+				$sheet->getStyle("A{$idx}:E{$lastRow}")->applyFromArray($styleArray);
+				
+			}
+			
+			
+
+		}
+		
+	
+		
+		// 把焦点放置在A1
+		$sheet->setSelectedCells("A1");
+		
+		$dt = date("YmdHis");
+		
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="应收款业务单据_' . $dt . '.xlsx"');
+		header('Cache-Control: max-age=0');
+		
+		$writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($excel);
+		$writer->save("php://output");
+	}
   /**
    * 应收账款的收款记录
    */

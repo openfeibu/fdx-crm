@@ -327,7 +327,22 @@ class FundsController extends PSIBaseController
 			$this->ajaxReturn($rs->rvPdf($ids));
 		}
 	}
-	
+	public function rvExcel()
+	{
+		if (IS_POST) {
+			$us = new UserService();
+			
+			if (!$us->hasPermission(FIdConst::RECEIVING)) {
+				die("没有权限");
+			}
+			
+			
+			$ids = I("post.ids");
+			
+			$rs = new ReceivablesService();
+			$this->ajaxReturn($rs->rvExcel($ids));
+		}
+	}
   /**
    * 应收账款，收款记录
    */
