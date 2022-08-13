@@ -522,7 +522,7 @@ PCL.define("PSI.PurchaseRej.PRMainForm", {
         dataIndex: "receivingType",
         menuDisabled: true,
         sortable: false,
-        width: 130,
+        width: 150,
         renderer: function (value) {
           if (value == 0) {
             return "记应收账款/月结现结";
