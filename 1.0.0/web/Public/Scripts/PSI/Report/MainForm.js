@@ -16,7 +16,7 @@ PCL.define("PSI.Report.MainForm", {
     pSaleBrief: "",
     pSaleCntBrief: "",
     pSaleTop: "",
-    PProfit: "",
+    pProfit: "",
     productionName: "PSI",
   },
 
@@ -25,7 +25,6 @@ PCL.define("PSI.Report.MainForm", {
 
   initComponent: function () {
     var me = this;
-
     var items = [];
     var PSaleBriefItems = [];
     if (me.getPSaleBrief() == "1") {
@@ -195,7 +194,7 @@ PCL.define("PSI.Report.MainForm", {
         sortable: false,
         align: "right",
         xtype: "numbercolumn",
-        hidden: !me.getPProfit()
+        hidden: me.getPProfit() != "1"
       }, {
         header: "毛利率",
         dataIndex: "rate",
@@ -203,7 +202,7 @@ PCL.define("PSI.Report.MainForm", {
         menuDisabled: true,
         sortable: false,
         align: "right",
-        hidden: !me.getPProfit()
+        hidden: me.getPProfit() != "1"
       }],
       store: PCL.create("PCL.data.Store", {
         model: modelName,
@@ -1054,7 +1053,7 @@ PCL.define("PSI.Report.MainForm", {
       model: modelName,
       data: []
     });
-    if(!me.getPProfit())
+    if(me.getPProfit() != "1")
     {
       var series = [{
         type: "line",
