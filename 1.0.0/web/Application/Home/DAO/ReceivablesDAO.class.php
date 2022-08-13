@@ -98,9 +98,9 @@ class ReceivablesDAO extends PSIBaseExDAO
 
     if ($caType == "customer") {
       $queryParams = [];
-      $sql = "select r.id, r.ca_id, c.code, c.name, c.record_status, r.act_money, r.balance_money, r.rv_money
-              from t_receivables r, t_customer c
-              where (r.ca_type = '%s' and r.ca_id = c.id)";
+      $sql = "select r.id, r.ca_id, c.code, c.name, c.record_status, r.act_money, r.balance_money, r.rv_money, cc.name as customer_category_name
+              from t_receivables r, t_customer c, t_customer_category cc
+              where (r.ca_type = '%s' and r.ca_id = c.id and  c.category_id = cc.id)";
       $queryParams[] = $caType;
 
       $ds = new DataOrgDAO($db);
@@ -132,6 +132,7 @@ class ReceivablesDAO extends PSIBaseExDAO
         $result[$i]["caId"] = $v["ca_id"];
         $result[$i]["code"] = $v["code"];
         $result[$i]["name"] = $v["name"];
+	      $result[$i]["customerCategoryName"] = $v["customer_category_name"];
         $result[$i]["actMoney"] = $v["act_money"];
         $result[$i]["balanceMoney"] = $v["balance_money"];
         $result[$i]["rvMoney"] = $v["rv_money"];
