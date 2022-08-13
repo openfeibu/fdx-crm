@@ -259,7 +259,7 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
       valueField: "id",
       store: PCL.create("PCL.data.ArrayStore", {
         fields: ["id", "text"],
-        data: [[-1, "全部"], [0, "记应收账款/月结"], [1, "现金收款"]]
+        data: [[-1, "全部"], [0, "记应收账款/月结现结"], [1, "现金收款"]]
       }),
       value: -1
     }, {
@@ -535,7 +535,7 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
         width: 130,
         renderer: function (value) {
           if (value == 0) {
-            return "记应收账款/月结";
+            return "记应收账款/月结现结";
           } else if (value == 1) {
             return "现金收款";
           } else {
@@ -1440,7 +1440,7 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
         width: 130,
         renderer: function (value) {
           if (value == 0) {
-            return "记应收账款/月结";
+            return "记应收账款/月结现结";
           } else if (value == 1) {
             return "现金收款";
           } else if (value == 2) {

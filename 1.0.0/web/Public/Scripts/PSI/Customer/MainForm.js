@@ -491,7 +491,7 @@ PCL.define("PSI.Customer.MainForm", {
           width: 130,
           renderer: function (value) {
             if (value == 0) {
-              return "记应收账款/月结";
+              return "记应收账款/月结现结";
             } else if (value == 1) {
               return "现金收款";
             } else if (value == 2) {
