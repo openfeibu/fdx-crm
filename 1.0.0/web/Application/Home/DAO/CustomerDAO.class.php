@@ -1202,7 +1202,7 @@ class CustomerDAO extends PSIBaseExDAO
 	  t_ws_bill customer_id 直接 update
 	  t_receivables	ca_id 叠加 act_money balance_money rv_money ca_type='customer'
 	  t_receivables_detail	ca_id ca_type='customer' 直接 update
-	  t_payables	ca_id 叠加 act_money balance_money pay_money total_pay_money  ca_type='customer'
+	  t_payables	ca_id 叠加 act_money balance_money pay_money bill_money  ca_type='customer'
 	  t_payables_detail	ca_id 直接 update
 	   */
 	  $customer_id_tables = ["t_sc_bill","t_so_bill","t_sr_bill","t_ws_bill"];
@@ -1241,12 +1241,12 @@ class CustomerDAO extends PSIBaseExDAO
 		  }
 	  }
 	
-	  $sql = "select act_money, balance_money, pay_money, total_pay_money from t_payables ".$where;
+	  $sql = "select act_money, balance_money, pay_money, bill_money from t_payables ".$where;
 	  $data = $db->query($sql, $oldWhereFromId);
 	  if ($data) {
 		  $sql = "update t_payables
-            set act_money = act_money+%f, balance_money = balance_money+%f, pay_money = pay_money+%f,total_pay_money = total_pay_money+%f ".$where;
-		  $rc = $db->execute($sql, $data[0]['act_money'], $data[0]['balance_money'], $data[0]['pay_money'], $data[0]['total_pay_money'], $newSetToId);
+            set act_money = act_money+%f, balance_money = balance_money+%f, pay_money = pay_money+%f,bill_money = bill_money+%f ".$where;
+		  $rc = $db->execute($sql, $data[0]['act_money'], $data[0]['balance_money'], $data[0]['pay_money'], $data[0]['bill_money'], $newSetToId);
 		  if ($rc === false) {
 			  return $this->sqlError(__METHOD__, __LINE__);
 		  }
