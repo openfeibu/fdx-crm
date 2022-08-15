@@ -5,7 +5,7 @@
  * @copyright 2015 - present
  * @license GPL v3
  */
-Ext.define("PSI.Funds.PaymentEditForm", {
+Ext.define("PSI.Funds.PayEditForm", {
   extend: "PSI.AFX.Form.EditForm",
 
   config: {
@@ -15,7 +15,7 @@ Ext.define("PSI.Funds.PaymentEditForm", {
   initComponent: function () {
     var me = this;
 
-    var t = "录入付款记录";
+    var t = "修改应付金额";
     var f = "edit-form-money.png";
     var logoHtml = `
       <img style='float:left;margin:0px 20px 0px 10px;width:48px;height:48px;' 
@@ -83,27 +83,15 @@ Ext.define("PSI.Funds.PaymentEditForm", {
           name: "refType",
           value: me.getPayDetail().get("refType")
         }, {
+          fieldLabel: "业务类型",
+          xtype: "displayfield",
+          value: me.toFieldNoteText(me.getPayDetail().get("refType"))
+        }, {
           fieldLabel: "单号",
           xtype: "displayfield",
           value: me.toFieldNoteText(me.getPayDetail().get("refNumber"))
         }, {
-          id: "editBizDT",
-          fieldLabel: "付款日期",
-          allowBlank: false,
-          blankText: "没有输入付款日期",
-          beforeLabelTextTpl: PSI.Const.REQUIRED,
-          xtype: "datefield",
-          format: "Y-m-d",
-          value: new Date(),
-          name: "bizDT",
-          listeners: {
-            specialkey: {
-              fn: me.onEditBizDTSpecialKey,
-              scope: me
-            }
-          }
-        }, {
-          fieldLabel: "付款金额",
+          fieldLabel: "应付金额",
           allowBlank: false,
           blankText: "没有输入付款金额",
           beforeLabelTextTpl: PSI.Const.REQUIRED,
@@ -118,35 +106,6 @@ Ext.define("PSI.Funds.PaymentEditForm", {
               scope: me
             }
           }
-        }, {
-          id: "editBizUserId",
-          xtype: "hidden",
-          name: "bizUserId"
-        }, {
-          id: "editBizUser",
-          fieldLabel: "付款人",
-          xtype: "psi_userfield",
-          allowBlank: false,
-          blankText: "没有输入付款人",
-          beforeLabelTextTpl: PSI.Const.REQUIRED,
-          listeners: {
-            specialkey: {
-              fn: me.onEditBizUserSpecialKey,
-              scope: me
-            }
-          }
-        }, {
-          fieldLabel: "备注",
-          name: "remark",
-          id: "editRemark",
-          listeners: {
-            specialkey: {
-              fn: me.onEditRemarkSpecialKey,
-              scope: me
-            }
-          },
-          colspan: 2,
-          width: width1,
         }],
         buttons: [{
           text: "保存",

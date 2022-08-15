@@ -145,7 +145,7 @@ Ext.define("PSI.Funds.PayMainForm", {
 
     Ext.define("PSIPay", {
       extend: "Ext.data.Model",
-      fields: ["id", "caId", "code", "name", "payMoney",
+      fields: ["id", "caId", "code", "name", "payMoney", "billMoney",
         "actMoney", "balanceMoney"]
     });
 
@@ -201,6 +201,14 @@ Ext.define("PSI.Funds.PayMainForm", {
         sortable: false,
         width: 300
       }, {
+        header: "账单金额",
+        dataIndex: "billMoney",
+        menuDisabled: true,
+        sortable: false,
+        align: "right",
+        xtype: "numbercolumn",
+        width: 160
+      }, {
         header: "应付金额",
         dataIndex: "payMoney",
         menuDisabled: true,
@@ -246,7 +254,7 @@ Ext.define("PSI.Funds.PayMainForm", {
 
     Ext.define("PSIPayDetail", {
       extend: "Ext.data.Model",
-      fields: ["id", "payMoney", "actMoney", "balanceMoney",
+      fields: ["id", "payMoney", "billMoney", "actMoney", "balanceMoney",
         "refType", "refNumber", "bizDT", "dateCreated"]
     });
 
@@ -341,6 +349,13 @@ Ext.define("PSI.Funds.PayMainForm", {
         menuDisabled: true,
         sortable: false
       }, {
+        header: "账单金额",
+        dataIndex: "billMoney",
+        menuDisabled: true,
+        sortable: false,
+        align: "right",
+        xtype: "numbercolumn"
+      }, {
         header: "应付金额",
         dataIndex: "payMoney",
         menuDisabled: true,
@@ -371,6 +386,10 @@ Ext.define("PSI.Funds.PayMainForm", {
       store: store,
       listeners: {
         select: {
+          fn: me.onPayDetailGridSelect,
+          scope: me
+        },
+        itemdblclick: {
           fn: me.onPayDetailGridSelect,
           scope: me
         }
