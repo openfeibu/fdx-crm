@@ -57,7 +57,46 @@ class PayablesService extends PSIBaseExService
     $dao = new PayablesDAO($this->db());
     return $dao->payDetailList($params);
   }
-
+	public function payDetailInfo($params)
+	{
+		if ($this->isNotOnline()) {
+			return $this->emptyResult();
+		}
+		
+		$dao = new PayablesDAO($this->db());
+		return $dao->payDetailInfo($params);
+	}
+	public function editPayDetail($params)
+	{
+		if ($this->isNotOnline()) {
+			return $this->notOnlineError();
+		}
+		
+		$params["companyId"] = $this->getCompanyId();
+		$params["dataOrg"] = $this->getLoginUserDataOrg();
+		$params["loginUserId"] = $this->getLoginUserId();
+		
+		$db = $this->db();
+		$db->startTrans();
+		
+		$dao = new PayablesDAO($db);
+		$rc = $dao->editPayDetail($params);
+		if ($rc) {
+			$db->rollback();
+			return $rc;
+		}
+		
+		$refType = $params["refType"];
+		$refNumber = $params["refNumber"];
+		$payMoney = $params["payMoney"];
+		$log = "为 {$refType} - 单号：{$refNumber} 修改应付金额：{$payMoney}元";
+		$bs = new BizlogService($db);
+		$bs->insertBizlog($log, $this->LOG_CATEGORY);
+		
+		$db->commit();
+		
+		return $this->ok();
+	}
   /**
    * 应付账款的付款记录
    */

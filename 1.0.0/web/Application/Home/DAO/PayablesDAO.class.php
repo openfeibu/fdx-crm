@@ -300,7 +300,7 @@ class PayablesDAO extends PSIBaseExDAO
     $start = $params["start"];
     $limit = $params["limit"];
 
-    $sql = "select id, ref_type, ref_number, pay_money, bill_money, act_money, balance_money, date_created, biz_date
+    $sql = "select id, ref_type, ref_number, pay_money, bill_money, act_money, balance_money, date_created, biz_date, remark
             from t_payables_detail
             where ca_type = '%s' and ca_id = '%s'
             order by biz_date desc, date_created desc
@@ -317,6 +317,7 @@ class PayablesDAO extends PSIBaseExDAO
 	    $result[$i]["billMoney"] = $v["bill_money"];
       $result[$i]["actMoney"] = $v["act_money"];
       $result[$i]["balanceMoney"] = $v["balance_money"];
+	    $result[$i]["remark"] = $v["remark"];
     }
 
     $sql = "select count(*) as cnt from t_payables_detail
@@ -329,7 +330,99 @@ class PayablesDAO extends PSIBaseExDAO
       "totalCount" => $cnt
     ];
   }
-
+	
+  public function payDetailInfo($params)
+  {
+	  $db = $this->db;
+	
+	  $id = $params["id"];
+	  $data = $db->query("select act_money, balance_money, pay_money, bill_money, remark,  ca_type, ca_id, company_id from t_payables_detail  where id = '%s' ", $id);
+	  return [
+		  "actMoney" => $data[0]["act_money"],
+		  "balanceMoney" => $data[0]["balance_money"],
+		  "payMoney" => $data[0]["pay_money"],
+		  "billMoney" => $data[0]["bill_money"],
+		  "remark" => $data[0]["remark"],
+		  "caType" => $data[0]["ca_type"],
+	    "caId" => $data[0]["ca_id"],
+	    "companyId" => $data[0]["company_id"],
+	  ];
+  }
+  public function editPayDetail($params)
+  {
+	  $db = $this->db;
+	
+	  $companyId = $params["companyId"];
+	  $dataOrg = $params["dataOrg"];
+	  $loginUserId = $params["loginUserId"];
+	  if ($this->companyIdNotExists($companyId)) {
+		  return $this->badParam("companyId");
+	  }
+	  if ($this->dataOrgNotExists($dataOrg)) {
+		  return $this->badParam("dataOrg");
+	  }
+	  if ($this->loginUserIdNotExists($loginUserId)) {
+		  return $this->badParam("loginUserId");
+	  }
+	  
+	  $payDetailInfo = $this->payDetailInfo($params);
+	  if(!$payDetailInfo){
+		  return $this->badParam("单据不存在");
+	  }
+	  $data = $db->query("select act_money, balance_money, pay_money from t_payables  where  ca_type = '%s' and ca_id = '%s' and company_id = '%s' ", $payDetailInfo['caType'], $payDetailInfo['caId'], $payDetailInfo['companyId']);
+	  if (!$data) {
+		  return $this->sqlError(__METHOD__, __LINE__);
+	  }
+	  $payInfo = [
+		  "actMoney" => $data[0]["act_money"],
+		  "balanceMoney" => $data[0]["balance_money"],
+		  "payMoney" => $data[0]["pay_money"],
+	  ];
+	
+	  $id = $params["id"];
+	  $refType = $params["refType"];
+	  $refNumber = $params["refNumber"];
+	  $payMoney = $params["payMoney"];
+	  $remark = $params["remark"];
+	  if (!$remark) {
+		  $remark = "";
+	  }
+	  if($payMoney != $payDetailInfo['payMoney']){
+	  	//计算旧的应付价格跟新的应付价格的差值
+		  $diffPayMoney = $payDetailInfo['payMoney'] - $payMoney;
+		  $newPayablesPayMoney = $payInfo['payMoney'] - $diffPayMoney;
+		  $newPayablesBalanceMoney = $payInfo['balanceMoney'] - $diffPayMoney;
+		
+		  $newPayablesDetailBalanceMoney = $payDetailInfo['balanceMoney'] - $diffPayMoney;
+		
+		  $sql = "update t_payables_detail
+            set pay_money = %f, balance_money = %f, remark = '%s'
+            where id = '%s' ";
+		  $rc = $db->execute($sql, $payMoney, $newPayablesDetailBalanceMoney, $remark, $id);
+		  if ($rc === false) {
+			  return $this->sqlError(__METHOD__, __LINE__);
+		  }
+		  $sql = "update t_payables
+            set pay_money = %f, balance_money = %f
+            where ca_type = '%s' and ca_id = '%s' and company_id = '%s' ";
+		  $rc = $db->execute($sql, $newPayablesPayMoney, $newPayablesBalanceMoney, $payDetailInfo['caType'], $payDetailInfo['caId'], $payDetailInfo['companyId']);
+		  if ($rc === false) {
+			  return $this->sqlError(__METHOD__, __LINE__);
+		  }
+		  
+	  }else{
+		  $sql = "update t_payables_detail
+            set remark = '%s'
+            where id = '%s' ";
+		  $rc = $db->execute($sql, $remark, $params['id']);
+		  if ($rc === false) {
+			  return $this->sqlError(__METHOD__, __LINE__);
+		  }
+		 
+	  }
+	  // 操作成功
+	  return null;
+  }
   /**
    * 应付账款的付款记录
    *
@@ -517,10 +610,11 @@ class PayablesDAO extends PSIBaseExDAO
     $db = $this->db;
 
     $id = $params["id"];
-    $data = $db->query("select act_money, balance_money from t_payables  where id = '%s' ", $id);
+    $data = $db->query("select act_money, balance_money, pay_money from t_payables where id = '%s' ", $id);
     return [
       "actMoney" => $data[0]["act_money"],
-      "balanceMoney" => $data[0]["balance_money"]
+      "balanceMoney" => $data[0]["balance_money"],
+	    "payMoney" => $data[0]["pay_money"],
     ];
   }
 
@@ -536,12 +630,14 @@ class PayablesDAO extends PSIBaseExDAO
 
     $id = $params["id"];
     $data = $db->query(
-      "select act_money, balance_money from t_payables_detail  where id = '%s' ",
+      "select act_money, balance_money, pay_money, remark from t_payables_detail  where id = '%s' ",
       $id
     );
     return [
       "actMoney" => $data[0]["act_money"],
-      "balanceMoney" => $data[0]["balance_money"]
+      "balanceMoney" => $data[0]["balance_money"],
+	    "payMoney" => $data[0]["pay_money"],
+	    "remark" => $data[0]["remark"],
     ];
   }
 }

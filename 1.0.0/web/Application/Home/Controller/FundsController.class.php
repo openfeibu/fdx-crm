@@ -108,7 +108,46 @@ class FundsController extends PSIBaseController
       $this->ajaxReturn($ps->payDetailList($params));
     }
   }
-
+	public function payDetailInfo()
+	{
+		if (IS_POST) {
+			$us = new UserService();
+			
+			if (!$us->hasPermission(FIdConst::PAYABLES)) {
+				die("没有权限");
+			}
+			
+			$params = [
+				"id" => I("post.id"),
+			];
+			$ps = new PayablesService();
+			$this->ajaxReturn($ps->payDetailInfo($params));
+		}
+	}
+	/**
+	 * 编辑应付账单详情
+	 */
+	public function editPayDetail()
+	{
+		if (IS_POST) {
+			$us = new UserService();
+			
+			if (!$us->hasPermission(FIdConst::PAYABLES)) {
+				die("没有权限");
+			}
+			
+			$params = [
+				"id" => I("post.id"),
+				"refType" => I("post.refType"),
+				"refNumber" => I("post.refNumber"),
+				"payMoney" => I("post.payMoney"),
+				"remark" => I("post.remark")
+			];
+			$ps = new PayablesService();
+			$this->ajaxReturn($ps->editPayDetail($params));
+		}
+	}
+	
   /**
    * 应付账款，付款记录
    */
