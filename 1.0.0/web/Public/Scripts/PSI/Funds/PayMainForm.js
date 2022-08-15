@@ -254,7 +254,7 @@ Ext.define("PSI.Funds.PayMainForm", {
 
     Ext.define("PSIPayDetail", {
       extend: "Ext.data.Model",
-      fields: ["id", "payMoney", "billMoney", "actMoney", "balanceMoney",
+      fields: ["id", "payMoney", "billMoney", "actMoney", "balanceMoney","remark",
         "refType", "refNumber", "bizDT", "dateCreated"]
     });
 
@@ -377,6 +377,11 @@ Ext.define("PSI.Funds.PayMainForm", {
         align: "right",
         xtype: "numbercolumn"
       }, {
+        header: "备注",
+        dataIndex: "remark",
+        menuDisabled: true,
+        sortable: false,
+      }, {
         header: "创建时间",
         dataIndex: "dateCreated",
         menuDisabled: true,
@@ -390,7 +395,7 @@ Ext.define("PSI.Funds.PayMainForm", {
           scope: me
         },
         itemdblclick: {
-          fn: me.onPayDetailGridSelect,
+          fn: me.onEditPay,
           scope: me
         }
       }
@@ -616,7 +621,22 @@ Ext.define("PSI.Funds.PayMainForm", {
     })
     form.show();
   },
+  onEditPay: function () {
+    var me = this;
+    var item = me.getPayDetailGrid().getSelectionModel().getSelection();
+    if (item == null || item.length != 1) {
+      PSI.MsgBox.showInfo("请选择要修改应付金额的业务单据");
+      return;
+    }
 
+    var payDetail = item[0];
+
+    var form = Ext.create("PSI.Funds.PayEditForm", {
+      parentForm: me,
+      payDetail: payDetail
+    })
+    form.show();
+  },
   refreshPayInfo: function () {
     var me = this;
     var item = me.getPayGrid().getSelectionModel().getSelection();
@@ -635,7 +655,8 @@ Ext.define("PSI.Funds.PayMainForm", {
         if (success) {
           var data = Ext.JSON.decode(response.responseText);
           pay.set("actMoney", data.actMoney);
-          pay.set("balanceMoney", data.balanceMoney)
+          pay.set("balanceMoney", data.balanceMoney);
+          pay.set("payMoney", data.payMoney);
           me.getPayGrid().getStore().commitChanges();
         }
       }
@@ -662,7 +683,9 @@ Ext.define("PSI.Funds.PayMainForm", {
         if (success) {
           var data = Ext.JSON.decode(response.responseText);
           payDetail.set("actMoney", data.actMoney);
-          payDetail.set("balanceMoney", data.balanceMoney)
+          payDetail.set("balanceMoney", data.balanceMoney);
+          payDetail.set("payMoney", data.payMoney);
+          payDetail.set("remark", data.remark);
           me.getPayDetailGrid().getStore().commitChanges();
         }
       }

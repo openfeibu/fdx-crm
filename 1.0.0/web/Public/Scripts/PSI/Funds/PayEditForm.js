@@ -76,12 +76,9 @@ Ext.define("PSI.Funds.PayEditForm", {
         },
         items: [{
           xtype: "hidden",
-          name: "refNumber",
-          value: me.getPayDetail().get("refNumber")
-        }, {
-          xtype: "hidden",
-          name: "refType",
-          value: me.getPayDetail().get("refType")
+          id: "hiddenId",
+          name: "id",
+          value: me.getPayDetail().get("id")
         }, {
           fieldLabel: "业务类型",
           xtype: "displayfield",
@@ -91,21 +88,38 @@ Ext.define("PSI.Funds.PayEditForm", {
           xtype: "displayfield",
           value: me.toFieldNoteText(me.getPayDetail().get("refNumber"))
         }, {
+          fieldLabel: "账单金额",
+          xtype: "displayfield",
+          value: me.toFieldNoteText(me.getPayDetail().get("billMoney"))
+        }, {
           fieldLabel: "应付金额",
           allowBlank: false,
           blankText: "没有输入付款金额",
           beforeLabelTextTpl: PSI.Const.REQUIRED,
           xtype: "numberfield",
           hideTrigger: true,
-          name: "actMoney",
-          id: "editActMoney",
-          value: me.getPayDetail().get("balanceMoney"),
+          name: "payMoney",
+          id: "editPayMoney",
+          value: me.getPayDetail().get("payMoney"),
           listeners: {
             specialkey: {
               fn: me.onEditActMoneySpecialKey,
               scope: me
             }
           }
+        }, {
+          fieldLabel: "备注",
+          name: "remark",
+          id: "editRemark",
+          value: me.getPayDetail().get("remark"),
+          listeners: {
+            specialkey: {
+              fn: me.onEditRemarkSpecialKey,
+              scope: me
+            }
+          },
+          colspan: 2,
+          width: width1,
         }],
         buttons: [{
           text: "保存",
@@ -145,21 +159,18 @@ Ext.define("PSI.Funds.PayEditForm", {
     var el = f.getEl();
     el.mask(PSI.Const.LOADING);
     Ext.Ajax.request({
-      url: PSI.Const.BASE_URL + "Home/Funds/payRecInfo",
-      params: {},
+      url: PSI.Const.BASE_URL + "Home/Funds/payDetailInfo",
+      params: {
+        id: PCL.getCmp("hiddenId").getValue(),
+      },
       method: "POST",
       callback: function (options, success, response) {
         el.unmask();
 
         if (success) {
           var data = Ext.JSON.decode(response.responseText);
-
-          Ext.getCmp("editBizUserId")
-            .setValue(data.bizUserId);
-          Ext.getCmp("editBizUser")
-            .setValue(data.bizUserName);
-          Ext.getCmp("editBizUser")
-            .setIdValue(data.bizUserId);
+          Ext.getCmp("editPayMoney")
+            .setValue(data.payMoney);
         } else {
           PSI.MsgBox.showInfo("网络错误")
         }
@@ -170,14 +181,11 @@ Ext.define("PSI.Funds.PayEditForm", {
   // private
   onOK: function () {
     var me = this;
-    Ext.getCmp("editBizUserId").setValue(Ext.getCmp("editBizUser")
-      .getIdValue());
-
     var f = Ext.getCmp("editForm");
     var el = f.getEl();
     el.mask(PSI.Const.SAVING);
     f.submit({
-      url: PSI.Const.BASE_URL + "Home/Funds/addPayment",
+      url: PSI.Const.BASE_URL + "Home/Funds/editPayDetail",
       method: "POST",
       success: function (form, action) {
         el.unmask();
@@ -191,38 +199,27 @@ Ext.define("PSI.Funds.PayEditForm", {
       failure: function (form, action) {
         el.unmask();
         PSI.MsgBox.showInfo(action.result.msg, function () {
-          Ext.getCmp("editBizDT").focus();
+          Ext.getCmp("editPayMoney").focus();
         });
       }
     });
   },
 
-  onEditBizDTSpecialKey: function (field, e) {
-    if (e.getKey() == e.ENTER) {
-      Ext.getCmp("editActMoney").focus();
-    }
-  },
-
-  onEditActMoneySpecialKey: function (field, e) {
-    if (e.getKey() == e.ENTER) {
-      Ext.getCmp("editBizUser").focus();
-    }
-  },
-
-  onEditBizUserSpecialKey: function (field, e) {
-    if (e.getKey() == e.ENTER) {
-      Ext.getCmp("editRemark").focus();
-    }
-  },
 
   onEditRemarkSpecialKey: function (field, e) {
     if (e.getKey() == e.ENTER) {
       var f = Ext.getCmp("editForm");
       if (f.getForm().isValid()) {
         var me = this;
-        PSI.MsgBox.confirm("请确认是否录入收款记录?", function () {
+        if(me.getPayDetail().get("payMoney") != Ext.getCmp("editPayMoney").getValue())
+        {
+          PSI.MsgBox.confirm("请确认是否修改应付金额?", function () {
+            me.onOK();
+          });
+        }else{
           me.onOK();
-        });
+        }
+
       }
     }
   }
