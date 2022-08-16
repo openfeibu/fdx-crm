@@ -315,6 +315,13 @@ Ext.define("PSI.Funds.PayMainForm", {
         store: store
       }],
       columnLines: true,
+      tbar: [{
+        text: "修改应付金额",
+        iconCls: "PSI-button-add-record",
+        handler: me.onEditPay,
+        scope: me,
+        //hidden: me.getPReceivingPay() != '1', true : false,
+      }],
       columns: [{
         header: "业务类型",
         dataIndex: "refType",
