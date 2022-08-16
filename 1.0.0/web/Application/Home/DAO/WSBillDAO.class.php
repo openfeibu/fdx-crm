@@ -893,19 +893,21 @@ class WSBillDAO extends PSIBaseExDAO
       $result["bizUserId"] = $loginUserId;
       $result["bizUserName"] = $params["loginUserName"];
 
-      $sql = "select value from t_config 
-              where id = '2002-02' and company_id = '%s' ";
-      $data = $db->query($sql, $companyId);
-      if ($data) {
-        $warehouseId = $data[0]["value"];
-        $sql = "select id, name from t_warehouse where id = '%s' ";
-        $data = $db->query($sql, $warehouseId);
-        if ($data) {
-          $result["warehouseId"] = $data[0]["id"];
-          $result["warehouseName"] = $data[0]["name"];
-        }
-      }
-
+	    $tc = new BizConfigDAO($db);
+	
+	    $warehouse = $tc->getPWBillDefaultWarehouse($companyId);
+	    if ($warehouse) {
+		    $result["warehouseId"] = $warehouse["id"];
+		    $result["warehouseName"] = $warehouse["name"];
+	    }
+	
+	    $express = $tc->getDefaultExpress($companyId);
+	    if ($express) {
+		    $result["expressId"] = $express["id"];
+		    $result["expressName"] = $express["name"];
+		    $result["freight"] = $express["freight"];
+	    }
+	    
       if ($sobillRef) {
         // 由销售订单生成销售出库单
         $sql = "select s.id, s.customer_id, c.name as customer_name, s.deal_date,

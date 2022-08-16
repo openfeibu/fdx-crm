@@ -937,7 +937,14 @@ class SOBillDAO extends PSIBaseExDAO
           $result["orgFullName"] = $data[0]["full_name"];
         }
       }
-
+	    $tc = new BizConfigDAO($db);
+	    
+	    $express = $tc->getDefaultExpress($companyId);
+	    if ($express) {
+		    $result["expressId"] = $express["id"];
+		    $result["expressName"] = $express["name"];
+		    $result["freight"] = $express["freight"];
+	    }
       // 默认收款方式
       $bc = new BizConfigDAO($db);
       $result["receivingType"] = $bc->getSOBillDefaultReceving($companyId);

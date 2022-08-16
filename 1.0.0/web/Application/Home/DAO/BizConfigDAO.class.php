@@ -1287,6 +1287,33 @@ class BizConfigDAO extends PSIBaseExDAO
 
     return $result;
   }
+	/**
+	 * 获得采购入库单默认仓库
+	 *
+	 * @param string $companyId
+	 * @return array
+	 */
+	public function getWSBillDefaultWarehouse($companyId)
+	{
+		$db = $this->db;
+		
+		$sql = "select value from t_config 
+            where id = '2002-02' and company_id = '%s' ";
+		$data = $db->query($sql, $companyId);
+		if ($data) {
+			$warehouseId = $data[0]["value"];
+			$sql = "select id, name from t_warehouse where id = '%s' ";
+			$data = $db->query($sql, $warehouseId);
+			if ($data) {
+				return [
+					"id" => $data[0]["id"],
+					"name" => $data[0]["name"]
+				];
+			}
+		}
+		
+		return null;
+	}
 
   /**
    * 获得物料数量小数位数
@@ -1406,4 +1433,34 @@ class BizConfigDAO extends PSIBaseExDAO
 
     return $result;
   }
+	
+	/**
+	 * 获得采购入库单默认仓库
+	 *
+	 * @param string $companyId
+	 * @return array
+	 */
+	public function getDefaultExpress($companyId)
+	{
+		$db = $this->db;
+		
+		$sql = "select value from t_config 
+            where id = '2002-06' and company_id = '%s' ";
+		$data = $db->query($sql, $companyId);
+		if ($data) {
+			$expressId = $data[0]["value"];
+			$sql = "select id, name, freight from t_feibu0001_ct_express where id = '%s' ";
+			$data = $db->query($sql, $expressId);
+			if ($data) {
+				return [
+					"id" => $data[0]["id"],
+					"name" => $data[0]["name"],
+					"freight" => $data[0]["freight"]
+				];
+			}
+		}
+		
+		return null;
+	}
+	
 }
