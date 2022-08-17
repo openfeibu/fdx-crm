@@ -209,7 +209,7 @@ Ext.define("PSI.Sale.SRSelectWSBillForm", {
         menuDisabled: true,
         sortable: false
       }, {
-        header: "销售金额(不含税)",
+        header: "销售金额", //销售金额(不含税)
         dataIndex: "amount",
         menuDisabled: true,
         sortable: false,
@@ -427,7 +427,7 @@ Ext.define("PSI.Sale.SRSelectWSBillForm", {
         width: 60,
         align: "center"
       }, {
-        header: "单价(不含税)",
+        header: "单价", //单价(不含税)
         dataIndex: "goodsPrice",
         menuDisabled: true,
         sortable: false,
@@ -435,7 +435,7 @@ Ext.define("PSI.Sale.SRSelectWSBillForm", {
         xtype: "numbercolumn",
         width: 90
       }, {
-        header: "销售金额(不含税)",
+        header: "销售金额", //销售金额(不含税)
         dataIndex: "goodsMoney",
         menuDisabled: true,
         sortable: false,
