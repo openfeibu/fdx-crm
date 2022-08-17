@@ -341,23 +341,37 @@ class SOBillService extends PSIBaseExService
     $pdf->writeHTML($html);
 
     $html = '<table border="1" cellpadding="1">
-					<tr><td>商品编号</td><td>商品名称</td><td>规格型号</td><td>数量</td><td>单位</td>
+					<tr><td>商品编号</td><td>商品名称</td><td>数量</td><td>单位</td>
 						<td>单价</td><td>销售金额</td>
 					</tr>
 				';
     foreach ($bill["items"] as $v) {
       $html .= '<tr>';
       $html .= '<td>' . $v["goodsCode"] . '</td>';
-      $html .= '<td>' . $v["goodsName"] . '</td>';
-      $html .= '<td>' . $v["goodsSpec"] . '</td>';
+      $html .= '<td>' . $v["goodsName"] . $v["goodsSpec"] . '</td>';
       $html .= '<td align="right">' . $v["goodsCount"] . '</td>';
       $html .= '<td>' . $v["unitName"] . '</td>';
       $html .= '<td align="right">' . $v["goodsPrice"] . '</td>';
       $html .= '<td align="right">' . $v["goodsMoney"] . '</td>';
       $html .= '</tr>';
     }
-
-    $html .= "";
+	  $html .= '<tr>';
+	  $html .= '<td>运费</td>';
+	  $html .= '<td></td>';
+	  $html .= '<td></td>';
+	  $html .= '<td></td>';
+	  $html .= '<td></td>';
+	  $html .= '<td align="right">' . $bill["freight"] . '</td>';
+	  $html .= '</tr>';
+	  
+	  $html .= '<tr>';
+	  $html .= '<td>合计</td>';
+	  $html .= '<td></td>';
+	  $html .= '<td></td>';
+	  $html .= '<td></td>';
+	  $html .= '<td></td>';
+	  $html .= '<td align="right">' . $bill["totalMoney"] . '</td>';
+	  $html .= '</tr>';
 
     $html .= '</table>';
     $pdf->writeHTML($html, true, false, true, false, '');
