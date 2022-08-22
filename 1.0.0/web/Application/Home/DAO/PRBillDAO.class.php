@@ -362,8 +362,8 @@ class PRBillDAO extends PSIBaseExDAO
       $rejMoneyWithTax = $v["rejMoneyWithTax"];
       // 负数表示红字
       $tax = -$rejMoney * $taxRate / 100;
-      $goodsPriceWithTax = $v["goodsPriceWithTax"] ?? 0;
-      $goodsMoneyWithTax = $v["goodsMoneyWithTax"] ?? 0;
+      $goodsPriceWithTax = $v["goodsPriceWithTax"] ?: 0;
+      $goodsMoneyWithTax = $v["goodsMoneyWithTax"] ?: 0;
 
       $rc = $db->execute(
         $sql,
