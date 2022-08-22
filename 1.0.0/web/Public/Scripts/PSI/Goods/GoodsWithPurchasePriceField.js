@@ -13,7 +13,8 @@ PCL.define("PSI.Goods.GoodsWithPurchaseFieldField", {
     parentCmp: null,
     showAddButton: false,
     supplierIdFunc: null,
-    supplierIdScope: null
+    supplierIdScope: null,
+    selType:"rowmodel",
   },
 
   /**
@@ -68,6 +69,7 @@ PCL.define("PSI.Goods.GoodsWithPurchaseFieldField", {
     var lookupGrid = PCL.create("PCL.grid.Panel", {
       cls: "PSI-Lookup",
       columnLines: true,
+      selType: me.getSelType(), //"checkboxmodel"
       border: 1,
       store: store,
       viewConfig: {
@@ -94,7 +96,7 @@ PCL.define("PSI.Goods.GoodsWithPurchaseFieldField", {
         menuDisabled: true,
         width: 60
       }, {
-        header: "建议采购价",
+        header: "建议采购价", hidden: true,
         dataIndex: "purchasePrice",
         menuDisabled: true,
         align: "right",
@@ -264,20 +266,35 @@ PCL.define("PSI.Goods.GoodsWithPurchaseFieldField", {
     var me = this;
     var grid = me.lookupGrid;
     var item = grid.getSelectionModel().getSelection();
-    if (item == null || item.length != 1) {
+    if (item == null ) {
+
       return;
+    }else if (item.length != 1) {
+      //多选
+      var data = [];
+      item.forEach(v => {
+        data.push(v.getData());
+      })
+      me.wnd.close();
+      me.focus();
+
+      if (me.getParentCmp() && me.getParentCmp().__setGoodsInfo) {
+        me.getParentCmp().__setGoodsInfo(data)
+      }
+    }else{
+      //单选
+      var data = item[0].getData();
+
+      me.wnd.close();
+      me.focus();
+      me.setValue(data.code);
+      me.focus();
+
+      if (me.getParentCmp() && me.getParentCmp().__setGoodsInfo) {
+        me.getParentCmp().__setGoodsInfo(data)
+      }
     }
 
-    var data = item[0].getData();
-
-    me.wnd.close();
-    me.focus();
-    me.setValue(data.code);
-    me.focus();
-
-    if (me.getParentCmp() && me.getParentCmp().__setGoodsInfo) {
-      me.getParentCmp().__setGoodsInfo(data)
-    }
   },
 
   onAddGoods: function () {

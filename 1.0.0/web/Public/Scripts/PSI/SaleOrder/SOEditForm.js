@@ -766,43 +766,41 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
   // 参见PSI.Goods.GoodsWithSalePriceField的onOK方法
   __setGoodsInfo: function (data) {
     var me = this;
-	console.log(data)
-	var item = me.getGoodsGrid().getSelectionModel().getSelection();
+	  var item = me.getGoodsGrid().getSelectionModel().getSelection();
     var selectStore = me.getGoodsGrid().getStore();
-	if (item == null) {
-      return;
+    if (item == null) {
+        return;
     }else if(data.length != 1){
-		var selectData = [];
-		data.forEach(v => {
-			 selectData.push({
-				 "goodsId":v.id,
-				 "goodsCode":v.code,
-				 "goodsName":v.name,
-				 "unitName":v.unitName,
-				 "goodsSpec":v.spec,
-				 "goodsPrice":v.salePrice,
-				 "taxRate":v.taxRate
-			 });
-		})
-		
-		if(item[0].data.goodsId.length == 0){
-			console.log(1)
-			 selectStore.remove(item)
-		}
-		selectStore.add(selectData);
-	}else{
-	
-		var goods = item[0];
-		var dataInfo = data[0]
-		goods.set("goodsId", dataInfo.id);
-		goods.set("goodsCode", dataInfo.code);
-		goods.set("goodsName", dataInfo.name);
-		goods.set("unitName", dataInfo.unitName);
-		goods.set("goodsSpec", dataInfo.spec);
-		goods.set("goodsPrice", dataInfo.salePrice);
-		goods.set("taxRate", dataInfo.taxRate);
-		me.calcMoney(goods);
-	}
+      var selectData = [];
+      data.forEach(v => {
+         selectData.push({
+           "goodsId":v.id,
+           "goodsCode":v.code,
+           "goodsName":v.name,
+           "unitName":v.unitName,
+           "goodsSpec":v.spec,
+           "goodsPrice":v.salePrice,
+           "taxRate":v.taxRate
+         });
+      })
+      if(item[0].data.goodsId.length == 0){
+        console.log(1)
+         selectStore.remove(item)
+      }
+      selectStore.add(selectData);
+    }else{
+
+      var goods = item[0];
+      var dataInfo = data[0]
+      goods.set("goodsId", dataInfo.id);
+      goods.set("goodsCode", dataInfo.code);
+      goods.set("goodsName", dataInfo.name);
+      goods.set("unitName", dataInfo.unitName);
+      goods.set("goodsSpec", dataInfo.spec);
+      goods.set("goodsPrice", dataInfo.salePrice);
+      goods.set("taxRate", dataInfo.taxRate);
+      me.calcMoney(goods);
+    }
 	
 	
   },

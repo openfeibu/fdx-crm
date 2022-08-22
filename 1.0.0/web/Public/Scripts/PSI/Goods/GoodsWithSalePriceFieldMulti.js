@@ -292,30 +292,28 @@ PCL.define("PSI.Goods.GoodsWithSalePriceFieldMulti", {
 		
       return;
     }else if (item.length != 1) {
-		//多选
-		var data = [];
-       item.forEach(v => {
-		 data.push(v.getData());
-		})
-	    me.wnd.close();
-		 me.focus();
+      //多选
+      var data = [];
+      item.forEach(v => {
+        data.push(v.getData());
+      })
+      me.wnd.close();
+      me.focus();
 
-	  if (me.getParentCmp() && me.getParentCmp().__setGoodsInfo) {
-		  me.getParentCmp().__setGoodsInfo(data)
-		}
-	 
-	  
+      if (me.getParentCmp() && me.getParentCmp().__setGoodsInfo) {
+        me.getParentCmp().__setGoodsInfo(data)
+      }
     }else{
-	//单选
-	  var data = [item[0].getData()];
-		me.wnd.close();
-		me.focus();
-		me.setValue(data.code);
-		me.focus();
-		if (me.getParentCmp() && me.getParentCmp().__setGoodsInfo) {
-		  me.getParentCmp().__setGoodsInfo(data)
-		}
-	}
+      //单选
+      var data = [item[0].getData()];
+      me.wnd.close();
+      me.focus();
+      me.setValue(data.code);
+      me.focus();
+      if (me.getParentCmp() && me.getParentCmp().__setGoodsInfo) {
+        me.getParentCmp().__setGoodsInfo(data)
+      }
+	  }
 
   
   },

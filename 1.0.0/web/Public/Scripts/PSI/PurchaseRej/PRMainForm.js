@@ -273,7 +273,8 @@ PCL.define("PSI.PurchaseRej.PRMainForm", {
   onAddBill: function () {
     var me = this;
     var form = PCL.create("PSI.PurchaseRej.PREditForm", {
-      parentForm: me
+      parentForm: me,
+      viewPrice: me.getPermission().viewPrice == "1"
     });
     form.show();
   },
@@ -291,6 +292,7 @@ PCL.define("PSI.PurchaseRej.PRMainForm", {
     var bill = item[0];
     var form = PCL.create("PSI.PurchaseRej.PREditForm", {
       parentForm: me,
+      viewPrice: me.getPermission().viewPrice == "1",
       entity: bill
     });
     form.show();
@@ -545,7 +547,8 @@ PCL.define("PSI.PurchaseRej.PRMainForm", {
         sortable: false,
         align: "right",
         xtype: "numbercolumn",
-        width: 110
+        width: 110,
+        hidden: me.getPermission().viewPrice == "0",
       }, {
         header: "税金(红字)", hidden: true, //隐藏税金
         dataIndex: "tax",
@@ -706,7 +709,8 @@ PCL.define("PSI.PurchaseRej.PRMainForm", {
         sortable: false,
         align: "right",
         width: 110,
-        xtype: "numbercolumn"
+        xtype: "numbercolumn",
+        hidden: me.getPermission().viewPrice == "0",
       }, {
         header: "退货金额", //退货金额(不含税)
         dataIndex: "rejMoney",
@@ -714,7 +718,8 @@ PCL.define("PSI.PurchaseRej.PRMainForm", {
         sortable: false,
         align: "right",
         width: 110,
-        xtype: "numbercolumn"
+        xtype: "numbercolumn",
+        hidden: me.getPermission().viewPrice == "0",
       }, {
         header: "税率(%)", hidden: true, //隐藏税率
         dataIndex: "taxRate",
