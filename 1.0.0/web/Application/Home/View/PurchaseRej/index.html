@@ -6,7 +6,11 @@
 <layout name="layout" />
 
 <script src="{$uri}Public/Scripts/PSI/PurchaseRej/PRMainForm.js?dt={$dtFlag}" type="text/javascript"></script>
+<script src="{$uri}Public/Scripts/PSI/Mix/GoodsPrice.js?dt={$dtFlag}" type="text/javascript"></script>
+
 <script src="{$uri}Public/Scripts/PSI/PurchaseRej/PREditForm.js?dt={$dtFlag}" type="text/javascript"></script>
+<script src="{$uri}Public/Scripts/PSI/Goods/GoodsWithPurchasePriceField.js?dt={$dtFlag}"
+        type="text/javascript"></script>
 <script src="{$uri}Public/Scripts/PSI/PurchaseRej/PRSelectPWBillForm.js?dt={$dtFlag}" type="text/javascript"></script>
 
 <script src="{$uri}Public/Scripts/PSI/Warehouse/WarehouseField.js?dt={$dtFlag}" type="text/javascript"></script>
@@ -37,6 +41,7 @@
       del: "{$pDelete}",
       commit: "{$pCommit}",
       genPDF: "{$pGenPDF}",
+      viewPrice: "{$pViewPrice}",
       print: "{$pPrint}"
     };
 

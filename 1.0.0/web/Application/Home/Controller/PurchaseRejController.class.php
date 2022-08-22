@@ -56,7 +56,12 @@ class PurchaseRejController extends PSIBaseController
         "pPrint",
         $us->hasPermission(FIdConst::PURCHASE_REJECTION_PRINT) ? "1" : "0"
       );
-
+			// 字段权限：单价可见
+	    $this->assign(
+		    "pViewPrice",
+		    $us->hasPermission(FIdConst::PURCHASE_WAREHOUSE_CAN_VIEW_PRICE) ? "1" : "0"
+	    );
+	    
       $this->display();
     } else {
       $this->gotoLoginPage("/Home/PurchaseRej/index");
