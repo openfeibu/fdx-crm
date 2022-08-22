@@ -81,7 +81,7 @@ class PRBillDAO extends PSIBaseExDAO
     }
 
     // 供应商id
-    $supplierId = $data[0]["supplier_id"] ?: $bill["supplier_id"];
+    $supplierId = $data[0]["supplier_id"] ?: $bill["supplierId"];
 
     // 收款方式
     $receivingType = $bill["receivingType"];
@@ -349,8 +349,8 @@ class PRBillDAO extends PSIBaseExDAO
     foreach ($items as $i => $v) {
       $pwbillDetailId = $v["id"];
       $goodsId = $v["goodsId"];
-      $goodsCount = $v["goodsCount"] ?? 0;
-      $goodsPrice = $v["goodsPrice"] ?? 0;
+      $goodsCount = $v["goodsCount"] ?: 0;
+      $goodsPrice = $v["goodsPrice"] ?: 0;
       $goodsMoney = $goodsCount * $goodsPrice;
       $rejCount = $v["rejCount"];
       $rejPrice = $v["rejPrice"];
