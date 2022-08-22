@@ -283,7 +283,7 @@ PCL.define("PSI.Goods.GoodsWithPurchaseFieldField", {
       }
     }else{
       //单选
-      var data = item[0].getData();
+      var data = [item[0].getData()];
 
       me.wnd.close();
       me.focus();
