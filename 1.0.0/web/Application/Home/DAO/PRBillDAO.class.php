@@ -1671,7 +1671,8 @@ class PRBillDAO extends PSIBaseExDAO
         "goodsPrice" => $v["rej_price"],
         "goodsMoney" => $v["rej_money"],
         "moneyWithTax" => $v["money_with_tax"],
-        "taxRate" => intval($v["tax_rate"])
+        "taxRate" => intval($v["tax_rate"]),
+	      "memo" => $v["memo"]
       ];
 	    $goodsCount += $v["rej_count"];
     }
