@@ -18,7 +18,6 @@ PCL.define("PSI.Purchase.PWEditForm", {
 
   initComponent: function () {
     var me = this;
-    console.log(me.getViewPrice());
     me.__readOnly = false;
     var entity = me.getEntity();
     me.adding = entity == null;

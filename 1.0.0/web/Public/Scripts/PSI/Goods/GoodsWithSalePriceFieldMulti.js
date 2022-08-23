@@ -287,7 +287,6 @@ PCL.define("PSI.Goods.GoodsWithSalePriceFieldMulti", {
     var grid = me.lookupGrid;
     var item = grid.getSelectionModel().getSelection();
 	
-	
     if (item == null ) {
 		
       return;

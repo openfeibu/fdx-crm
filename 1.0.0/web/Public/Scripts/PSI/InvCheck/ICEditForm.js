@@ -8,6 +8,10 @@
 PCL.define("PSI.InvCheck.ICEditForm", {
   extend: "PSI.AFX.BaseDialogForm",
 
+  config: {
+    viewPrice: true
+  },
+
   initComponent: function () {
     var me = this;
     me.__readonly = false;
@@ -357,7 +361,8 @@ PCL.define("PSI.InvCheck.ICEditForm", {
           xtype: "psi_goodsfield",
           parentCmp: me,
           showInvCnt: true,
-          warehouseEditName: "editWarehouse"
+          warehouseEditName: "editWarehouse",
+          selType: "checkboxmodel",
         }
       }, {
         menuDisabled: true,
@@ -392,7 +397,7 @@ PCL.define("PSI.InvCheck.ICEditForm", {
         draggable: false,
         width: 60,
         align: "center"
-      }, {
+      }, /*{
         header: "盘点后库存金额",
         dataIndex: "goodsMoney",
         menuDisabled: true,
@@ -404,8 +409,9 @@ PCL.define("PSI.InvCheck.ICEditForm", {
         editor: {
           xtype: "numberfield",
           hideTrigger: true
-        }
-      }, {
+        },
+        hidden: !me.getViewPrice(),
+      }, */{
         header: "备注",
         dataIndex: "memo",
         menuDisabled: true,
@@ -502,16 +508,40 @@ PCL.define("PSI.InvCheck.ICEditForm", {
   __setGoodsInfo: function (data) {
     var me = this;
     var item = me.getGoodsGrid().getSelectionModel().getSelection();
-    if (item == null || item.length != 1) {
-      return;
-    }
-    var goods = item[0];
+    var selectStore = me.getGoodsGrid().getStore();
 
-    goods.set("goodsId", data.id);
-    goods.set("goodsCode", data.code);
-    goods.set("goodsName", data.name);
-    goods.set("unitName", data.unitName);
-    goods.set("goodsSpec", data.spec);
+    if (item == null) {
+      return;
+    }else if(data.length != 1){
+      var selectData = [];
+      data.forEach(v => {
+        selectData.push({
+          "goodsId":v.id,
+          "goodsCode":v.code,
+          "goodsName":v.name,
+          "goodsCount":v.invCnt,
+          "unitName":v.unitName,
+          "goodsSpec":v.spec,
+        });
+      })
+      if(item[0].data.goodsId.length == 0){
+        console.log(1)
+        selectStore.remove(item)
+      }
+      selectStore.add(selectData);
+    }else{
+
+      var goods = item[0];
+      var dataInfo = data[0];
+
+      goods.set("goodsId", dataInfo.id);
+      goods.set("goodsCode", dataInfo.code);
+      goods.set("goodsName", dataInfo.name);
+      goods.set("goodsCount", dataInfo.invCnt);
+      goods.set("unitName", dataInfo.unitName);
+      goods.set("goodsSpec", dataInfo.spec);
+    }
+
   },
 
   getSaveData: function () {
@@ -531,7 +561,7 @@ PCL.define("PSI.InvCheck.ICEditForm", {
         id: item.get("id"),
         goodsId: item.get("goodsId"),
         goodsCount: item.get("goodsCount"),
-        goodsMoney: item.get("goodsMoney"),
+        //goodsMoney: item.get("goodsMoney"),
         memo: item.get("memo")
       });
     }

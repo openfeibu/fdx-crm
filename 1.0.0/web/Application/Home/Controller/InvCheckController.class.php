@@ -42,6 +42,12 @@ class InvCheckController extends PSIBaseController
         "pCommit",
         $us->hasPermission(FIdConst::INVENTORY_CHECK_COMMIT) ? "1" : "0"
       );
+	    // 字段权限：单价可见
+	    $this->assign(
+		    "pViewPrice",
+		    $us->hasPermission(FIdConst::PURCHASE_WAREHOUSE_CAN_VIEW_PRICE) ? "1" : "0"
+	    );
+	    
       // 按钮权限：单据生成PDF
       $this->assign("pGenPDF", $us->hasPermission(FIdConst::INVENTORY_CHECK_PDF) ? "1" : "0");
       // 按钮权限：打印预览、直接打印

@@ -254,8 +254,10 @@ PCL.define("PSI.InvCheck.InvCheckMainForm", {
    * 新增盘点单
    */
   onAddBill: function () {
+    const me = this;
     var form = PCL.create("PSI.InvCheck.ICEditForm", {
-      parentForm: this
+      parentForm: me,
+      viewPrice: me.getPermission().viewPrice == "1"
     });
     form.show();
   },
@@ -605,7 +607,7 @@ PCL.define("PSI.InvCheck.InvCheckMainForm", {
         width: 60,
         align: "center"
       }, {
-        header: "盘点后库存金额",
+        header: "盘点后库存金额", hidden: true,
         dataIndex: "goodsMoney",
         menuDisabled: true,
         sortable: false,

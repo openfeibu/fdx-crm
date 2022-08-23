@@ -306,12 +306,24 @@ class ICBillDAO extends PSIBaseExDAO
               show_order, icbill_id, data_org, company_id, memo)
             values ('%s', now(), '%s', convert(%f, $fmt), %f, %d, '%s', '%s', '%s', '%s')";
     foreach ($items as $i => $v) {
-      $goodsId = $v["goodsId"];
-      if (!$goodsId) {
-        continue;
-      }
-      $goodsCount = $v["goodsCount"];
-      $goodsMoney = $v["goodsMoney"];
+	    $goodsId = $v["goodsId"];
+	    if (!$goodsId) {
+		    continue;
+	    }
+	    $goodsCount = $v["goodsCount"];
+	    
+	    $inventory_sql = "select convert(v.balance_count, $fmt) as balance_count, v.balance_price, v.balance_money from t_inventory v, t_goods g
+            where (v.warehouse_id = '%s') and (v.goods_id = g.id)  and v.goods_id = '%s'";
+	    $inventory_data = $db->query($inventory_sql, $warehouseId, $goodsId) ;
+	    if($inventory_data)
+	    {
+		    $goodsMoney = $v["goodsMoney"] ?: ($inventory_data[0]['balance_money'] /  $inventory_data[0]['balance_count']) * $goodsCount;
+	    }else{
+	    	$goods_sql = "select purchase_price from t_goods where id = '%s'";
+		    $goods_data = $db->query($goods_sql, $goodsId) ;
+		    $goodsMoney = $v["goodsMoney"] ?: $goods_data[0]['purchase_price'] * $goodsCount;
+	    }
+
       $memo = $v["memo"];
 
       $rc = $db->execute(
@@ -437,7 +449,7 @@ class ICBillDAO extends PSIBaseExDAO
     if ($rc === false) {
       return $this->sqlError(__METHOD__, __LINE__);
     }
-
+	  
     $sql = "insert into t_ic_bill_detail(id, date_created, goods_id, goods_count, goods_money,
               show_order, icbill_id, data_org, company_id, memo)
             values ('%s', now(), '%s', convert(%f, $fmt), %f, %d, '%s', '%s', '%s', '%s')";
@@ -447,7 +459,21 @@ class ICBillDAO extends PSIBaseExDAO
         continue;
       }
       $goodsCount = $v["goodsCount"];
-      $goodsMoney = $v["goodsMoney"];
+	
+	    $inventory_sql = "select  convert(v.balance_count, $fmt) as balance_count, v.balance_price, v.balance_money
+            from t_inventory v, t_goods g
+            where (v.warehouse_id = '%s') and (v.goods_id = g.id)  and v.goods_id = '%s'";
+	    $inventory_data = $db->query($inventory_sql, $warehouseId, $goodsId) ;
+	    if($inventory_data)
+	    {
+		    $goodsMoney = $v["goodsMoney"] ?: ($inventory_data[0]['balance_money'] /  $inventory_data[0]['balance_count']) * $goodsCount;
+	    }else{
+		    $goods_sql = "select purchase_price from t_goods where id = '%s'";
+		    $goods_data = $db->query($goods_sql, $goodsId) ;
+		    $goodsMoney = $v["goodsMoney"] ?: $goods_data[0]['purchase_price'] * $goodsCount;
+	    }
+	    
+      //$goodsMoney = $v["goodsMoney"];
       $memo = $v["memo"];
 
       $rc = $db->execute(
@@ -545,6 +571,16 @@ class ICBillDAO extends PSIBaseExDAO
       // 新建
       $result["bizUserId"] = $params["loginUserId"];
       $result["bizUserName"] = $params["loginUserName"];
+	
+	    // 新建
+	    $tc = new BizConfigDAO($db);
+	
+	    $warehouse = $tc->getPWBillDefaultWarehouse($companyId);
+	    if ($warehouse) {
+		    $result["warehouseId"] = $warehouse["id"];
+		    $result["warehouseName"] = $warehouse["name"];
+	    }
+	    
     }
 
     return $result;

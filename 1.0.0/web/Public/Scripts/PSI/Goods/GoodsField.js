@@ -16,7 +16,8 @@ PCL.define("PSI.Goods.GoodsField", {
     // 显示库存量（与warehouseEdit一起使用）
     showInvCnt: false,
     // 获得关联的仓库
-    warehouseEditName: null
+    warehouseEditName: null,
+    selType:"rowmodel",
   },
 
   /**
@@ -76,6 +77,7 @@ PCL.define("PSI.Goods.GoodsField", {
     var lookupGrid = PCL.create("PCL.grid.Panel", {
       cls: "PSI-Lookup",
       columnLines: true,
+      selType: me.getSelType(), //"checkboxmodel"
       border: 1,
       store: store,
       viewConfig: {
@@ -264,20 +266,35 @@ PCL.define("PSI.Goods.GoodsField", {
     var me = this;
     var grid = me.lookupGrid;
     var item = grid.getSelectionModel().getSelection();
-    if (item == null || item.length != 1) {
+
+    if (item == null ) {
+
       return;
-    }
+    }else if (item.length != 1) {
+      //多选
+      var data = [];
+      item.forEach(v => {
+        data.push(v.getData());
+      })
+      me.wnd.close();
+      me.focus();
 
-    var data = item[0].getData();
+      if (me.getParentCmp() && me.getParentCmp().__setGoodsInfo) {
+        me.getParentCmp().__setGoodsInfo(data)
+      }
+    }else{
+      //单选
+      var data = [item[0].getData()];
 
-    me.wnd.close();
-    me.focus();
-    me.setValue(data.code);
-    me.focus();
-    me.setIdValue(data.id);
+      me.wnd.close();
+      me.focus();
+      me.setValue(data.code);
+      me.focus();
+      me.setIdValue(data.id);
 
-    if (me.getParentCmp() && me.getParentCmp().__setGoodsInfo) {
-      me.getParentCmp().__setGoodsInfo(data)
+      if (me.getParentCmp() && me.getParentCmp().__setGoodsInfo) {
+        me.getParentCmp().__setGoodsInfo(data)
+      }
     }
   },
 
