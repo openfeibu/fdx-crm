@@ -1659,7 +1659,8 @@ class PRBillDAO extends PSIBaseExDAO
             order by p.show_order";
     $items = [];
     $data = $db->query($sql, $id);
-
+		
+	  $goodsCount = 0;
     foreach ($data as $v) {
       $items[] = [
         "goodsCode" => $v["code"],
@@ -1672,8 +1673,9 @@ class PRBillDAO extends PSIBaseExDAO
         "moneyWithTax" => $v["money_with_tax"],
         "taxRate" => intval($v["tax_rate"])
       ];
+	    $goodsCount += $v["rej_count"];
     }
-
+	  $result['goodsCount'] = $goodsCount;
     $result["items"] = $items;
 
     return $result;
