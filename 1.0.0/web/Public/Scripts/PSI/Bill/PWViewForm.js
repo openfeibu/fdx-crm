@@ -9,7 +9,8 @@ Ext.define("PSI.Bill.PWViewForm", {
   extend: "Ext.window.Window",
 
   config: {
-    ref: null
+    ref: null,
+    viewPrice: null,
   },
 
   initComponent: function () {
@@ -193,6 +194,7 @@ Ext.define("PSI.Bill.PWViewForm", {
         sortable: false,
         align: "right",
         xtype: "numbercolumn",
+        hidden: me.getViewPrice() != "1",
         summaryRenderer: function () {
           return "采购金额合计";
         },
@@ -204,6 +206,7 @@ Ext.define("PSI.Bill.PWViewForm", {
         sortable: false,
         align: "right",
         xtype: "numbercolumn",
+        hidden: me.getViewPrice() != "1",
         summaryType: "sum",
         width: 120
       }, {
