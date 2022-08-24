@@ -9,7 +9,8 @@ Ext.define("PSI.Bill.PRViewForm", {
   extend: "Ext.window.Window",
 
   config: {
-    ref: null
+    ref: null,
+    viewPrice: null,
   },
 
   initComponent: function () {
@@ -110,7 +111,7 @@ Ext.define("PSI.Bill.PRViewForm", {
         if (success) {
           var data = Ext.JSON.decode(response.responseText);
 
-          const s = `<span class='PSI-field-note'>${data.supplierName} (采购入库单单号：${data.pwbillRef})</span>`;
+          const s = `<span class='PSI-field-note'>${data.supplierName}</span>`;
           Ext.getCmp("editSupplier").setValue(s);
 
           Ext.getCmp("editWarehouse").setValue(data.warehouseName);
@@ -193,7 +194,8 @@ Ext.define("PSI.Bill.PRViewForm", {
         sortable: false,
         align: "right",
         xtype: "numbercolumn",
-        width: 100
+        width: 100,
+        hidden: me.getViewPrice() != "1",
       }, {
         header: "退货金额",
         dataIndex: "rejMoney",
@@ -201,32 +203,8 @@ Ext.define("PSI.Bill.PRViewForm", {
         sortable: false,
         align: "right",
         xtype: "numbercolumn",
-        width: 120
-      }, {
-        header: "原采购数量",
-        dataIndex: "goodsCount",
-        menuDisabled: true,
-        sortable: false,
-        align: "right",
-        xtype: "numbercolumn",
         width: 120,
-        format: "0"
-      }, {
-        header: "原采购单价",
-        dataIndex: "goodsPrice",
-        menuDisabled: true,
-        sortable: false,
-        align: "right",
-        xtype: "numbercolumn",
-        width: 120
-      }, {
-        header: "原采购金额",
-        dataIndex: "goodsMoney",
-        menuDisabled: true,
-        sortable: false,
-        align: "right",
-        xtype: "numbercolumn",
-        width: 120
+        hidden: me.getViewPrice() != "1",
       }],
       store: store
     });

@@ -1542,14 +1542,13 @@ class PRBillDAO extends PSIBaseExDAO
   {
     $db = $this->db;
     $sql = "select p.id, w.name as warehouse_name,
-              u.name as biz_user_name, pw.ref as pwbill_ref,
+              u.name as biz_user_name,
               s.name as supplier_name,
               p.bizdt, p.company_id
-            from t_pr_bill p, t_warehouse w, t_user u, t_pw_bill pw, t_supplier s
+            from t_pr_bill p, t_warehouse w, t_user u, t_supplier s
             where p.ref = '%s'
               and p.warehouse_id = w.id
               and p.biz_user_id = u.id
-              and p.pw_bill_id = pw.id
               and p.supplier_id = s.id ";
     $data = $db->query($sql, $ref);
     if (!$data) {
@@ -1566,7 +1565,7 @@ class PRBillDAO extends PSIBaseExDAO
     $result = [
       "bizUserName" => $data[0]["biz_user_name"],
       "warehouseName" => $data[0]["warehouse_name"],
-      "pwbillRef" => $data[0]["pwbill_ref"],
+      //"pwbillRef" => $data[0]["pwbill_ref"],
       "supplierName" => $data[0]["supplier_name"],
       "bizDT" => $this->toYMD($data[0]["bizdt"])
     ];
