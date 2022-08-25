@@ -645,7 +645,7 @@ class GoodsDAO extends PSIBaseExDAO
     }
 
     $sql .= " order by g.code
-              limit 20";
+              limit 50";
     $data = $db->query($sql, $queryParams);
     $result = [];
     foreach ($data as $v) {
@@ -739,7 +739,7 @@ class GoodsDAO extends PSIBaseExDAO
     }
 
     $sql .= " order by g.code
-				limit 20";
+				limit 50";
     $data = $db->query($sql, $queryParams);
     $result = [];
     foreach ($data as $v) {
@@ -829,7 +829,7 @@ class GoodsDAO extends PSIBaseExDAO
     $sumInv = $params["sumInv"];
 
     $sql .= " order by g.code
-              limit 20";
+              limit 50";
     $data = $db->query($sql, $queryParams);
     $result = [];
     foreach ($data as $v) {
@@ -1001,7 +1001,7 @@ class GoodsDAO extends PSIBaseExDAO
     }
 
     $sql .= " order by g.code
-				limit 20";
+				limit 50";
     $data = $db->query($sql, $queryParams);
     $result = [];
     foreach ($data as $v) {
@@ -1106,7 +1106,7 @@ class GoodsDAO extends PSIBaseExDAO
     }
 
     $sql .= " order by g.code
-				limit 20";
+				limit 50";
     $data = $db->query($sql, $queryParams);
     $result = [];
     foreach ($data as $v) {
@@ -1444,7 +1444,7 @@ class GoodsDAO extends PSIBaseExDAO
     }
 
     $sql .= " order by g.code
-              limit 20";
+              limit 50";
     $data = $db->query($sql, $queryParams);
     $result = [];
     foreach ($data as $v) {

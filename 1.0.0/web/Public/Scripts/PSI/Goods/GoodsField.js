@@ -296,6 +296,22 @@ PCL.define("PSI.Goods.GoodsField", {
         me.getParentCmp().__setGoodsInfo(data)
       }
     }
+
+    if (item == null || item.length != 1) {
+      return;
+    }
+
+    var data = item[0].getData();
+
+    me.wnd.close();
+    me.focus();
+    me.setValue(data.code);
+    me.focus();
+    me.setIdValue(data.id);
+
+    if (me.getParentCmp() && me.getParentCmp().__setGoodsInfo) {
+      me.getParentCmp().__setGoodsInfo(data)
+    }
   },
 
   setIdValue: function (id) {
