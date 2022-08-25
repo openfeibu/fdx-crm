@@ -190,6 +190,9 @@ PCL.define("PSI.Goods.GoodsField", {
     me.wnd = wnd;
 
     var editName = PCL.getCmp("__editGoods");
+
+
+
     editName.on("change", function () {
       var store = me.lookupGrid.getStore();
       PCL.Ajax.request({
