@@ -207,35 +207,42 @@ PCL.define("PSI.Goods.GoodsWithSalePriceFieldMulti", {
     me.wnd = wnd;
 
     var editName = PCL.getCmp("__editGoods");
-    editName.on("change", function () {
-      var store = me.lookupGrid.getStore();
-      PCL.Ajax.request({
-        url: PSI.Const.BASE_URL
-        + "Home/Goods/queryDataWithSalePrice",
-        params: {
-          queryKey: editName.getValue(),
-          customerId: customerId,
-          warehouseId: warehouseId,
-          sumInv: me.getSumInv(),
-        },
-        method: "POST",
-        callback: function (opt, success, response) {
-          store.removeAll();
-          if (success) {
-            var data = PCL.JSON.decode(response.responseText);
-            store.add(data);
-            if (data.length > 0) {
-              me.lookupGrid.getSelectionModel().select(0);
-              editName.focus();
-            }
-          } else {
-            PSI.MsgBox.showInfo("网络错误");
-          }
-        },
-        scope: this
-      });
-
-    }, me);
+    var timer = null;
+    editName.on("change",function () {
+		console.log( editName.getValue())
+		
+		timer = setTimeout(function(){
+			 var store = me.lookupGrid.getStore();
+		
+			  PCL.Ajax.request({
+				url: PSI.Const.BASE_URL
+				+ "Home/Goods/queryDataWithSalePrice",
+				params: {
+				  queryKey: editName.getValue(),
+				  customerId: customerId,
+				  warehouseId: warehouseId,
+				  sumInv: me.getSumInv(),
+				},
+				method: "POST",
+				callback: function (opt, success, response) {
+				  store.removeAll();
+				  if (success) {
+					var data = PCL.JSON.decode(response.responseText);
+					store.add(data);
+					if (data.length > 0) {
+					  //me.lookupGrid.getSelectionModel().select(0);
+					  // editName.focus();
+					}
+				  } else {
+					PSI.MsgBox.showInfo("网络错误");
+				  }
+				},
+				scope: this
+			  });
+		
+		},1000)
+			 
+    }, me); 
 
     editName.on("specialkey", function (field, e) {
       if (e.getKey() == e.ENTER) {
