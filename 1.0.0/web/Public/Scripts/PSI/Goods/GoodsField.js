@@ -219,7 +219,7 @@ PCL.define("PSI.Goods.GoodsField", {
       });
 
     }, me);
-
+  
     editName.on("specialkey", function (field, e) {
       if (e.getKey() == e.ENTER) {
         me.onOK();
