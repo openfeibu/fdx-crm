@@ -191,8 +191,6 @@ PCL.define("PSI.Goods.GoodsField", {
 
     var editName = PCL.getCmp("__editGoods");
 
-
-
     editName.on("change", function () {
       var store = me.lookupGrid.getStore();
       PCL.Ajax.request({
@@ -219,7 +217,7 @@ PCL.define("PSI.Goods.GoodsField", {
       });
 
     }, me);
-  
+
     editName.on("specialkey", function (field, e) {
       if (e.getKey() == e.ENTER) {
         me.onOK();
