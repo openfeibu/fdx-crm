@@ -210,7 +210,6 @@ PCL.define("PSI.Goods.GoodsWithSalePriceFieldMulti", {
     var editName = PCL.getCmp("__editGoods");
     var timer = null;
     editName.on("change",function () {
-		console.log( editName.getValue())
 		
 		timer = setTimeout(function(){
 			 var store = me.lookupGrid.getStore();
