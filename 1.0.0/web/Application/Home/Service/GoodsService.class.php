@@ -360,19 +360,15 @@ class GoodsService extends PSIBaseExService
   /**
    * 商品字段，查询数据
    */
-  public function queryData($queryKey, $warehouseId)
+  public function queryData($params)
   {
     if ($this->isNotOnline()) {
       return $this->emptyResult();
     }
-
-    $params = [
-      "queryKey" => $queryKey,
-      "warehouseId" => $warehouseId,
-      "loginUserId" => $this->getLoginUserId(),
-      "companyId" => $this->getCompanyId()
-    ];
-
+	  
+	  $params["loginUserId"] = $this->getLoginUserId();
+	  $params["companyId"] = $this->getCompanyId();
+	  
     $dao = new GoodsDAO($this->db());
     return $dao->queryData($params);
   }
@@ -398,20 +394,14 @@ class GoodsService extends PSIBaseExService
   /**
    * 商品字段，查询数据
    */
-  public function queryDataWithSalePrice($queryKey, $customerId, $warehouseId, $sumInv)
+  public function queryDataWithSalePrice($params)
   {
     if ($this->isNotOnline()) {
       return $this->emptyResult();
     }
-
-    $params = [
-      "queryKey" => $queryKey,
-      "customerId" => $customerId,
-      "warehouseId" => $warehouseId,
-      "sumInv" => $sumInv == "1",
-      "loginUserId" => $this->getLoginUserId(),
-      "companyId" => $this->getCompanyId()
-    ];
+	
+	  $params["loginUserId"] = $this->getLoginUserId();
+	  $params["companyId"] = $this->getCompanyId();
 
     $dao = new GoodsDAO($this->db());
     return $dao->queryDataWithSalePrice($params);
@@ -420,19 +410,14 @@ class GoodsService extends PSIBaseExService
   /**
    * 商品字段，查询数据
    */
-  public function queryDataWithPurchasePrice($queryKey, $supplierId)
+  public function queryDataWithPurchasePrice($params)
   {
     if ($this->isNotOnline()) {
       return $this->emptyResult();
     }
-
-    $params = [
-      "queryKey" => $queryKey,
-      "supplierId" => $supplierId,
-      "loginUserId" => $this->getLoginUserId(),
-      "companyId" => $this->getCompanyId()
-    ];
-
+	  $params["loginUserId"] = $this->getLoginUserId();
+	  $params["companyId"] = $this->getCompanyId();
+	  
     $dao = new GoodsDAO($this->db());
     return $dao->queryDataWithPurchasePrice($params);
   }

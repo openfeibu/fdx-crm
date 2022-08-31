@@ -154,7 +154,7 @@ PCL.define("PSI.Customer.CustomerEditForm", {
           store: PCL.create("PCL.data.ArrayStore", {
             fields: ["id", "text"],
             data: [["0", "记应收账款/月结现结"],
-              ["1", "现金收款"],
+              /*["1", "现金收款"],*/
               /*["2", "预收款"]*/]
           }),
           value: "0",

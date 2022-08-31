@@ -1,5 +1,5 @@
 ﻿/**
- * 自定义字段 - 商品字段，带销售价格
+ * 自定义字段 - 商品字段，带销售价格 弃用，兼容到psi_goods_with_saleprice_field，用 selType
  *
  * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
@@ -14,7 +14,8 @@ PCL.define("PSI.Goods.GoodsWithSalePriceFieldMulti", {
     editCustomerName: null,
     editWarehouseName: null,
     showAddButton: false,
-    sumInv: "0", // 是否合计当前库存：0 - 不合计；1 - 合计
+    sumInv: "0", // 是否合计当前库存：0 - 不合计；1 - 合计,
+    selType:"rowmodel",
   },
 
   /**
@@ -69,7 +70,7 @@ PCL.define("PSI.Goods.GoodsWithSalePriceFieldMulti", {
     var lookupGrid = PCL.create("PCL.grid.Panel", {
       cls: "PSI-Lookup",
       columnLines: true,
-      selType: "checkboxmodel",
+      selType: me.getSelType(), //"checkboxmodel"
       border: 1,
       store: store,
       viewConfig: {
@@ -314,7 +315,7 @@ PCL.define("PSI.Goods.GoodsWithSalePriceFieldMulti", {
       var data = [item[0].getData()];
       me.wnd.close();
       me.focus();
-      me.setValue(data.code);
+      me.setValue(item[0].getData().code);
       me.focus();
       if (me.getParentCmp() && me.getParentCmp().__setGoodsInfo) {
         me.getParentCmp().__setGoodsInfo(data)

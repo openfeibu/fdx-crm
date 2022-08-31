@@ -750,7 +750,7 @@ PCL.define("PSI.PurchaseRej.PREditForm", {
     }else if(data.length != 1){
       var selectData = [];
       data.forEach(v => {
-        selectData.push({
+        var goods = {
           "goodsId":v.id,
           "goodsCode":v.code,
           "goodsName":v.name,
@@ -759,10 +759,11 @@ PCL.define("PSI.PurchaseRej.PREditForm", {
           "taxRate":v.taxRate,
           "rejPrice": v.purchasePrice,
           "goodsPrice": v.purchasePrice,
-        });
+        };
+        me.calcMoney(goods);
+        selectData.push(goods);
       })
       if(item[0].data.goodsId.length == 0){
-        console.log(1)
         selectStore.remove(item)
       }
       selectStore.add(selectData);
@@ -824,16 +825,28 @@ PCL.define("PSI.PurchaseRej.PREditForm", {
     if (!goods) {
       return;
     }
+    this.setGoods(goods);
 
     var rejCount = goods.get("rejCount");
     var rejPrice = goods.get("rejPrice");
     var taxRate = goods.get("taxRate") / 100;
 
     goods.set("goodsPrice", rejPrice);
-    goods.set("rejMoney", rejCount * rejPrice);
+    var rejMoney = rejCount * rejPrice;
+    if(!rejMoney)
+    {
+      rejMoney = 0;
+    }
+
+    goods.set("rejMoney", rejMoney );
     rejPriceWithTax = rejPrice * (1 + taxRate);
     goods.set("rejPriceWithTax", rejPriceWithTax);
-    goods.set("rejMoneyWithTax", rejCount * rejPriceWithTax);
+    var rejMoneyWithTax  = rejCount * rejPriceWithTax;
+    if(!rejMoneyWithTax)
+    {
+      rejMoneyWithTax = 0;
+    }
+    goods.set("rejMoneyWithTax", rejMoneyWithTax);
   },
 
   // 因为含税单价变化
@@ -841,6 +854,7 @@ PCL.define("PSI.PurchaseRej.PREditForm", {
     if (!goods) {
       return;
     }
+    this.setGoods(goods);
 
     var rejCount = goods.get("rejCount");
     var rejPriceWithTax = goods.get("rejPriceWithTax");
@@ -858,6 +872,8 @@ PCL.define("PSI.PurchaseRej.PREditForm", {
     if (!goods) {
       return;
     }
+    this.setGoods(goods);
+
     var rejCount = goods.get("rejCount");
     var rejMoney = goods.get("rejMoney");
     var taxRate = goods.get("taxRate") / 100;
@@ -874,6 +890,8 @@ PCL.define("PSI.PurchaseRej.PREditForm", {
     if (!goods) {
       return;
     }
+    this.setGoods(goods);
+
     var rejCount = goods.get("rejCount");
     var rejMoneyWithTax = goods.get("rejMoneyWithTax");
     var taxRate = goods.get("taxRate") / 100;
@@ -885,6 +903,19 @@ PCL.define("PSI.PurchaseRej.PREditForm", {
       goods.set("rejPriceWithTax", rejMoneyWithTax / rejCount);
     }
   },
+  //如果是直接的对象，先设置set和get
+  setGoods:function (goods) {
+    if(!goods["set"])
+    {
+      goods.set = function (key,value) {
+        goods[key] = value;
+      };
+      goods.get = function (key) {
+        return goods[key];
+      }
+    }
+  },
+
   getSaveData: function () {
     var me = this;
 

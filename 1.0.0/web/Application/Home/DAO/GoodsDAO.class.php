@@ -607,7 +607,11 @@ class GoodsDAO extends PSIBaseExDAO
     $queryKey = $params["queryKey"];
     $warehouseId = $params["warehouseId"];
     $loginUserId = $params["loginUserId"];
-    if ($this->loginUserIdNotExists($loginUserId)) {
+	  $start = $params["start"];
+	  $limit = $params["limit"];
+	
+	  
+	  if ($this->loginUserIdNotExists($loginUserId)) {
       return $this->emptyResult();
     }
 
@@ -643,10 +647,12 @@ class GoodsDAO extends PSIBaseExDAO
       $sql .= " and " . $rs[0];
       $queryParams = array_merge($queryParams, $rs[1]);
     }
-
-    $sql .= " order by g.code
-              limit 50";
-    $data = $db->query($sql, $queryParams);
+	
+	  $sql .= " order by g.code limit %d, %d";
+	  $queryParams[] = $start;
+	  $queryParams[] = $limit;
+	  $data = $db->query($sql, $queryParams);
+	  
     $result = [];
     foreach ($data as $v) {
       $goodsId = $v["id"];
@@ -692,8 +698,32 @@ class GoodsDAO extends PSIBaseExDAO
         "invCnt" => $invCnt,
       ];
     }
-
-    return $result;
+	
+	  $sql = "select count(*) as cnt from t_goods g where (g.record_status = 1000)
+              and (g.code like '%s' or g.name like '%s' or g.py like '%s'
+                    or g.spec like '%s' or g.spec_py like '%s') 
+              and (g.m_type <> 5000) ";
+	  $queryParams = [];
+	  $queryParams[] = $key;
+	  $queryParams[] = $key;
+	  $queryParams[] = $key;
+	  $queryParams[] = $key;
+	  $queryParams[] = $key;
+	
+	  $ds = new DataOrgDAO($db);
+	  $rs = $ds->buildSQL(FIdConst::GOODS, "g", $loginUserId);
+	  if ($rs) {
+		  $sql .= " and " . $rs[0];
+		  $queryParams = array_merge($queryParams, $rs[1]);
+	  }
+	
+	  $data = $db->query($sql, $queryParams);
+	  $totalCount = $data[0]["cnt"];
+	
+	  return [
+		  "goodsList" => $result,
+		  "totalCount" => $totalCount
+	  ];
   }
 
   /**
@@ -782,6 +812,9 @@ class GoodsDAO extends PSIBaseExDAO
 
     $queryKey = $params["queryKey"];
     $loginUserId = $params["loginUserId"];
+	  $start = $params["start"];
+	  $limit = $params["limit"];
+	  
     if ($this->loginUserIdNotExists($loginUserId)) {
       return $this->emptyResult();
     }
@@ -827,10 +860,12 @@ class GoodsDAO extends PSIBaseExDAO
     }
 
     $sumInv = $params["sumInv"];
-
-    $sql .= " order by g.code
-              limit 50";
-    $data = $db->query($sql, $queryParams);
+	
+	  $sql .= " order by g.code limit %d, %d";
+	  $queryParams[] = $start;
+	  $queryParams[] = $limit;
+	  $data = $db->query($sql, $queryParams);
+	  
     $result = [];
     foreach ($data as $v) {
       $priceSystem = "";
@@ -935,8 +970,32 @@ class GoodsDAO extends PSIBaseExDAO
         "invCnt" => $cnt,
       ];
     }
-
-    return $result;
+	
+	  $sql = "select count(*) as cnt from t_goods g where (g.record_status = 1000)
+              and (g.code like '%s' or g.name like '%s' or g.py like '%s'
+                    or g.spec like '%s' or g.spec_py like '%s') 
+              and (g.m_type <> 5000) ";
+	  $queryParams = [];
+	  $queryParams[] = $key;
+	  $queryParams[] = $key;
+	  $queryParams[] = $key;
+	  $queryParams[] = $key;
+	  $queryParams[] = $key;
+	
+	  $ds = new DataOrgDAO($db);
+	  $rs = $ds->buildSQL(FIdConst::GOODS, "g", $loginUserId);
+	  if ($rs) {
+		  $sql .= " and " . $rs[0];
+		  $queryParams = array_merge($queryParams, $rs[1]);
+	  }
+	
+	  $data = $db->query($sql, $queryParams);
+	  $totalCount = $data[0]["cnt"];
+	
+	  return [
+		  "goodsList" => $result,
+		  "totalCount" => $totalCount
+	  ];
   }
 
   /**
@@ -1053,6 +1112,9 @@ class GoodsDAO extends PSIBaseExDAO
     $db = $this->db;
 
     $supplierId = $params["supplierId"];
+	  $start = $params["start"];
+	  $limit = $params["limit"];
+	  
     if ($supplierId) {
       $sql = "select goods_range from t_supplier where id = '%s' ";
       $data = $db->query($sql, $supplierId);
@@ -1105,9 +1167,11 @@ class GoodsDAO extends PSIBaseExDAO
       $queryParams = array_merge($queryParams, $rs[1]);
     }
 
-    $sql .= " order by g.code
-				limit 50";
-    $data = $db->query($sql, $queryParams);
+	  $sql .= " order by g.code limit %d, %d";
+	  $queryParams[] = $start;
+	  $queryParams[] = $limit;
+	  $data = $db->query($sql, $queryParams);
+	  
     $result = [];
     foreach ($data as $v) {
       $goodsId = $v["id"];
@@ -1143,8 +1207,33 @@ class GoodsDAO extends PSIBaseExDAO
         "taxRateType" => $taxRateType
       ];
     }
+	
+	  $sql = "select count(*) as cnt from t_goods g where (g.record_status = 1000)
+              and (g.code like '%s' or g.name like '%s' or g.py like '%s'
+                    or g.spec like '%s' or g.spec_py like '%s') 
+              and (g.m_type <> 5000) ";
+	  $queryParams = [];
+	  $queryParams[] = $key;
+	  $queryParams[] = $key;
+	  $queryParams[] = $key;
+	  $queryParams[] = $key;
+	  $queryParams[] = $key;
+	  
+	  $ds = new DataOrgDAO($db);
+	  $rs = $ds->buildSQL(FIdConst::GOODS, "g", $loginUserId);
+	  if ($rs) {
+		  $sql .= " and " . $rs[0];
+		  $queryParams = array_merge($queryParams, $rs[1]);
+	  }
+	 
+	  $data = $db->query($sql, $queryParams);
+	  $totalCount = $data[0]["cnt"];
+	
+	  return [
+		  "goodsList" => $result,
+		  "totalCount" => $totalCount
+	  ];
 
-    return $result;
   }
 
   /**

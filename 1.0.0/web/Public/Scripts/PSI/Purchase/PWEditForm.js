@@ -726,7 +726,7 @@ PCL.define("PSI.Purchase.PWEditForm", {
     }else if(data.length != 1){
       var selectData = [];
       data.forEach(v => {
-        selectData.push({
+        var goods = {
           "goodsId":v.id,
           "goodsCode":v.code,
           "goodsName":v.name,
@@ -734,10 +734,12 @@ PCL.define("PSI.Purchase.PWEditForm", {
           "goodsSpec":v.spec,
           "taxRate":v.taxRate,
           "goodsPrice": v.purchasePrice,
-        });
+        };
+        me.calcMoney(goods);
+        selectData.push(goods);
       })
+
       if(item[0].data.goodsId.length == 0){
-        console.log(1)
         selectStore.remove(item)
       }
       selectStore.add(selectData);

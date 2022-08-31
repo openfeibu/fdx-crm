@@ -375,10 +375,16 @@ class GoodsController extends PSIBaseController
         die("没有权限");
       }
 
-      $queryKey = I("post.queryKey");
-      $warehouseId = I("post.warehouseId");
+	    $params = [
+		    "queryKey" => I("post.queryKey"),
+		    "warehouseId" => I("post.warehouseId"),
+		    "page" => I("post.page"),
+		    "start" => I("post.start"),
+		    "limit" => I("post.limit")
+	    ];
+	    
       $gs = new GoodsService();
-      $this->ajaxReturn($gs->queryData($queryKey, $warehouseId));
+      $this->ajaxReturn($gs->queryData($params));
     }
   }
 
@@ -410,12 +416,19 @@ class GoodsController extends PSIBaseController
         die("没有权限");
       }
 
-      $queryKey = I("post.queryKey");
-      $customerId = I("post.customerId");
-      $warehouseId = I("post.warehouseId");
-      $sumInv = I("post.sumInv");
+
+	    $params = [
+		    "queryKey" => I("post.queryKey"),
+		    "customerId" => I("post.customerId"),
+		    "warehouseId" => I("post.warehouseId"),
+		    "sumInv" => I("post.sumInv"),
+		    "page" => I("post.page"),
+		    "start" => I("post.start"),
+		    "limit" => I("post.limit")
+	    ];
+	    
       $gs = new GoodsService();
-      $this->ajaxReturn($gs->queryDataWithSalePrice($queryKey, $customerId, $warehouseId, $sumInv));
+      $this->ajaxReturn($gs->queryDataWithSalePrice($params));
     }
   }
 
@@ -429,11 +442,16 @@ class GoodsController extends PSIBaseController
       if (!$us->hasPermission(FIdConst::GOODS_BILL)) {
         die("没有权限");
       }
-
-      $queryKey = I("post.queryKey");
-      $supplierId = I("post.supplierId");
+	    $params = [
+		    "queryKey" => I("post.queryKey"),
+		    "supplierId" => I("post.supplierId"),
+		    "page" => I("post.page"),
+		    "start" => I("post.start"),
+		    "limit" => I("post.limit")
+	    ];
+	    
       $gs = new GoodsService();
-      $this->ajaxReturn($gs->queryDataWithPurchasePrice($queryKey, $supplierId));
+      $this->ajaxReturn($gs->queryDataWithPurchasePrice($params));
     }
   }
 

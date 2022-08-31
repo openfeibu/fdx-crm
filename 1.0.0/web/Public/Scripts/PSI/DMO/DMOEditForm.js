@@ -675,19 +675,43 @@ PCL.define("PSI.DMO.DMOEditForm", {
   __setGoodsInfo: function (data) {
     var me = this;
     var item = me.getGoodsGrid().getSelectionModel().getSelection();
-    if (item == null || item.length != 1) {
+    var selectStore = me.getGoodsGrid().getStore();
+
+    if (item == null) {
       return;
+    }else if(data.length != 1){
+      var selectData = [];
+      data.forEach(v => {
+        var goods = {
+          "goodsId":v.id,
+          "goodsCode":v.code,
+          "goodsName":v.name,
+          "unitName":v.unitName,
+          "goodsSpec":v.spec,
+          "taxRate":v.taxRate,
+        };
+        me.calcMoney(goods);
+        selectData.push(goods);
+      })
+
+      if(item[0].data.goodsId.length == 0){
+        selectStore.remove(item)
+      }
+      selectStore.add(selectData);
+    }else{
+
+      var goods = item[0];
+      var dataInfo = data[0];
+
+      goods.set("goodsId", dataInfo.id);
+      goods.set("goodsCode", dataInfo.code);
+      goods.set("goodsName", dataInfo.name);
+      goods.set("unitName", dataInfo.unitName);
+      goods.set("goodsSpec", dataInfo.spec);
+      goods.set("taxRate", dataInfo.taxRate);
+
+      me.calcMoney(goods);
     }
-    var goods = item[0];
-
-    goods.set("goodsId", data.id);
-    goods.set("goodsCode", data.code);
-    goods.set("goodsName", data.name);
-    goods.set("unitName", data.unitName);
-    goods.set("goodsSpec", data.spec);
-    goods.set("taxRate", data.taxRate);
-
-    me.calcMoney(goods);
   },
 
   cellEditingAfterEdit: function (editor, e) {

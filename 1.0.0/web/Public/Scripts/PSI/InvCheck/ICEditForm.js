@@ -504,7 +504,7 @@ PCL.define("PSI.InvCheck.ICEditForm", {
       }
     }
   },
-
+  // 控件 xtype:psi_goodsfield 会回调本方法
   __setGoodsInfo: function (data) {
     var me = this;
     var item = me.getGoodsGrid().getSelectionModel().getSelection();
@@ -515,17 +515,17 @@ PCL.define("PSI.InvCheck.ICEditForm", {
     }else if(data.length != 1){
       var selectData = [];
       data.forEach(v => {
-        selectData.push({
+        var goods = {
           "goodsId":v.id,
           "goodsCode":v.code,
           "goodsName":v.name,
           "goodsCount":v.invCnt,
           "unitName":v.unitName,
           "goodsSpec":v.spec,
-        });
+        };
+        selectData.push(goods);
       })
       if(item[0].data.goodsId.length == 0){
-        console.log(1)
         selectStore.remove(item)
       }
       selectStore.add(selectData);

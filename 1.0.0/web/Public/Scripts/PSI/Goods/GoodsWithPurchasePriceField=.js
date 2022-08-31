@@ -1,20 +1,20 @@
 ﻿/**
- * 自定义字段 - 商品字段，带销售价格
- *
+ * 自定义字段 - 物料字段，显示建议采购价
+ * 
  * @author 广州飞步信息科技有限公司
  * @copyright 2015 - present
  * @license GPL v3
  */
-PCL.define("PSI.Goods.GoodsWithSalePriceField", {
+PCL.define("PSI.Goods.GoodsWithPurchaseFieldField", {
   extend: "PCL.form.field.Trigger",
-  alias: "widget.psi_goods_with_saleprice_field",
+  alias: "widget.psi_goods_with_purchaseprice_field",
 
   config: {
     parentCmp: null,
-    editCustomerName: null,
-    editWarehouseName: null,
     showAddButton: false,
-    sumInv: "0", // 是否合计当前库存：0 - 不合计；1 - 合计
+    supplierIdFunc: null,
+    supplierIdScope: null,
+    selType:"rowmodel",
   },
 
   /**
@@ -35,7 +35,7 @@ PCL.define("PSI.Goods.GoodsWithSalePriceField", {
       }
 
       if (e.getKey() != e.ENTER && !e.isSpecialKey(e.getKey())) {
-        this.onTriggerClick(e);
+        me.onTriggerClick(e);
       }
     });
 
@@ -50,37 +50,72 @@ PCL.define("PSI.Goods.GoodsWithSalePriceField", {
   },
 
   /**
-   * 单击下拉组件
+   * 单击下拉按钮
    */
   onTriggerClick: function (e) {
     var me = this;
-    var modelName = "PSIGoodsField";
+    var modelName = "PSI_Goods_GoodsWithPurchaseFieldField_PSIGoodsField";
     PCL.define(modelName, {
       extend: "PCL.data.Model",
       fields: ["id", "code", "name", "spec", "unitName",
-        "salePrice", "memo", "priceSystem", "taxRate", "invCnt"]
+        "purchasePrice", "memo", "taxRate", "taxRateType"]
     });
 
     var store = PCL.create("PCL.data.Store", {
       model: modelName,
       autoLoad: false,
-      data: []
+      data: [],
+      pageSize: 20,
     });
     var lookupGrid = PCL.create("PCL.grid.Panel", {
       cls: "PSI-Lookup",
+      bbar: ["->", {
+        id: "pagingFieldToolbar",
+        border: 0,
+        xtype: "pagingtoolbar",
+        store: store
+      }, "-", {
+        xtype: "displayfield",
+        value: "每页显示"
+      }, {
+        id: "comboFieldCountPerPage",
+        xtype: "combobox",
+        editable: false,
+        width: 60,
+        store: PCL.create("PCL.data.ArrayStore", {
+          fields: ["text"],
+          data: [["20"], ["50"], ["100"], ["300"],
+            ["1000"]]
+        }),
+        value: 20,
+        listeners: {
+          change: {
+            fn: function () {
+              store.pageSize = PCL.getCmp("comboFieldCountPerPage").getValue();
+              store.currentPage = 1;
+              PCL.getCmp("pagingFieldToolbar").doRefresh();
+            },
+            scope: me
+          }
+        }
+      }, {
+        xtype: "displayfield",
+        value: "条记录"
+      }],
       columnLines: true,
+      selType: me.getSelType(), //"checkboxmodel"
       border: 1,
       store: store,
       viewConfig: {
         enableTextSelection: true
       },
       columns: [{
-        header: "编码",
+        header: "物料编码",
         dataIndex: "code",
         menuDisabled: true,
         width: 70
       }, {
-        header: "商品",
+        header: "品名",
         dataIndex: "name",
         menuDisabled: true,
         flex: 1
@@ -90,27 +125,16 @@ PCL.define("PSI.Goods.GoodsWithSalePriceField", {
         menuDisabled: true,
         flex: 1
       }, {
-        header: me.getSumInv() == "1" ? "当前库存合计" : "当前库存",
-        dataIndex: "invCnt",
-        menuDisabled: true,
-        align: "right",
-        width: 100
-      }, {
         header: "单位",
         dataIndex: "unitName",
         menuDisabled: true,
         width: 60
       }, {
-        header: "销售价",
-        dataIndex: "salePrice",
+        header: "建议采购价", hidden: true,
+        dataIndex: "purchasePrice",
         menuDisabled: true,
         align: "right",
         xtype: "numbercolumn"
-      }, {
-        header: "价格体系",
-        dataIndex: "priceSystem",
-        menuDisabled: true,
-        width: 80
       }, {
         header: "备注",
         dataIndex: "memo",
@@ -132,7 +156,7 @@ PCL.define("PSI.Goods.GoodsWithSalePriceField", {
     }, "->"];
     if (me.getShowAddButton()) {
       buttons.push({
-        text: "新建商品",
+        text: "新建物料",
         handler: me.onAddGoods,
         scope: me
       });
@@ -149,14 +173,15 @@ PCL.define("PSI.Goods.GoodsWithSalePriceField", {
     });
 
     var wnd = PCL.create("PCL.window.Window", {
-      title: "选择 - 商品",
-      header: false,
-      border: 0,
-      width: 1050,
+      title: "选择 - 物料",
+      width: 950,
       height: 300,
       layout: "border",
+      header: false,
+      border: 0,
       items: [{
         region: "center",
+        id: "PSI_Goods_GoodsWithPurchaseFieldField_Form",
         xtype: "panel",
         layout: "fit",
         border: 0,
@@ -178,23 +203,12 @@ PCL.define("PSI.Goods.GoodsWithSalePriceField", {
             labelWidth: 0,
             labelAlign: "right",
             labelSeparator: ""
-          }]
+          }
+          ]
         }]
       }],
       buttons: buttons
     });
-
-    var customerId = null;
-    var editCustomer = PCL.getCmp(me.getEditCustomerName());
-    if (editCustomer) {
-      customerId = editCustomer.getIdValue();
-    }
-
-    var warehouseId = null;
-    var editWarehouse = PCL.getCmp(me.getEditWarehouseName());
-    if (editWarehouse) {
-      warehouseId = editWarehouse.getIdValue();
-    }
 
     wnd.on("close", function () {
       me.focus();
@@ -202,40 +216,15 @@ PCL.define("PSI.Goods.GoodsWithSalePriceField", {
     wnd.on("deactivate", function () {
       wnd.close();
     });
-
     me.wnd = wnd;
-
+    me.goodsForm = PCL.getCmp("PSI_Goods_GoodsWithPurchaseFieldField_Form");
     var editName = PCL.getCmp("__editGoods");
+    /*
     editName.on("change", function () {
-      var store = me.lookupGrid.getStore();
-      PCL.Ajax.request({
-        url: PSI.Const.BASE_URL
-        + "Home/Goods/queryDataWithSalePrice",
-        params: {
-          queryKey: editName.getValue(),
-          customerId: customerId,
-          warehouseId: warehouseId,
-          sumInv: me.getSumInv(),
-        },
-        method: "POST",
-        callback: function (opt, success, response) {
-          store.removeAll();
-          if (success) {
-            var data = PCL.JSON.decode(response.responseText);
-            store.add(data);
-            if (data.length > 0) {
-              me.lookupGrid.getSelectionModel().select(0);
-              editName.focus();
-            }
-          } else {
-            PSI.MsgBox.showInfo("网络错误");
-          }
-        },
-        scope: this
-      });
+
 
     }, me);
-
+*/
     editName.on("specialkey", function (field, e) {
       if (e.getKey() == e.ENTER) {
         me.onOK();
@@ -279,30 +268,94 @@ PCL.define("PSI.Goods.GoodsWithSalePriceField", {
       editName.fireEvent("change");
     }, me);
     wnd.showBy(me);
+
+    flag = true;
+    Ext.EventManager.addListener("__editGoods", 'compositionstart', function(){
+      flag = false;
+      console.log(flag)
+    });
+    Ext.EventManager.addListener("__editGoods", 'compositionend', function(){
+      flag = true;
+      console.log(flag)
+    });
+
+    Ext.EventManager.addListener("__editGoods", 'input', PSI.CustomerCommon.debounce_f(function() {
+      if (flag) {
+        const f = me.goodsForm;
+        const el = f.getEl();
+        el && el.mask("数据加载中...");
+        var supplierId = null;
+        var supplierIdFunc = me.getSupplierIdFunc();
+        if (supplierIdFunc) {
+          supplierId = supplierIdFunc.apply(me.getSupplierIdScope());
+        }
+        var store = me.lookupGrid.getStore();
+        me.getQueryParam();
+        PCL.Ajax.request({
+          url: PSI.Const.BASE_URL
+          + "Home/Goods/queryDataWithPurchasePrice",
+          params: {
+            queryKey: editName.getValue(),
+            supplierId: supplierId
+          },
+          method: "POST",
+          callback: function (opt, success, response) {
+            el.unmask();
+            store.removeAll();
+            if (success) {
+              var data = PCL.JSON.decode(response.responseText);
+              store.add(data);
+              if (data.length > 0) {
+                me.lookupGrid.getSelectionModel().select(0);
+                editName.focus();
+              }
+            } else {
+              PSI.MsgBox.showInfo("网络错误");
+            }
+          },
+          scope: this
+        });
+      }
+    }, 500, false));
   },
 
   onOK: function () {
     var me = this;
     var grid = me.lookupGrid;
     var item = grid.getSelectionModel().getSelection();
-    if (item == null || item.length != 1) {
+    if (item == null ) {
+
       return;
+    }else if (item.length != 1) {
+      //多选
+      var data = [];
+      item.forEach(v => {
+        data.push(v.getData());
+      })
+      me.wnd.close();
+      me.focus();
+
+      if (me.getParentCmp() && me.getParentCmp().__setGoodsInfo) {
+        me.getParentCmp().__setGoodsInfo(data)
+      }
+    }else{
+      //单选
+      var data = [item[0].getData()];
+
+      me.wnd.close();
+      me.focus();
+      me.setValue(data.code);
+      me.focus();
+
+      if (me.getParentCmp() && me.getParentCmp().__setGoodsInfo) {
+        me.getParentCmp().__setGoodsInfo(data)
+      }
     }
 
-    var data = item[0].getData();
-
-    me.wnd.close();
-    me.focus();
-    me.setValue(data.code);
-    me.focus();
-
-    if (me.getParentCmp() && me.getParentCmp().__setGoodsInfo) {
-      me.getParentCmp().__setGoodsInfo(data)
-    }
   },
 
   onAddGoods: function () {
-    var form = PCL.create("PSI.Goods.GoodsEditForm");
+    var form = PCL.create("PSI.Goods.GoodsgoodsForm");
 
     form.show();
   }

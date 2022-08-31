@@ -255,7 +255,7 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
           store: PCL.create("PCL.data.ArrayStore", {
             fields: ["id", "text"],
             data: [["0", "记应收账款/月结现结"],
-            ["1", "现金收款"]]
+            /*["1", "现金收款"]*/]
           }),
           value: "0",
           listeners: {
@@ -565,11 +565,12 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
         sortable: false,
         draggable: false,
         editor: {
-          xtype: "psi_goods_with_saleprice_field_multi",
+          xtype: "psi_goods_with_saleprice_field",
           //showAddButton: me.getShowAddGoodsButton() == "1",
           parentCmp: me,
           editCustomerName: "editCustomer",
           sumInv: "1",
+          selType:'checkboxmodel',
         }
       }, {
         menuDisabled: true,
@@ -773,18 +774,19 @@ PCL.define("PSI.SaleOrder.SOEditForm", {
     }else if(data.length != 1){
       var selectData = [];
       data.forEach(v => {
-         selectData.push({
-           "goodsId":v.id,
-           "goodsCode":v.code,
-           "goodsName":v.name,
-           "unitName":v.unitName,
-           "goodsSpec":v.spec,
-           "goodsPrice":v.salePrice,
-           "taxRate":v.taxRate
-         });
+        var goods = {
+          "goodsId":v.id,
+          "goodsCode":v.code,
+          "goodsName":v.name,
+          "unitName":v.unitName,
+          "goodsSpec":v.spec,
+          "goodsPrice":v.salePrice,
+          "taxRate":v.taxRate
+        };
+        me.calcMoney(goods);
+        selectData.push(goods);
       })
       if(item[0].data.goodsId.length == 0){
-        console.log(1)
          selectStore.remove(item)
       }
       selectStore.add(selectData);

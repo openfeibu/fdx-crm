@@ -371,6 +371,7 @@ PCL.define("PSI.Goods.GoodsBOMEditForm", {
     me.ajax(r);
   },
 
+  // 控件 xtype:psi_subgoodsfield 会回调本方法
   __setGoodsInfo: function (goods) {
     var me = this;
     if (goods) {

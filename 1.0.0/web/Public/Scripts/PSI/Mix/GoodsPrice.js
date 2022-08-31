@@ -12,6 +12,8 @@ Ext.define("PSI.Mix.GoodsPrice", {
     if (!goods) {
       return;
     }
+    this.setGoods(goods);
+
     var taxRate = goods.get("taxRate") / 100;
     if (isNaN(taxRate)) {
       taxRate = 0;
@@ -41,6 +43,7 @@ Ext.define("PSI.Mix.GoodsPrice", {
     if (!goods) {
       return;
     }
+    this.setGoods(goods);
 
     goods.set("goodsMoney", goods.get("tax") * 100
       / goods.get("taxRate"));
@@ -58,6 +61,7 @@ Ext.define("PSI.Mix.GoodsPrice", {
     if (!goods) {
       return;
     }
+    this.setGoods(goods);
 
     var cnt = parseFloat(goods.get("goodsCount"));
     var price = parseFloat(goods.get("goodsPrice"));
@@ -89,6 +93,7 @@ Ext.define("PSI.Mix.GoodsPrice", {
     if (!goods) {
       return;
     }
+    this.setGoods(goods);
 
     goods.set("moneyWithTax", goods.get("goodsPriceWithTax")
       * goods.get("goodsCount"));
@@ -108,11 +113,25 @@ Ext.define("PSI.Mix.GoodsPrice", {
     if (!goods) {
       return;
     }
+    this.setGoods(goods);
 
     var cnt = parseFloat(goods.get("goodsCount"));
     if (!isNaN(cnt) && Math.abs(cnt) > 1e-10) {
       goods.set("goodsPrice", goods.get("goodsMoney") / cnt);
       goods.set("goodsPriceWithTax", goods.get("moneyWithTax") / cnt);
+    }
+  },
+
+  //如果是直接的对象，先设置set和get
+  setGoods:function (goods) {
+    if(!goods["set"])
+    {
+      goods.set = function (key,value) {
+        goods[key] = value;
+      };
+      goods.get = function (key) {
+        return goods[key];
+      }
     }
   }
 });

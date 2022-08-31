@@ -26,6 +26,14 @@ PCL.define("PSI.Goods.GoodsField", {
   initComponent: function () {
     var me = this;
 
+    if(typeof(goods_field_id)=='undefined')
+    {
+      goods_field_id = 1;
+    }else{
+      goods_field_id++;
+    }
+
+    console.log(goods_field_id);
     me.enableKeyEvents = true;
 
     me.callParent(arguments);
@@ -72,10 +80,65 @@ PCL.define("PSI.Goods.GoodsField", {
     var store = PCL.create("PCL.data.Store", {
       model: modelName,
       autoLoad: false,
-      data: []
+      data: [],
+      pageSize: 20,
+      proxy: {
+        type: "ajax",
+        actionMethods: {
+          read: "POST"
+        },
+        url: PSI.Const.BASE_URL
+        + "Home/Goods/queryData",
+        reader: {
+          root: 'goodsList',
+          totalProperty: 'totalCount'
+        }
+      }
     });
+
+    store.on("beforeload", function () {
+      store.proxy.extraParams = {
+        warehouseId: warehouseId,
+        queryKey: editName.getValue(),
+      };
+    });
+    var pagingFieldToolbar_id = 'pagingFieldToolbar_'+goods_field_id;
+    var comboFieldCountPerPage_id = 'comboFieldCountPerPage'+goods_field_id;
     var lookupGrid = PCL.create("PCL.grid.Panel", {
       cls: "PSI-Lookup",
+      bbar: ["->", {
+        id: pagingFieldToolbar_id,
+        border: 0,
+        xtype: "pagingtoolbar",
+        store: store
+      }, "-", {
+        xtype: "displayfield",
+        value: "每页显示"
+      }, {
+        id: comboFieldCountPerPage_id,
+        xtype: "combobox",
+        editable: false,
+        width: 60,
+        store: PCL.create("PCL.data.ArrayStore", {
+          fields: ["text"],
+          data: [["20"], ["50"], ["100"], ["300"],
+            ["1000"]]
+        }),
+        value: 20,
+        listeners: {
+          change: {
+            fn: function () {
+              store.pageSize = PCL.getCmp(comboFieldCountPerPage_id).getValue();
+              store.currentPage = 1;
+              PCL.getCmp(pagingFieldToolbar_id).doRefresh();
+            },
+            scope: me
+          }
+        }
+      }, {
+        xtype: "displayfield",
+        value: "条记录"
+      }],
       columnLines: true,
       selType: me.getSelType(), //"checkboxmodel"
       border: 1,
@@ -89,15 +152,13 @@ PCL.define("PSI.Goods.GoodsField", {
         menuDisabled: true,
         width: 70
       }, {
-        header: "品名",
+        header: "品名/规格型号",
         dataIndex: "name",
         menuDisabled: true,
-        flex: 1
-      }, {
-        header: "规格型号",
-        dataIndex: "spec",
-        menuDisabled: true,
-        flex: 1
+        flex: 1,
+        renderer: function (value, metaData, record) {
+          return record.get("name") + " " + record.get("spec");
+        }
       }, {
         header: "当前库存",
         dataIndex: "invCnt",
@@ -191,33 +252,6 @@ PCL.define("PSI.Goods.GoodsField", {
 
     var editName = PCL.getCmp("__editGoods");
 
-    editName.on("change", function () {
-      var store = me.lookupGrid.getStore();
-      PCL.Ajax.request({
-        url: PSI.Const.BASE_URL + "Home/Goods/queryData",
-        params: {
-          queryKey: editName.getValue(),
-          warehouseId: warehouseId
-        },
-        method: "POST",
-        callback: function (opt, success, response) {
-          store.removeAll();
-          if (success) {
-            var data = PCL.JSON.decode(response.responseText);
-            store.add(data);
-            if (data.length > 0) {
-              me.lookupGrid.getSelectionModel().select(0);
-              editName.focus();
-            }
-          } else {
-            PSI.MsgBox.showInfo("网络错误");
-          }
-        },
-        scope: this
-      });
-
-    }, me);
-
     editName.on("specialkey", function (field, e) {
       if (e.getKey() == e.ENTER) {
         me.onOK();
@@ -258,9 +292,27 @@ PCL.define("PSI.Goods.GoodsField", {
 
     me.wnd.on("show", function () {
       editName.focus();
-      editName.fireEvent("change");
+      store.load();
     }, me);
     wnd.showBy(me);
+
+    flag = true;
+    Ext.EventManager.addListener("__editGoods", 'compositionstart', function(){
+      flag = false;
+      console.log(flag)
+    });
+    Ext.EventManager.addListener("__editGoods", 'compositionend', function(){
+      flag = true;
+      console.log(flag)
+    });
+
+    Ext.EventManager.addListener("__editGoods", 'input', PSI.CustomerCommon.debounce_f(function() {
+      if (flag) {
+        store.currentPage = 1;
+        store.pageSize = PCL.getCmp(comboFieldCountPerPage_id).getValue();
+        PCL.getCmp(pagingFieldToolbar_id).doRefresh();
+      }
+    }, 500, false));
   },
 
   onOK: function () {
@@ -286,32 +338,15 @@ PCL.define("PSI.Goods.GoodsField", {
     }else{
       //单选
       var data = [item[0].getData()];
-
       me.wnd.close();
       me.focus();
-      me.setValue(data.code);
+      me.setValue(item[0].getData().code);
       me.focus();
-      me.setIdValue(data.id);
+      me.setIdValue(item[0].getData().id);
 
       if (me.getParentCmp() && me.getParentCmp().__setGoodsInfo) {
         me.getParentCmp().__setGoodsInfo(data)
       }
-    }
-
-    if (item == null || item.length != 1) {
-      return;
-    }
-
-    var data = item[0].getData();
-
-    me.wnd.close();
-    me.focus();
-    me.setValue(data.code);
-    me.focus();
-    me.setIdValue(data.id);
-
-    if (me.getParentCmp() && me.getParentCmp().__setGoodsInfo) {
-      me.getParentCmp().__setGoodsInfo(data)
     }
   },
 

@@ -251,7 +251,7 @@ Ext.define("PSI.Sale.WSEditForm", {
           store: Ext.create("Ext.data.ArrayStore", {
             fields: ["id", "text"],
             data: [["0", "记应收账款/月结现结"],
-            ["1", "现金收款"],
+            /*["1", "现金收款"],*/
             /*["2", "用预收款支付"]*/]
           }),
           value: "0",
@@ -693,7 +693,8 @@ Ext.define("PSI.Sale.WSEditForm", {
           xtype: "psi_goods_with_saleprice_field",
           parentCmp: me,
           editCustomerName: "editCustomer",
-          editWarehouseName: "editWarehouse"
+          editWarehouseName: "editWarehouse",
+          selType:'checkboxmodel',
         }
       }, {
         menuDisabled: true,
@@ -943,21 +944,41 @@ Ext.define("PSI.Sale.WSEditForm", {
   __setGoodsInfo: function (data) {
     var me = this;
     var item = me.getGoodsGrid().getSelectionModel().getSelection();
-    if (item == null || item.length != 1) {
+    var selectStore = me.getGoodsGrid().getStore();
+    if (item == null) {
       return;
+    }else if(data.length != 1){
+      var selectData = [];
+      data.forEach(v => {
+        var goods = {
+          "goodsId":v.id,
+          "goodsCode":v.code,
+          "goodsName":v.name,
+          "unitName":v.unitName,
+          "goodsSpec":v.spec,
+          "goodsPrice":v.salePrice,
+          "taxRate":v.taxRate
+        };
+        me.calcMoney(goods);
+        selectData.push(goods);
+      })
+      if(item[0].data.goodsId.length == 0){
+        selectStore.remove(item)
+      }
+      selectStore.add(selectData);
+    }else{
+
+      var goods = item[0];
+      var dataInfo = data[0]
+      goods.set("goodsId", dataInfo.id);
+      goods.set("goodsCode", dataInfo.code);
+      goods.set("goodsName", dataInfo.name);
+      goods.set("unitName", dataInfo.unitName);
+      goods.set("goodsSpec", dataInfo.spec);
+      goods.set("goodsPrice", dataInfo.salePrice);
+      goods.set("taxRate", dataInfo.taxRate);
+      me.calcMoney(goods);
     }
-    var goods = item[0];
-
-    goods.set("goodsId", data.id);
-    goods.set("goodsCode", data.code);
-    goods.set("goodsName", data.name);
-    goods.set("unitName", data.unitName);
-    goods.set("goodsSpec", data.spec);
-    goods.set("goodsPrice", data.salePrice);
-
-    goods.set("taxRate", data.taxRate);
-
-    me.calcMoney(goods);
   },
 
   getSaveData: function () {

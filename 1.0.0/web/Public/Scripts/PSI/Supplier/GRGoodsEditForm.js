@@ -225,9 +225,11 @@ PCL.define("PSI.Supplier.GRGoodsEditForm", {
     editCode.focus();
   },
 
-  __setGoodsInfo: function (goods) {
+  // 控件 xtype:psi_goodsfield 会回调本方法
+  __setGoodsInfo: function (data) {
     var me = this;
-    if (goods) {
+    if (data.length > 0) {
+      var goods = data[0];
       me.editGoodsId.setValue(goods.id);
       me.editGoodsName.setValue(goods.name);
       me.editGoodsSpec.setValue(goods.spec);

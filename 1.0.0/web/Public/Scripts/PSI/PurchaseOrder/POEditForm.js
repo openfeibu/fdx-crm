@@ -688,33 +688,71 @@ PCL.define("PSI.PurchaseOrder.POEditForm", {
   __setGoodsInfo: function (data) {
     var me = this;
     var item = me.getGoodsGrid().getSelectionModel().getSelection();
-    if (item == null || item.length != 1) {
+    var selectStore = me.getGoodsGrid().getStore();
+
+    if (item == null) {
       return;
-    }
-    var goods = item[0];
+    }else if(data.length != 1){
+      var selectData = [];
 
-    goods.set("goodsId", data.id);
-    goods.set("goodsCode", data.code);
-    goods.set("goodsName", data.name);
-    goods.set("unitName", data.unitName);
-    goods.set("goodsSpec", data.spec);
-    if (me.__taxRateBySupplier) {
-      if (data.taxRateType > 1) {
-        // 该物料设置了自己的特定税率
-        goods.set("taxRate", data.taxRate);
-      } else {
-        // 设置了供应商税率，优先使用供应商税率
-        goods.set("taxRate", me.__taxRateBySupplier);
+      data.forEach(v => {
+        if (me.__taxRateBySupplier) {
+          if (v.taxRateType > 1) {
+            // 该物料设置了自己的特定税率
+            var taxRate =  v.taxRate;
+          } else {
+            // 设置了供应商税率，优先使用供应商税率
+            var taxRate = me.__taxRateBySupplier;
+          }
+        } else {
+          // 没有设置供应商税率
+          var taxRate =  v.taxRate;
+        }
+        var goods = {
+          "goodsId":v.id,
+          "goodsCode":v.code,
+          "goodsName":v.name,
+          "unitName":v.unitName,
+          "goodsSpec":v.spec,
+          "taxRate":taxRate,
+          "goodsPrice": v.purchasePrice,
+        };
+        me.calcMoney(goods);
+        selectData.push(goods);
+      })
+      if(item[0].data.goodsId.length == 0){
+        selectStore.remove(item)
       }
-    } else {
-      // 没有设置供应商税率
-      goods.set("taxRate", data.taxRate);
+      selectStore.add(selectData);
+    }else{
+
+      var goods = item[0];
+      var dataInfo = data[0];
+
+      goods.set("goodsId", dataInfo.id);
+      goods.set("goodsCode", dataInfo.code);
+      goods.set("goodsName", dataInfo.name);
+      goods.set("unitName", dataInfo.unitName);
+      goods.set("goodsSpec", dataInfo.spec);
+      if (me.__taxRateBySupplier) {
+        if (dataInfo.taxRateType > 1) {
+          // 该物料设置了自己的特定税率
+          goods.set("taxRate", dataInfo.taxRate);
+        } else {
+          // 设置了供应商税率，优先使用供应商税率
+          goods.set("taxRate", me.__taxRateBySupplier);
+        }
+      } else {
+        // 没有设置供应商税率
+        goods.set("taxRate", dataInfo.taxRate);
+      }
+
+      // 设置建议采购价
+      goods.set("goodsPrice", dataInfo.purchasePrice);
+
+      me.calcMoney(goods);
     }
 
-    // 设置建议采购价
-    goods.set("goodsPrice", data.purchasePrice);
-
-    me.calcMoney(goods);
   },
 
   cellEditingAfterEdit: function (editor, e) {
