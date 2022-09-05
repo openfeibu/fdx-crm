@@ -68,8 +68,24 @@ PCL.define("PSI.Customer.CustomerField", {
     var store = PCL.create("PCL.data.Store", {
       model: modelName,
       autoLoad: false,
-      data: []
+      data: [],
+      proxy: {
+        type: "ajax",
+        actionMethods: {
+          read: "POST"
+        },
+        url: PSI.Const.BASE_URL
+        + "Home/Customer/queryData",
+      }
+
     });
+
+    store.on("beforeload", function () {
+      store.proxy.extraParams = {
+        queryKey: editName.getValue(),
+      };
+    });
+
     var lookupGrid = PCL.create("PCL.grid.Panel", {
       cls: "PSI-Lookup",
       columnLines: true,
@@ -172,7 +188,9 @@ PCL.define("PSI.Customer.CustomerField", {
     }
     me.wnd = wnd;
 
+
     var editName = PCL.getCmp("__editCustomer");
+    /*
     editName.on("change", function () {
       var store = me.lookupGrid.getStore();
       PCL.Ajax.request({
@@ -198,6 +216,7 @@ PCL.define("PSI.Customer.CustomerField", {
       });
 
     }, me);
+    */
 
     editName.on("specialkey", function (field, e) {
       if (e.getKey() == e.ENTER) {
@@ -239,9 +258,26 @@ PCL.define("PSI.Customer.CustomerField", {
 
     me.wnd.on("show", function () {
       editName.focus();
-      editName.fireEvent("change");
+      //editName.fireEvent("change");
     }, me);
     wnd.showBy(me);
+
+
+    flag = true;
+    Ext.EventManager.addListener("__editCustomer", 'compositionstart', function(){
+      flag = false;
+    });
+    Ext.EventManager.addListener("__editCustomer", 'compositionend', function(){
+      flag = true;
+    });
+
+    Ext.EventManager.addListener("__editCustomer", 'input', PSI.CustomerCommon.debounce_f(function() {
+      if (flag) {
+        store.load();
+      }
+    }, 500, false));
+
+    store.load();
   },
 
   onOK: function () {

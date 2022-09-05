@@ -69,8 +69,24 @@ PCL.define("PSI.Supplier.SupplierField", {
     var store = PCL.create("PCL.data.Store", {
       model: modelName,
       autoLoad: false,
-      data: []
+      data: [],
+      proxy: {
+        type: "ajax",
+        actionMethods: {
+          read: "POST"
+        },
+        url: PSI.Const.BASE_URL
+        + "Home/Supplier/queryData",
+      }
+
     });
+
+    store.on("beforeload", function () {
+      store.proxy.extraParams = {
+        queryKey: editName.getValue(),
+      };
+    });
+
     var lookupGrid = PCL.create("PCL.grid.Panel", {
       cls: "PSI-Lookup",
       columnLines: true,
@@ -163,6 +179,7 @@ PCL.define("PSI.Supplier.SupplierField", {
     me.wnd = wnd;
 
     var editName = PCL.getCmp("PSI_Supplier_SupplierField_editSupplier");
+    /*
     editName.on("change", function () {
       var store = me.lookupGrid.getStore();
       PCL.Ajax.request({
@@ -188,7 +205,7 @@ PCL.define("PSI.Supplier.SupplierField", {
       });
 
     }, me);
-
+    */
     editName.on("specialkey", function (field, e) {
       if (e.getKey() == e.ENTER) {
         me.onOK();
@@ -229,9 +246,25 @@ PCL.define("PSI.Supplier.SupplierField", {
 
     me.wnd.on("show", function () {
       editName.focus();
-      editName.fireEvent("change");
+      //editName.fireEvent("change");
     }, me);
     wnd.showBy(me);
+
+    flag = true;
+    Ext.EventManager.addListener("PSI_Supplier_SupplierField_editSupplier", 'compositionstart', function(){
+      flag = false;
+    });
+    Ext.EventManager.addListener("PSI_Supplier_SupplierField_editSupplier", 'compositionend', function(){
+      flag = true;
+    });
+
+    Ext.EventManager.addListener("PSI_Supplier_SupplierField_editSupplier", 'input', PSI.CustomerCommon.debounce_f(function() {
+      if (flag) {
+        store.load();
+      }
+    }, 500, false));
+    store.load();
+
   },
 
   // private

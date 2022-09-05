@@ -973,8 +973,9 @@ class SupplierDAO extends PSIBaseExDAO
       $queryParams = array_merge($queryParams, $rs[1]);
     }
 
-    $sql .= " order by code
-              limit 20";
+    //$sql .= " order by code limit 20";
+	  $sql .= " order by code";
+	  
     $data = $db->query($sql, $queryParams);
 
     $result = [];
