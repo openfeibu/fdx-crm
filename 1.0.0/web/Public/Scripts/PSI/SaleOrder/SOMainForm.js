@@ -1305,7 +1305,7 @@ PCL.define("PSI.SaleOrder.SOMainForm", {
       var form = PCL.create("PSI.Sale.WSEditForm", {
         genBill: true,
         sobillRef: bill.get("ref"),
-        okDirect: me.URL("Home/Sale/wsIndex"),
+        okDirect: me.URL("Home/SaleOrder/soIndex"),
       });
       form.show();
     };
