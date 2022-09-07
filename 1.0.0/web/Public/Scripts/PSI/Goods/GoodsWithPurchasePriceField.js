@@ -327,8 +327,9 @@ PCL.define("PSI.Goods.GoodsWithPurchaseFieldField", {
     var me = this;
     var grid = me.lookupGrid;
     var item = grid.getSelectionModel().getSelection();
-    if (item == null ) {
-
+    if (item == null || item.length == 0) {
+      me.wnd.close();
+      me.focus();
       return;
     }else if (item.length != 1) {
       //多选
