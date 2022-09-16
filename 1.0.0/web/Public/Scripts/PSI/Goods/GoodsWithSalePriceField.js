@@ -56,11 +56,8 @@ PCL.define("PSI.Goods.GoodsWithSalePriceField", {
    * 单击下拉组件
    */
   onTriggerClick: function (e) {
-    var me = this;
-	if(me.wnd){
-		console.log(me.wnd)
-		me.wnd.close()
-	}
+    var me = this; if(me.wnd){ me.wnd.close() }
+
    // var modelName = "PSIGoodsField";
     var modelName = "GoodsWithSalePriceField";
     PCL.define(modelName, {

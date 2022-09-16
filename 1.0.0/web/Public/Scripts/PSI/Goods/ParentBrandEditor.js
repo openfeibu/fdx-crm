@@ -31,7 +31,7 @@ PCL.define("PSI.Goods.ParentBrandEditor", {
   },
 
   onTriggerClick: function (e) {
-    var me = this;
+    var me = this; if(me.wnd){ me.wnd.close() }
 
     var modelName = "PSIModel_ParentBrandEditor";
     PCL.define(modelName, {

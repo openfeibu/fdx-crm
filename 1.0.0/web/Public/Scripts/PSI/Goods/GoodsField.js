@@ -62,7 +62,7 @@ PCL.define("PSI.Goods.GoodsField", {
   },
 
   onTriggerClick: function (e) {
-    var me = this;
+    var me = this; if(me.wnd){ me.wnd.close() }
 
     var editWarehouse = PCL.getCmp(me.getWarehouseEditName());
     var warehouseId = null;

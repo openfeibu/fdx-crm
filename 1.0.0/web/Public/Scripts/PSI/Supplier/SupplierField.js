@@ -53,7 +53,7 @@ PCL.define("PSI.Supplier.SupplierField", {
   },
 
   onTriggerClick: function (e) {
-    var me = this;
+    var me = this; if(me.wnd){ me.wnd.close() }
 
     if (me.readOnly) {
       return;

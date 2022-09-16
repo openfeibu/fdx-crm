@@ -43,7 +43,7 @@ PCL.define("PSI.Goods.GoodsFieldForBOM", {
   },
 
   onTriggerClick: function (e) {
-    var me = this;
+    var me = this; if(me.wnd){ me.wnd.close() }
     var modelName = "PSIGoodsFieldForBOM";
     PCL.define(modelName, {
       extend: "PCL.data.Model",

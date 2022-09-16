@@ -53,7 +53,7 @@ PCL.define("PSI.Factory.FactoryField", {
   },
 
   onTriggerClick: function (e) {
-    var me = this;
+    var me = this; if(me.wnd){ me.wnd.close() }
     var modelName = "PSIFactoryField";
     PCL.define(modelName, {
       extend: "PCL.data.Model",
