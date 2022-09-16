@@ -25,7 +25,7 @@ PCL.define("PSI.Goods.GoodsField", {
    */
   initComponent: function () {
     var me = this;
-
+	
     if(typeof(goods_field_id)=='undefined')
     {
       goods_field_id = 1;

@@ -23,11 +23,13 @@ PCL.define("PSI.Goods.GoodsWithSalePriceField", {
    */
   initComponent: function () {
     var me = this;
-
+	console.log(123)
+	
+	
     me.enableKeyEvents = true;
 
     me.callParent(arguments);
-
+	
     me.on("keydown", function (field, e) {
       if (e.getKey() == e.BACKSPACE) {
         field.setValue(null);
@@ -42,9 +44,9 @@ PCL.define("PSI.Goods.GoodsWithSalePriceField", {
 
     me.on({
       render: function (p) {
-        p.getEl().on("dblclick", function () {
+         p.getEl().on("dblclick", function () {
           me.onTriggerClick();
-        });
+        }); 
       },
       single: true
     });
@@ -55,7 +57,12 @@ PCL.define("PSI.Goods.GoodsWithSalePriceField", {
    */
   onTriggerClick: function (e) {
     var me = this;
-    var modelName = "PSIGoodsField";
+	if(me.wnd){
+		console.log(me.wnd)
+		me.wnd.close()
+	}
+   // var modelName = "PSIGoodsField";
+    var modelName = "GoodsWithSalePriceField";
     PCL.define(modelName, {
       extend: "PCL.data.Model",
       fields: ["id", "code", "name", "spec", "unitName",
@@ -99,6 +106,7 @@ PCL.define("PSI.Goods.GoodsWithSalePriceField", {
         sumInv: me.getSumInv(),
         queryKey: editName.getValue(),
       };
+	 
     });
 
     var lookupGrid = PCL.create("PCL.grid.Panel", {
@@ -264,6 +272,7 @@ PCL.define("PSI.Goods.GoodsWithSalePriceField", {
     var editName = PCL.getCmp("__editGoods");
 
     editName.on("specialkey", function (field, e) {
+		console.log(e.getKey())
       if (e.getKey() == e.ENTER) {
         me.onOK();
       } else if (e.getKey() == e.UP) {
