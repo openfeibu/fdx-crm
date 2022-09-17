@@ -835,8 +835,8 @@ PCL.define("PSI.InvCheck.InvCheckMainForm", {
     me.ajax(r);
   },
 
-  PRINT_PAGE_WIDTH: "200mm",
-  PRINT_PAGE_HEIGHT: "95mm",
+  PRINT_PAGE_WIDTH: "216mm",
+  PRINT_PAGE_HEIGHT: "140mm",
 
   previewICBill: function (ref, data) {
     var me = this;

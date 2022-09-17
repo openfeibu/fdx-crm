@@ -1285,8 +1285,8 @@ PCL.define("PSI.DMO.DMOMainForm", {
     me.ajax(r);
   },
 
-  PRINT_PAGE_WIDTH: "200mm",
-  PRINT_PAGE_HEIGHT: "95mm",
+  PRINT_PAGE_WIDTH: "216mm",
+  PRINT_PAGE_HEIGHT: "140mm",
 
   previewDMOBill: function (ref, data) {
     var me = this;

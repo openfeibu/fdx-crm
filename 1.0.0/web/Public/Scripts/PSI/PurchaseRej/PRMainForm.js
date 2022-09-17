@@ -991,8 +991,8 @@ PCL.define("PSI.PurchaseRej.PRMainForm", {
     me.ajax(r);
   },
 
-  PRINT_PAGE_WIDTH: "200mm",
-  PRINT_PAGE_HEIGHT: "95mm",
+  PRINT_PAGE_WIDTH: "216mm",
+  PRINT_PAGE_HEIGHT: "140mm",
 
   previewPRBill: function (ref, data) {
     var me = this;
