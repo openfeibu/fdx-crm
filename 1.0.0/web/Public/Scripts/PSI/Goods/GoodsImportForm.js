@@ -48,7 +48,7 @@ PCL.define("PSI.Goods.GoodsImportForm", {
       resizable: false,
       onEsc: PCL.emptyFn,
       width: 512,
-      height: 150,
+      height: 180,
       layout: "fit",
       items: [{
         id: "importForm",

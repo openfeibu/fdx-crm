@@ -33,7 +33,8 @@ Ext.define("PSI.Sale.WSEditForm", {
       width: 1000,
       height: 600,
       layout: "border",
-      tbar: [{
+      tbar: [
+	  /*{
         id: "buttonToolbox",
         text: "工具",
         menu: [{
@@ -45,7 +46,8 @@ Ext.define("PSI.Sale.WSEditForm", {
           scope: me,
           handler: me.onImportBill
         }]
-      }, "-", {
+      },
+	  "-", */{
         id: "displayFieldBarcode",
         value: "条码录入",
         xtype: "displayfield"

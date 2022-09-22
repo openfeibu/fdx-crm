@@ -1085,4 +1085,7 @@ span.PSI-button-ok{background-image:none !important}
 	.home-nav ul li,.home-nav2 ul li{width:100%;margin:0 0 5px 0;}
 	
 }
+#buttonPDF-btnIconEl {
+    background-image: url(../Images/icons/excel01.png?v=2019040901) !important;top:0
+}
 
