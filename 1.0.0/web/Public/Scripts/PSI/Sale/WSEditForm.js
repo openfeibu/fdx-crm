@@ -395,7 +395,7 @@ Ext.define("PSI.Sale.WSEditForm", {
             Ext.getCmp("columnActionAdd").hide();
             Ext.getCmp("columnActionAppend").hide();
 
-            Ext.getCmp("buttonToolbox").setDisabled(true);
+            //Ext.getCmp("buttonToolbox").setDisabled(true);
             Ext.getCmp("editBarcode").setDisabled(true);
 
             if (data.warehouseId) {
@@ -1028,7 +1028,7 @@ Ext.define("PSI.Sale.WSEditForm", {
     var me = this;
     me.__readonly = true;
     me.setTitle("<span style='font-size:160%'>查看销售出库单</span>");
-    Ext.getCmp("buttonToolbox").setDisabled(true);
+    //Ext.getCmp("buttonToolbox").setDisabled(true);
     Ext.getCmp("displayFieldBarcode").setDisabled(true);
     Ext.getCmp("editBarcode").setDisabled(true);
     Ext.getCmp("buttonSave").setDisabled(true);
