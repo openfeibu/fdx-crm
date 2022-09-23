@@ -1169,10 +1169,10 @@ class SOBillDAO extends PSIBaseExDAO
               c.name as customer_name, s.contact, s.tel, s.fax, s.deal_address,
               s.deal_date, s.receiving_type, s.bill_memo, s.date_created,
               o.full_name as org_name, u1.name as biz_user_name, u1.tel as biz_user_tel, u2.name as input_user_name,
-              s.confirm_user_id, s.confirm_date, s.company_id, s.deal_date, s.freight, s.total_money
-            from t_so_bill s, t_customer c, t_org o, t_user u1, t_user u2
+              s.confirm_user_id, s.confirm_date, s.company_id, s.deal_date, s.freight, s.total_money, e.name as express_name
+            from t_so_bill s, t_customer c, t_org o, t_user u1, t_user u2, t_feibu0001_ct_express e
             where (s.customer_id = c.id) and (s.org_id = o.id)
-              and (s.biz_user_id = u1.id) and (s.input_user_id = u2.id)
+              and (s.biz_user_id = u1.id) and (s.input_user_id = u2.id)  and s.express_id = e.id
               and (s.id = '%s')";
     $data = $db->query($sql, $id);
     if (!$data) {
@@ -1202,7 +1202,7 @@ class SOBillDAO extends PSIBaseExDAO
 	  $bill["capTotalMoney"] = $utilService->moneyToCap($data[0]["total_money"]);
 	  
     $bill["printDT"] = date("Y-m-d H:i:s");
-
+	  $bill["expressName"] = $data[0]["express_name"];
     // 明细表
     $sql = "select s.id, g.code, g.name, g.spec, convert(s.goods_count, $fmt) as goods_count,
               s.goods_price, s.goods_money, s.memo,
