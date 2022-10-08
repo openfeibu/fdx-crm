@@ -317,7 +317,17 @@ class ICBillDAO extends PSIBaseExDAO
 	    $inventory_data = $db->query($inventory_sql, $warehouseId, $goodsId) ;
 	    if($inventory_data)
 	    {
-		    $goodsMoney = $v["goodsMoney"] ?: ($inventory_data[0]['balance_money'] /  $inventory_data[0]['balance_count']) * $goodsCount;
+	    	if(isset($v["goodsMoney"]) && $v["goodsMoney"])
+		    {
+			    $goodsMoney = $v["goodsMoney"];
+		    }else{
+		    	if($inventory_data[0]['balance_count']!=0)
+			    {
+				    $goodsMoney = ($inventory_data[0]['balance_money'] /  $inventory_data[0]['balance_count']) * $goodsCount;
+			    }else{
+				    $goodsMoney = 0;
+			    }
+		    }
 	    }else{
 	    	$goods_sql = "select purchase_price from t_goods where id = '%s'";
 		    $goods_data = $db->query($goods_sql, $goodsId) ;
