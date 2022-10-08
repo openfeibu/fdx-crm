@@ -1120,10 +1120,10 @@ class WSBillDAO extends PSIBaseExDAO
               u.name as biz_user_name,
               h.name as warehouse_name,
               w.sale_money, w.memo, w.deal_address, w.company_id,
-              w.money_with_tax, w.freight, w.total_money
-            from t_ws_bill w, t_customer c, t_user u, t_warehouse h
+              w.money_with_tax, w.freight, w.total_money, e.name as express_name
+            from t_ws_bill w, t_customer c, t_user u, t_warehouse h, t_feibu0001_ct_express e
             where w.customer_id = c.id and w.biz_user_id = u.id
-              and w.warehouse_id = h.id
+              and w.warehouse_id = h.id and w.express_id = e.id
               and w.ref = '%s' ";
     $data = $db->query($sql, $ref);
     if (!$data) {
@@ -1149,6 +1149,7 @@ class WSBillDAO extends PSIBaseExDAO
     $bill["moneyWithTax"] = $data[0]["money_with_tax"];
 	  $bill["freight"] = $data[0]["freight"];
 	  $bill["totalMoney"] = $data[0]["total_money"];
+	  $bill["expressName"] = $data[0]["express_name"];
     // 明细表
     $sql = "select g.code, g.name, g.spec, u.name as unit_name, 
               convert(d.goods_count, $fmt) as goods_count,

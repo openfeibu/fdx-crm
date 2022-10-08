@@ -310,7 +310,7 @@ class WSBillService extends PSIBaseExService
       $html .= '</tr>';
     }
 	  $html .= '<tr>';
-	  $html .= '<td>运费</td>';
+	  $html .= '<td>'.$bill["expressName"].'</td>';
 	  $html .= '<td></td>';
 	  $html .= '<td></td>';
 	  $html .= '<td></td>';
