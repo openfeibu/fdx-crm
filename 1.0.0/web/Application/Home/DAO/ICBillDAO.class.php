@@ -851,9 +851,12 @@ class ICBillDAO extends PSIBaseExDAO
           }
 
           $totalOutCount = $data[0]["out_count"] + $outCount;
-          $totalOutMoney = $data[0]["out_money"] + $outMoney;
-          $totalOutPrice = $totalOutMoney / $totalOutCount;
-
+	        $totalOutMoney = $data[0]["out_money"] + $outMoney;
+	        $totalOutPrice = 0;
+	        if ($totalOutCount != 0) {
+		        $totalOutPrice = $totalOutMoney / $totalOutCount;
+	        }
+	        
           // 库存总账
           $sql = "update t_inventory
                   set out_count = convert(%f, $fmt), out_price = %f, out_money = %f,
