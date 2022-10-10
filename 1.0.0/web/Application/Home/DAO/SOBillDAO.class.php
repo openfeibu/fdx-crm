@@ -411,7 +411,7 @@ class SOBillDAO extends PSIBaseExDAO
       $goodsMoney = $v["goodsMoney"];
       $taxRate = $v["taxRate"];
       $tax = $v["tax"];
-      $moneyWithTax = $v["moneyWithTax"];
+      $moneyWithTax = $v["goodsMoney"];
       $memo = $v["memo"];
       $scbillDetailId = $v["scbillDetailId"];
 
@@ -610,7 +610,7 @@ class SOBillDAO extends PSIBaseExDAO
       $goodsMoney = $v["goodsMoney"];
       $taxRate = $v["taxRate"];
       $tax = $v["tax"];
-      $moneyWithTax = $v["moneyWithTax"];
+      $moneyWithTax = $v["goodsMoney"];
       $memo = $v["memo"];
       $scbillDetailId = $v["scbillDetailId"];
 
