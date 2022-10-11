@@ -121,7 +121,7 @@ Ext.define("PSI.Sale.SRMainForm", {
       xtype: "tbseparator"
     }, {
       text: "打印",
-      hidden: me.getPermission().print == "0",
+      //hidden: me.getPermission().print == "0",
       menu: [{
         text: "打印预览",
         iconCls: "PSI-button-print-preview",

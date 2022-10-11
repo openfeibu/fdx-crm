@@ -4,11 +4,20 @@
 * @license GPL v3
 */}
 <html>
-
+<style>
+  body{padding:0 30px;font-size: 16px;font-weight:bold}
+  .product-table td{font-size: 14px;line-height: 20px;border: 2px solid;}
+  .info{margin-top: 10px;margin-left: 10px;}
+  .info-item{line-height: 18px;font-size: 14px;}
+  .info-item .l{display: inline-block;*display:inline-block;*zoom:1;vertical-align: middle;}
+  .info-item .r{display: inline-block;*display:inline-block;*zoom:1;vertical-align: middle;}
+  .info-item p{margin: 0;}
+  .info-item .l span{margin-right: 80px;}
+</style>
 <body>
   <table border=0 cellSpacing=0 cellPadding=0 width="100%">
     <tr>
-      <td colspan="6" align="center">销售退货入库单</td>
+      <td colspan="6" align="center">假发供应仓库（龙头店）退货单</td>
     </tr>
     <tr>
       <td width="12%"><span style='font-size: 13'>单号</span></td>
@@ -31,66 +40,44 @@
       <td>
         <div align="center" style='font-size: 13'>序号</div>
       </td>
-      <td>
-        <div align="center" style='font-size: 13'>商品编码</div>
-      </td>
+
       <td>
         <div align="center" style='font-size: 13'>商品名称</div>
       </td>
-      <td>
-        <div align="center" style='font-size: 13'>规格型号</div>
-      </td>
+
       <td>
         <div align="center" style='font-size: 13'>数量</div>
       </td>
-      <td>
-        <div align="center" style='font-size: 13'>单位</div>
-      </td>
+
       <td>
         <div align="center" style='font-size: 13'>退货单价</div>
       </td>
       <td>
         <div align="center" style='font-size: 13'>退货金额</div>
       </td>
-      <td>
-        <div align="center" style='font-size: 13'>税率</div>
-      </td>
-      <td>
-        <div align="center" style='font-size: 13'>价税合计</div>
-      </td>
+
     </tr>
     <foreach name="data['items']" item="v" key="i">
       <tr>
         <td>
           <div align="center" style='font-size: 13'>{$i+1}</div>
         </td>
+
         <td>
-          <div style='font-size: 13'>{$v["goodsCode"]}</div>
+          <div style='font-size: 13'>{$v["goodsName"]} {$v["goodsSpec"]}</div>
         </td>
-        <td>
-          <div style='font-size: 13'>{$v["goodsName"]}</div>
-        </td>
-        <td>
-          <div style='font-size: 13'>{$v["goodsSpec"]}</div>
-        </td>
+
         <td>
           <div align="center" style='font-size: 13'>{$v["goodsCount"]}</div>
         </td>
-        <td>
-          <div style='font-size: 13'>{$v["unitName"]}</div>
-        </td>
+
         <td>
           <div align="right" style='font-size: 13'>{$v["goodsPrice"]}</div>
         </td>
         <td>
           <div align="right" style='font-size: 13'>{$v["goodsMoney"]}</div>
         </td>
-        <td>
-          <div align="right" style='font-size: 13'>{$v["taxRate"]}%</div>
-        </td>
-        <td>
-          <div align="right" style='font-size: 13'>{$v["moneyWithTax"]}</div>
-        </td>
+
       </tr>
     </foreach>
     <tr>
@@ -100,19 +87,29 @@
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
       <td>
         <div align="right">￥{$data["rejMoney"]}</div>
       </td>
-      <td>
-      </td>
-      <td>
-        <div align="right">￥{$data["moneyWithTax"]}</div>
-      </td>
     </tr>
   </table>
+  <div class="info">
+    <div class="info-item">
+      <div class="l"><span>联系人：{$data["bizUserName"]}</span> <span>电话/微信：{$data["bizUserTel"]}</span></div>
+      <div class="r">客户签名：</div>
+    </div>
+    <div class="info-item">
+      <div class="l">联系地址：</div>
+      <div class="r">广州市越秀区广园西路222号龙头市场富一层M0011室</div>
+    </div>
+    <div class="info-item">
+      <div class="l">付款方式：</div>
+      <div class="r">
+        <p>中信银行（广州白云支行）/ 6217730906366420 户名：尚帅</p>
+        <p>民生银行（广州金沙洲支行）/ 6226190305296216 户名：尚帅</p>
+        <p>招商银行 / 6214862025419666 户名：尚帅</p>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>
