@@ -2019,7 +2019,8 @@ class SRBillDAO extends PSIBaseExDAO
     $bcDAO = new BizConfigDAO($db);
     $dataScale = $bcDAO->getGoodsCountDecNumber($companyId);
     $fmt = "decimal(19, " . $dataScale . ")";
-
+	  $utilService = new UtilService();
+	  
     $bill = [
       "ref" => $data[0]["ref"],
       "bizDT" => $this->toYMD($data[0]["bizdt"]),
@@ -2028,7 +2029,8 @@ class SRBillDAO extends PSIBaseExDAO
       "bizUserName" => $data[0]["biz_user_name"],
       "rejMoney" => $data[0]["rejection_sale_money"],
       "printDT" => date("Y-m-d H:i:s"),
-      "moneyWithTax" => $data[0]["money_with_tax"]
+      "moneyWithTax" => $data[0]["money_with_tax"],
+	    "capRejMoney" => $utilService->moneyToCap($data[0]["rejection_sale_money"]),
     ];
 
     // 明细表
