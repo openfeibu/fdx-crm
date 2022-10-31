@@ -782,6 +782,7 @@ PCL.define("PSI.Purchase.PWEditForm", {
     } else if (fieldName == "goodsMoney") {
       if (goods.get(fieldName) != (new Number(oldValue)).toFixed(2)) {
         me.calcPrice(goods);
+        me.calcMoney(goods);
       }
     } else if (fieldName == "goodsCount") {
       if (goods.get(fieldName) != oldValue) {
@@ -790,6 +791,7 @@ PCL.define("PSI.Purchase.PWEditForm", {
     } else if (fieldName == "goodsPrice") {
       if (goods.get(fieldName) != (new Number(oldValue)).toFixed(2)) {
         me.calcMoney(goods);
+        me.calcPrice(goods);
       }
     } else if (fieldName == "moneyWithTax") {
       if (goods.get(fieldName) != (new Number(oldValue)).toFixed(2)) {

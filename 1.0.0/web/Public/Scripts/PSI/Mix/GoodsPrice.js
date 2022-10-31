@@ -85,6 +85,8 @@ Ext.define("PSI.Mix.GoodsPrice", {
     goods.set("moneyWithTax", moneyWithTax);
     if (cnt != 0) {
       goods.set("goodsPriceWithTax", moneyWithTax / cnt);
+    }else{
+      goods.set("goodsPriceWithTax",0);
     }
   },
 
@@ -119,7 +121,13 @@ Ext.define("PSI.Mix.GoodsPrice", {
     if (!isNaN(cnt) && Math.abs(cnt) > 1e-10) {
       goods.set("goodsPrice", goods.get("goodsMoney") / cnt);
       goods.set("goodsPriceWithTax", goods.get("moneyWithTax") / cnt);
+      if(goods.get("goodsMoney") == 0 || cnt == 0)
+      {
+        goods.set("goodsPriceWithTax",0);
+        goods.set("moneyWithTax",0);
+      }
     }
+
   },
 
   //如果是直接的对象，先设置set和get

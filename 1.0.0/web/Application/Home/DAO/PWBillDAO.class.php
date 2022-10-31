@@ -556,7 +556,7 @@ class PWBillDAO extends PSIBaseExDAO
     $sql = "update t_pw_bill
             set goods_money = %f, tax = %f, money_with_tax = %f
             where id = '%s' ";
-    $rc = $db->execute($sql, $totalMoney, $totalTax, $totalMoneyWithTax, $id);
+    $rc = $db->execute($sql, $totalMoney, $totalTax, $totalMoney, $id);
     if ($rc === false) {
       return $this->sqlError(__METHOD__, __LINE__);
     }
@@ -959,7 +959,7 @@ class PWBillDAO extends PSIBaseExDAO
       $billMemo,
       $expandByBOM,
       $totalTax,
-      $totalMoneyWithTax,
+      $totalMoney,//$totalMoneyWithTax,
       $id
     );
     if ($rc === false) {
