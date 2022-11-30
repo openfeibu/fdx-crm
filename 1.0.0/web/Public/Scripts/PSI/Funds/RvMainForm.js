@@ -322,9 +322,38 @@ PCL.define("PSI.Funds.RvMainForm", {
         title: me.formatGridHeaderTitle("业务单据")
       },
       bbar: ["->", {
+        id: "pagingToobar",
         xtype: "pagingtoolbar",
         border: 0,
         store: store
+      }, "-", {
+        xtype: "displayfield",
+        value: "每页显示"
+      }, {
+        id: "comboCountPerPage",
+        xtype: "combobox",
+        cls: "PSI-Pagination",
+        editable: false,
+        width: 60,
+        store: PCL.create("PCL.data.ArrayStore", {
+          fields: ["text"],
+          data: [["20"], ["50"], ["100"], ["300"],
+            ["1000"]]
+        }),
+        value: 20,
+        listeners: {
+          change: {
+            fn: function () {
+              store.pageSize = PCL.getCmp("comboCountPerPage").getValue();
+              store.currentPage = 1;
+              PCL.getCmp("pagingToobar").doRefresh();
+            },
+            scope: me
+          }
+        }
+      }, {
+        xtype: "displayfield",
+        value: "张单据"
       }],
       columnLines: true,
       selType: "checkboxmodel",
