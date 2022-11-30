@@ -368,7 +368,7 @@ class ReceivablesService extends PSIBaseExService
 					$sheet->setCellValue("D{$captionIndex}", $bill_v["goodsPrice"] );
 					$sheet->setCellValue("E{$captionIndex}", $bill_v["goodsMoney"]);
 				}
-				$itemCount = count($v['bill']["items"]);
+				$itemCount = isset($v['bill']["items"]) ? count($v['bill']["items"]) : 0;
 				if(isset($v['bill']['freight']))
 				{
 					$captionIndex++;
